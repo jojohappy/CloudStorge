@@ -42,6 +42,7 @@
     <string name="cancel">取消</string>
     <string name="copyright">©Copyright 2013.China Etek Service &amp; Technology Co., Ltd</string>
     <string name="delete_confirm">确认删除文件吗?</string>
+    <string name="delete_tip">文件删除成功!</string>
     <string name="dg_add_folder">请输入文件夹名称</string>
     <string name="drawer_close">关闭导航栏</string>
     <string name="drawer_open">打开导航栏</string>
@@ -65,7 +66,10 @@
     <string name="ok">确定</string>
     <string name="prompt_email">用户名</string>
     <string name="prompt_password">密码</string>
+    <string name="rename_error">重命名失败!已有重名文件或文件夹</string>
+    <string name="rename_tip">文件重命名成功!</string>
     <string name="sync">同步</string>
+    <string name="tip">提示</string>
     <string name="title_activity_file_detail">FileDetailActivity</string>
     <string name="title_activity_login">登陆</string>
     <!-- From: file:/E:/android%20workspace/CloudStorge/CloudStorge/src/main/res/values/styles.xml -->

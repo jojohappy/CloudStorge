@@ -3,16 +3,19 @@ package com.ces.cloudstorge;
 import android.accounts.Account;
 import android.app.ActionBar;
 import android.app.AlertDialog;
+import android.content.ContentProviderOperation;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.OperationApplicationException;
 import android.content.res.Configuration;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.RemoteException;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -46,6 +49,7 @@ import com.ces.cloudstorge.adapter.DrawerListAdapter;
 import com.ces.cloudstorge.adapter.FileListAdapter;
 import com.ces.cloudstorge.provider.CloudStorgeContract;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -149,13 +153,13 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
         isTrash = false;
         isEmptyFolder = false;
         if (isRoot) {
-            currentFolderId = -1;
-            parentFolderId = -1;
+            currentFolderId = Contract.FOLDER_ROOT;
+            parentFolderId = Contract.FOLDER_ROOT;
         }
 
         if (isTrash) {
-            currentFolderId = -10;
-            parentFolderId = -1;
+            currentFolderId = Contract.FOLDER_TRASH;
+            parentFolderId = Contract.FOLDER_ROOT;
         }
         LayoutInflater inflater = getLayoutInflater();
         mContext = getApplicationContext();
@@ -225,9 +229,9 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
     // 创建数据Loader
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        int specialFolderId = -1;
+        int specialFolderId = Contract.FOLDER_ROOT;
         if (isTrash)
-            specialFolderId = -10;
+            specialFolderId = Contract.FOLDER_TRASH;
         String selection = isRoot || isTrash ? String.format(SELECTION_SPECIAL, specialFolderId, current_account.name, current_account.name)
                 : String.format(SELECTION_CHILD, currentFolderId, current_account.name);
         String order = "";
@@ -247,11 +251,13 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
             return;
         }
         if (!isRoot) {
-            String selection = String.format(selection_folder_format, parentFolderId, current_account.name);
+            /*String selection = String.format(selection_folder_format, parentFolderId, current_account.name);
             Cursor mCursor = getContentResolver().query(CloudStorgeContract.CloudStorge.CONTENT_URI, PROJECTION, selection, null, null);
             mCursor.moveToFirst();
-            if (-1 == mCursor.getInt(6))
-                parentFolderId = -1;
+            if (Contract.FOLDER_ROOT == mCursor.getInt(Contract.PROJECTION_PARENT_FOLDER_ID))
+                parentFolderId = Contract.FOLDER_ROOT;*/
+            if (Contract.FOLDER_ROOT == get_assignParentFolder(parentFolderId))
+                parentFolderId = Contract.FOLDER_ROOT;
         }
         mAdapter.swapCursor(cursor);
         if (null == cursor || 0 == cursor.getCount()) {
@@ -266,6 +272,51 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
         mAdapter.swapCursor(null);
     }
 
+    // 获取根目录文件夹编号
+    public int get_folderRoot()
+    {
+        return get_specialFolder(Contract.FOLDER_ROOT);
+    }
+
+    // 获取回收站文件夹编号
+    public int get_folderTrash()
+    {
+        return get_specialFolder(Contract.FOLDER_TRASH);
+    }
+
+    // 获得共享文件夹编号
+    public int get_folderShare()
+    {
+        return get_specialFolder(Contract.FOLDER_SHARE);
+    }
+
+    // 特殊文件夹获取
+    public int get_specialFolder(int folderId)
+    {
+        String selection = String.format(SELECTION_CHILD, folderId, current_account.name);
+        Cursor cursor = getContentResolver().query(CloudStorgeContract.CloudStorge.CONTENT_URI, PROJECTION, selection, null, null);
+        cursor.moveToFirst();
+        return cursor.getInt(Contract.PROJECTION_FOLDER_ID);
+    }
+
+    // 指定文件夹获取
+    public int get_assignFolder(int folderId)
+    {
+        String selection = String.format(selection_folder_format, folderId, current_account.name);
+        Cursor cursor = getContentResolver().query(CloudStorgeContract.CloudStorge.CONTENT_URI, PROJECTION, selection, null, null);
+        cursor.moveToFirst();
+        return cursor.getInt(Contract.PROJECTION_FOLDER_ID);
+    }
+
+    // 指定文件夹父文件夹获取
+    public int get_assignParentFolder(int folderId)
+    {
+        String selection = String.format(selection_folder_format, folderId, current_account.name);
+        Cursor cursor = getContentResolver().query(CloudStorgeContract.CloudStorge.CONTENT_URI, PROJECTION, selection, null, null);
+        cursor.moveToFirst();
+        return cursor.getInt(Contract.PROJECTION_PARENT_FOLDER_ID);
+    }
+
     // 创建文件夹回调接口
     @Override
     public void onFinishAddFolderDialog(String inputText) {
@@ -275,14 +326,120 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
     // 删除文件回调接口
     @Override
     public void onFinishDeleteFileDialog(String filelist, String folderlist) {
+        // 获得删除文件夹编号
         String[] array_folder = folderlist.split(",");
+        // 获得删除文件编号
         String[] array_file = filelist.split(",");
-
+        int trashId = get_folderTrash();
+        ArrayList<ContentProviderOperation> batch = new ArrayList<ContentProviderOperation>();
+        for(int i = 0; i< array_folder.length; i++)
+        {
+            if(null == array_folder[i] || "".equals(array_folder[i]))
+                continue;
+            int folderId = Integer.parseInt(array_folder[i]);
+            batch.add(ContentProviderOperation.newUpdate(CloudStorgeContract.CloudStorge.CONTENT_URI)
+                    .withSelection(CloudStorgeContract.CloudStorge.COLUMN_NAME_FOLDER_ID + "=" + folderId, null)
+                    .withValue(CloudStorgeContract.CloudStorge.COLUMN_NAME_PARENT_FOLDER_ID, trashId)
+                    .build());
+        }
+        for(int i = 0; i< array_file.length; i++)
+        {
+            if(null == array_file[i] || "".equals(array_file[i]))
+                continue;
+            int fileId = Integer.parseInt(array_file[i]);
+            batch.add(ContentProviderOperation.newUpdate(CloudStorgeContract.CloudStorge.CONTENT_URI)
+                    .withSelection(CloudStorgeContract.CloudStorge.COLUMN_NAME_FILE_ID + "=" + fileId, null)
+                    .withValue(CloudStorgeContract.CloudStorge.COLUMN_NAME_PARENT_FOLDER_ID, trashId)
+                    .build());
+        }
+        try {
+            getContentResolver().applyBatch(Contract.CONTENT_AUTHORITY, batch);
+            //getContentResolver().notifyChange(CloudStorgeContract.CloudStorge.CONTENT_URI, null, false);
+            getSupportLoaderManager().restartLoader(0, null, MainActivity.this);
+            Toast.makeText(this, R.string.delete_tip, Toast.LENGTH_SHORT);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        } catch (OperationApplicationException e) {
+            e.printStackTrace();
+        }
     }
 
     // 重命名文件回调接口
     @Override
     public void onFinishRename(int id, int type, String name) {
+        // 判断是否有重名文件，有则报错
+        boolean flag = true;
+        int specialFolderId = Contract.FOLDER_ROOT;
+        if (isTrash)
+            specialFolderId = Contract.FOLDER_TRASH;
+        String selection = isRoot || isTrash ? String.format(SELECTION_SPECIAL, specialFolderId, current_account.name, current_account.name)
+                : String.format(SELECTION_CHILD, currentFolderId, current_account.name);
+        Cursor cursor = getContentResolver().query(CloudStorgeContract.CloudStorge.CONTENT_URI,
+                PROJECTION, selection, null, null);
+        while(cursor.moveToNext())
+        {
+            int folderId = cursor.getInt(Contract.PROJECTION_FOLDER_ID);
+            String oldname = cursor.getString(Contract.PROJECTION_NAME);
+            if(type == Contract.TYPE_FILE && folderId == -1)
+            {
+                int fileId = cursor.getInt(Contract.PROJECTION_FILE_ID);
+                if(fileId == id)
+                    continue;
+                if(oldname.equals(name))
+                {
+                    flag = false;
+                    break;
+                }
+            }
+            else if(type == Contract.TYPE_FOLDER && folderId != -1)
+            {
+                if(folderId == id)
+                    continue;
+                if(oldname.equals(name))
+                {
+                    flag = false;
+                    break;
+                }
+            }
+        }
+        if(!flag)
+        {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(R.string.tip);
+            builder.setMessage(R.string.rename_error);
+            builder.setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    dialog.cancel();
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
+        else {
+            //没有重名文件则进行数据库操作
+            String selectionUpdate = "";
+            if(type == Contract.TYPE_FOLDER)
+                selectionUpdate = CloudStorgeContract.CloudStorge.COLUMN_NAME_FOLDER_ID + "=" + id;
+            if(type == Contract.TYPE_FILE)
+                selectionUpdate = CloudStorgeContract.CloudStorge.COLUMN_NAME_FILE_ID + "=" + id;
+            ArrayList<ContentProviderOperation> batch = new ArrayList<ContentProviderOperation>();
+            batch.add(ContentProviderOperation
+                    .newUpdate(CloudStorgeContract.CloudStorge.CONTENT_URI)
+                    .withSelection(selectionUpdate, null)
+                    .withValue(CloudStorgeContract.CloudStorge.COLUMN_NAME_NAME, name)
+                    .build()
+            );
+            try {
+                getContentResolver().applyBatch(Contract.CONTENT_AUTHORITY, batch);
+                //getContentResolver().notifyChange(CloudStorgeContract.CloudStorge.CONTENT_URI, null, false);
+                getSupportLoaderManager().restartLoader(0, null, MainActivity.this);
+                Toast.makeText(this, R.string.rename_tip, Toast.LENGTH_SHORT);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            } catch (OperationApplicationException e) {
+                e.printStackTrace();
+            }
+        }
 
     }
 
@@ -382,13 +539,14 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
             // Confirm exit
             create_exitDialog();
         } else {
-            isRoot = parentFolderId == -1 ? true : false;
+            isRoot = parentFolderId == Contract.FOLDER_ROOT ? true : false;
             currentFolderId = parentFolderId;
             // 查询上级目录的上级目录
-            String selection = String.format(selection_folder_format, currentFolderId, current_account.name);
+            /*String selection = String.format(selection_folder_format, currentFolderId, current_account.name);
             Cursor mCursor = getContentResolver().query(CloudStorgeContract.CloudStorge.CONTENT_URI, PROJECTION, selection, null, null);
             mCursor.moveToFirst();
-            parentFolderId = mCursor.getInt(6);
+            parentFolderId = mCursor.getInt(6);*/
+            parentFolderId = get_assignParentFolder(currentFolderId);
             getSupportLoaderManager().restartLoader(0, null, MainActivity.this);
         }
     }
@@ -528,7 +686,7 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
                         // Here you can do something when items are selected/de-selected,
                         Cursor cursor = mAdapter.getCursor();
                         cursor.moveToPosition(position);
-                        int folderId = cursor.getInt(5);
+                        int folderId = cursor.getInt(Contract.PROJECTION_FOLDER_ID);
                         if (checked) {
                             mapSelected.put(position, folderId);
                             count++;
@@ -580,29 +738,45 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
                         FragmentManager fm = fragmentManager;
                         String filelist = "";
                         String folderlist = "";
+                        String oldname = "";
                         Cursor cursor;
                         Iterator it = mapSelected.entrySet().iterator();
                         while (it.hasNext()) {
                             Map.Entry ma = (Map.Entry) it.next();
                             if(-1 == ma.getValue())
                             {
-                                ma.getKey();
                                 cursor = mAdapter.getCursor();
                                 cursor.moveToPosition(Integer.parseInt(ma.getKey()+""));
-                                filelist += cursor.getInt(4) + "" + ",";
+                                filelist += cursor.getInt(Contract.PROJECTION_FILE_ID) + "" + ",";
                             }
                             else
                             {
                                 folderlist += ma.getValue() + "" + ",";
                             }
+                            if(item.getItemId() == R.id.action_rename)
+                            {
+                                Cursor temp = mAdapter.getCursor();
+                                temp.moveToPosition(Integer.parseInt(ma.getKey()+""));
+                                oldname = temp.getString(Contract.PROJECTION_NAME);
+                            }
                         }
                         switch (item.getItemId()) {
                             case R.id.action_rename:
+                                int type;
+                                int id;
+                                if("".equals(filelist)) {
+                                    type = Contract.TYPE_FOLDER;
+                                    id = Integer.parseInt(folderlist.substring(0, folderlist.indexOf(",")));
+                                }
+                                else {
+                                    type = Contract.TYPE_FILE;
+                                    id = Integer.parseInt(filelist.substring(0, filelist.indexOf(",")));
+                                }
                                 RenameFileDialog renameFileDialog = new RenameFileDialog();
                                 Bundle rf = new Bundle();
-                                rf.putString("oldername", "dgsg");
-                                rf.putInt("type", 1);
-                                rf.putInt("id", 1);
+                                rf.putString("oldername", oldname);
+                                rf.putInt("type", type);
+                                rf.putInt("id", id);
                                 renameFileDialog.setArguments(rf);
                                 renameFileDialog.show(fm, "renamefile");
                                 break;
@@ -677,7 +851,7 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
                             TextView viewParentFolderId = (TextView) view.findViewById(R.id.list_parentFolderId);
                             currentFolderId = Integer.parseInt(viewFolderId.getText().toString());
                             if (isRoot)
-                                parentFolderId = -1;
+                                parentFolderId = Contract.FOLDER_ROOT;
                             else
                                 parentFolderId = Integer.parseInt(viewParentFolderId.getText().toString());
                             isRoot = false;

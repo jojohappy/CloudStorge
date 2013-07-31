@@ -16,6 +16,7 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import com.ces.cloudstorge.Contract;
 import com.ces.cloudstorge.MainActivity;
 import com.ces.cloudstorge.R;
 import com.ces.cloudstorge.provider.CloudStorgeContract;
@@ -115,14 +116,14 @@ public class FolderListDialog extends DialogFragment {
                 String selectionParent = String.format(selection_folder_format, parentFolderId, username);
                 Cursor parentCursor = mContentResolver.query(CloudStorgeContract.CloudStorge.CONTENT_URI, MainActivity.PROJECTION, selectionParent, null, null);
                 parentCursor.moveToFirst();
-                int parentFolderIdtmp = parentCursor.getInt(6);
-                String folderName = parentCursor.getString(3);
+                int parentFolderIdtmp = parentCursor.getInt(Contract.PROJECTION_PARENT_FOLDER_ID);
+                String folderName = parentCursor.getString(Contract.PROJECTION_NAME);
                 Cursor cursor = mContentResolver.query(CloudStorgeContract.CloudStorge.CONTENT_URI, MainActivity.PROJECTION, selection, null, null);
                 while (cursor.moveToNext()) {
                     Map<String, String> map = new HashMap<String, String>();
-                    map.put(CloudStorgeContract.CloudStorge.COLUMN_NAME_NAME, cursor.getString(3));
-                    map.put(CloudStorgeContract.CloudStorge.COLUMN_NAME_PARENT_FOLDER_ID, cursor.getInt(6) + "");
-                    map.put(CloudStorgeContract.CloudStorge.COLUMN_NAME_FOLDER_ID, cursor.getInt(5) + "");
+                    map.put(CloudStorgeContract.CloudStorge.COLUMN_NAME_NAME, cursor.getString(Contract.PROJECTION_NAME));
+                    map.put(CloudStorgeContract.CloudStorge.COLUMN_NAME_PARENT_FOLDER_ID, cursor.getInt(Contract.PROJECTION_PARENT_FOLDER_ID) + "");
+                    map.put(CloudStorgeContract.CloudStorge.COLUMN_NAME_FOLDER_ID, cursor.getInt(Contract.PROJECTION_FOLDER_ID) + "");
                     listData.add(map);
                 }
                 mAdapter.notifyDataSetChanged();
@@ -139,9 +140,9 @@ public class FolderListDialog extends DialogFragment {
         Cursor cursor = mContentResolver.query(CloudStorgeContract.CloudStorge.CONTENT_URI, MainActivity.PROJECTION, selection, null, null);
         while (cursor.moveToNext()) {
             Map<String, String> map = new HashMap<String, String>();
-            map.put(CloudStorgeContract.CloudStorge.COLUMN_NAME_NAME, cursor.getString(3));
-            map.put(CloudStorgeContract.CloudStorge.COLUMN_NAME_PARENT_FOLDER_ID, cursor.getInt(6) + "");
-            map.put(CloudStorgeContract.CloudStorge.COLUMN_NAME_FOLDER_ID, cursor.getInt(5) + "");
+            map.put(CloudStorgeContract.CloudStorge.COLUMN_NAME_NAME, cursor.getString(Contract.PROJECTION_NAME));
+            map.put(CloudStorgeContract.CloudStorge.COLUMN_NAME_PARENT_FOLDER_ID, cursor.getInt(Contract.PROJECTION_PARENT_FOLDER_ID) + "");
+            map.put(CloudStorgeContract.CloudStorge.COLUMN_NAME_FOLDER_ID, cursor.getInt(Contract.PROJECTION_PARENT_FOLDER_ID) + "");
             listData.add(map);
         }
         mDialogFolderList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -159,9 +160,9 @@ public class FolderListDialog extends DialogFragment {
                 Cursor cursor = mContentResolver.query(CloudStorgeContract.CloudStorge.CONTENT_URI, MainActivity.PROJECTION, selection, null, null);
                 while (cursor.moveToNext()) {
                     Map<String, String> map = new HashMap<String, String>();
-                    map.put(CloudStorgeContract.CloudStorge.COLUMN_NAME_NAME, cursor.getString(3));
-                    map.put(CloudStorgeContract.CloudStorge.COLUMN_NAME_PARENT_FOLDER_ID, cursor.getInt(6) + "");
-                    map.put(CloudStorgeContract.CloudStorge.COLUMN_NAME_FOLDER_ID, cursor.getInt(5) + "");
+                    map.put(CloudStorgeContract.CloudStorge.COLUMN_NAME_NAME, cursor.getString(Contract.PROJECTION_NAME));
+                    map.put(CloudStorgeContract.CloudStorge.COLUMN_NAME_PARENT_FOLDER_ID, cursor.getInt(Contract.PROJECTION_PARENT_FOLDER_ID) + "");
+                    map.put(CloudStorgeContract.CloudStorge.COLUMN_NAME_FOLDER_ID, cursor.getInt(Contract.PROJECTION_FOLDER_ID) + "");
                     listData.add(map);
                 }
                 mAdapter.notifyDataSetChanged();

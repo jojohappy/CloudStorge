@@ -66,5 +66,8 @@
     <string name="hello_world">Hello world!</string>
 
     <string name="lastmodified">修改时间:</string>
-
+    <string name="delete_tip">文件删除成功!</string>
+    <string name="tip">提示</string>
+    <string name="rename_error">重命名失败!已有重名文件或文件夹</string>
+    <string name="rename_tip">文件重命名成功!</string>
 </resources>
