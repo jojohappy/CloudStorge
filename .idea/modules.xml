@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/CloudStorge.iml" filepath="$PROJECT_DIR$/CloudStorge.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CloudStorge/CloudStorge-CloudStorge.iml" filepath="$PROJECT_DIR$/CloudStorge/CloudStorge-CloudStorge.iml" />
+    </modules>
+  </component>
+</project>
+

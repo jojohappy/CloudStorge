@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ListView xmlns:android="http://schemas.android.com/apk/res/android"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:id="@+id/listView"
+          android:layout_margin="0dp"
+          android:layout_alignParentStart="false"
+          android:layout_alignParentLeft="false"
+          android:layout_alignWithParentIfMissing="false"
+          android:layout_alignParentBottom="false"
+          android:layout_alignParentTop="true"
+        >
+
+</ListView><!-- From: file:/E:/android%20workspace/CloudStorge/CloudStorge/src/main/res/layout/fragment_filelist.xml -->

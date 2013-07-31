@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<sync-adapter xmlns:android="http://schemas.android.com/apk/res/android"
+              android:contentAuthority="com.ces.cloudstorge.cloudstorgeprovider"
+              android:accountType="com.ces.cloudstorge"
+              android:supportsUploading="true"
+              android:userVisible="true"
+              android:allowParallelSyncs="false"
+              android:isAlwaysSyncable="true"
+        /><!-- From: file:/E:/android%20workspace/CloudStorge/CloudStorge/src/main/res/xml/cloudstorgesyncadapter.xml -->

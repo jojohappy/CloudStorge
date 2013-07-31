@@ -1,0 +1,59 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.ces.cloudstorge">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <!-- Required to register a SyncStatusObserver to display a "syncing..." progress indicator. -->
+    <uses-permission android:name="android.permission.READ_SYNC_STATS"/>
+    <!-- Required to enable our SyncAdapter after it's created. -->
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS"/>
+    <!-- Required because we're manually creating a new account. -->
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
+
+    <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="17"/>
+
+    <application android:allowBackup="true" android:icon="@drawable/ic_launcher" android:label="@string/app_name" android:theme="@style/AppTheme">
+        <receiver android:label="NetworkConnection" android:name="com.ces.cloudstorge.ConnectionChangeReceiver">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+                <action android:name="android.net.wifi.WIFI_STATE_CHANGED"/>
+            </intent-filter>
+        </receiver>
+
+        <activity android:label="@string/app_name" android:name="com.ces.cloudstorge.MainActivity">
+        </activity>
+        <activity android:configChanges="orientation" android:excludeFromRecents="true" android:label="@string/app_name" android:name="com.ces.cloudstorge.authenticator.AuthenticatorActivity">
+        </activity>
+
+        <provider android:authorities="com.ces.cloudstorge.cloudstorgeprovider" android:exported="false" android:name="com.ces.cloudstorge.provider.CloudStorgeProvider" android:syncable="true"/>
+
+        <service android:exported="true" android:name="com.ces.cloudstorge.syncadapter.CloudStorgeSyncService" android:process=":sync">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter"/>
+            </intent-filter>
+
+            <meta-data android:name="android.content.SyncAdapter" android:resource="@xml/cloudstorgesyncadapter"/>
+        </service>
+        <service android:exported="true" android:name="com.ces.cloudstorge.authenticator.AuthenticationService">
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator"/>
+            </intent-filter>
+
+            <meta-data android:name="android.accounts.AccountAuthenticator" android:resource="@xml/authenticator"/>
+        </service>
+
+        <activity android:configChanges="orientation|keyboardHidden|screenSize" android:label="@string/app_title" android:name="com.ces.cloudstorge.LaunchActivity" android:theme="@style/FullscreenTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity android:label="@string/app_name" android:name="com.ces.cloudstorge.LoginActivity" android:windowSoftInputMode="adjustResize|stateVisible">
+        </activity>
+        <activity android:label="@string/title_activity_file_detail" android:name="com.ces.cloudstorge.FileDetailActivity" android:parentActivityName="com.ces.cloudstorge.MainActivity">
+        </activity>
+    </application>
+
+</manifest>

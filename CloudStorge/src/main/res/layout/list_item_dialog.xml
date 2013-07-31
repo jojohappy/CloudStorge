@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/list_dialog_image"
+            android:layout_gravity="center_horizontal|top"
+            android:src="@drawable/icon_folder"
+            android:paddingLeft="12dp"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"/>
+
+    <TextView
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/list_dialog_text"
+            android:layout_gravity="center_horizontal|top"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:textColor="@android:color/black"
+            android:singleLine="true"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/list_dialog_folderid"
+            android:layout_gravity="center_horizontal|top"
+            android:visibility="gone"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/list_dialog_parentfolderid"
+            android:layout_gravity="center_horizontal|top"
+            android:visibility="gone"/>
+</LinearLayout>
