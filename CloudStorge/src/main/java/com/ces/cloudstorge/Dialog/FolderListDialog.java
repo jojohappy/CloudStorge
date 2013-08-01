@@ -142,7 +142,7 @@ public class FolderListDialog extends DialogFragment {
             Map<String, String> map = new HashMap<String, String>();
             map.put(CloudStorgeContract.CloudStorge.COLUMN_NAME_NAME, cursor.getString(Contract.PROJECTION_NAME));
             map.put(CloudStorgeContract.CloudStorge.COLUMN_NAME_PARENT_FOLDER_ID, cursor.getInt(Contract.PROJECTION_PARENT_FOLDER_ID) + "");
-            map.put(CloudStorgeContract.CloudStorge.COLUMN_NAME_FOLDER_ID, cursor.getInt(Contract.PROJECTION_PARENT_FOLDER_ID) + "");
+            map.put(CloudStorgeContract.CloudStorge.COLUMN_NAME_FOLDER_ID, cursor.getInt(Contract.PROJECTION_FOLDER_ID) + "");
             listData.add(map);
         }
         mDialogFolderList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
