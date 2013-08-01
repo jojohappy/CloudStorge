@@ -103,15 +103,9 @@ public class FileListAdapter extends SimpleCursorAdapter {
             linearLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    /*FileDetailFragment newFragment = new FileDetailFragment();
-                    FragmentTransaction transaction = mFragmentManager.beginTransaction();
-                    //transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
-                    transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                    transaction.replace(R.id.content_frame, newFragment);
-                    transaction.addToBackStack("new");
-                    transaction.commit();*/
+                    TextView imagefileId = (TextView) view.findViewById(R.id.list_image_fileId);
                     Intent intent = new Intent();
-                    intent.putExtra("file_id", 1);
+                    intent.putExtra("file_id", imagefileId.getText());
                     intent.setClass(mContext, FileDetailActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     mContext.startActivity(intent);
@@ -136,6 +130,8 @@ public class FileListAdapter extends SimpleCursorAdapter {
             TextView parentFolderId = (TextView) convertView.findViewById(R.id.list_parentFolderId);
             TextView folderId = (TextView) convertView.findViewById(R.id.list_folderId);
             TextView fileId = (TextView) convertView.findViewById(R.id.list_fileId);
+            TextView imagefileId = (TextView) convertView.findViewById(R.id.list_image_fileId);
+            imagefileId.setText(mCursor.getInt(COLUMN_FILE_ID) + "");
             fileName.setText(mCursor.getString(COLUMN_FILE_NAME));
             lastm.setText(mCursor.getString(COLUMN_LAST_MODIFIED));
             parentFolderId.setText(mCursor.getInt(COLUMN_PARENT_FOLDER_ID) + "");

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="detail_download_label_string">离线</string>
+    <string name="detail_download_switch_label_string">可离线查看</string>
+    <string name="detail_share_label_string">分享</string>
+    <string name="detail_share_switch_label_string">分享文件</string>
+    <string name="detail_general_label_string">常规信息</string>
+    <string name="detail_last_modified_label_string">修改时间 :</string>
+    <string name="detail_size_label_string">文件大小 :</string>
+
+</resources>

@@ -35,7 +35,7 @@ public class FolderListDialog extends DialogFragment {
     }
 
     public interface FolderListDialogListener {
-        void onFinishSelectFolder(int folderId, String arraylist);
+        void onFinishSelectFolder(int destFolderId, String fileList, String folderList);
     }
 
     FolderListDialogListener mListener;
@@ -44,7 +44,8 @@ public class FolderListDialog extends DialogFragment {
     private TextView mDialogFolderName;
     private int currentFolderId;
     private int parentFolderId;
-    private String arraylist;
+    private String fileList;
+    private String folderList;
     private SimpleAdapter mAdapter;
     private boolean isRoot;
     private String username;
@@ -102,7 +103,8 @@ public class FolderListDialog extends DialogFragment {
         mDialogImageIcon.setVisibility(View.GONE);
         mDialogFolderName.setText(R.string.app_activity_title);
         builder.setView(view);
-        arraylist = getArguments().getString("arraylist");
+        fileList = getArguments().getString("filelist");
+        folderList = getArguments().getString("folderlist");
         currentFolderId = getArguments().getInt("currentFolderId");
         parentFolderId = getArguments().getInt("parentFolderId");
         username = getArguments().getString("currentUser");
@@ -136,7 +138,7 @@ public class FolderListDialog extends DialogFragment {
         });
 
         listData = new ArrayList<Map<String, String>>();
-        String selection = String.format(SELECTION_SPECIAL, -1, username, username);
+        String selection = String.format(SELECTION_SPECIAL, Contract.FOLDER_ROOT, username, username);
         Cursor cursor = mContentResolver.query(CloudStorgeContract.CloudStorge.CONTENT_URI, MainActivity.PROJECTION, selection, null, null);
         while (cursor.moveToNext()) {
             Map<String, String> map = new HashMap<String, String>();
@@ -175,7 +177,7 @@ public class FolderListDialog extends DialogFragment {
         builder.setPositiveButton(R.string.menu_action_move, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
-                mListener.onFinishSelectFolder(currentFolderId, arraylist);
+                mListener.onFinishSelectFolder(currentFolderId, fileList, folderList);
             }
         }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {

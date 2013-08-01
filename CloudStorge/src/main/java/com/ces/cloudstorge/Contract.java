@@ -20,6 +20,8 @@ public class Contract {
     public static final int PROJECTION_FILE_ID = 4;
     public static final int PROJECTION_FOLDER_ID = 5;
     public static final int PROJECTION_PARENT_FOLDER_ID = 6;
+    public static final int PROJECTION_SHARE = 7;
+    public static final int PROJECTION_SIZE = 8;
     public static final int TYPE_FILE = 0;
     public static final int TYPE_FOLDER = 1;
 }

@@ -18,5 +18,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text"
-            android:imeOptions="actionDone"/>
+            android:imeOptions="actionDone"
+            android:text="@string/action_new_folder"/>
 </LinearLayout>

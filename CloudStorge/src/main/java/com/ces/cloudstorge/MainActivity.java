@@ -3,16 +3,17 @@ package com.ces.cloudstorge;
 import android.accounts.Account;
 import android.app.ActionBar;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.ContentProviderOperation;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.OperationApplicationException;
 import android.content.res.Configuration;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.RemoteException;
@@ -47,9 +48,14 @@ import com.ces.cloudstorge.Dialog.FolderListDialog;
 import com.ces.cloudstorge.Dialog.RenameFileDialog;
 import com.ces.cloudstorge.adapter.DrawerListAdapter;
 import com.ces.cloudstorge.adapter.FileListAdapter;
+import com.ces.cloudstorge.network.CloudStorgeRestUtilities;
 import com.ces.cloudstorge.provider.CloudStorgeContract;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -79,7 +85,9 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
             CloudStorgeContract.CloudStorge.COLUMN_NAME_NAME,
             CloudStorgeContract.CloudStorge.COLUMN_NAME_FILE_ID,
             CloudStorgeContract.CloudStorge.COLUMN_NAME_FOLDER_ID,
-            CloudStorgeContract.CloudStorge.COLUMN_NAME_PARENT_FOLDER_ID
+            CloudStorgeContract.CloudStorge.COLUMN_NAME_PARENT_FOLDER_ID,
+            CloudStorgeContract.CloudStorge.COLUMN_NAME_SHARE,
+            CloudStorgeContract.CloudStorge.COLUMN_NAME_SIZE
     };
 
     // sql查询条件(root)
@@ -94,6 +102,10 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
             "and " + CloudStorgeContract.CloudStorge.COLUMN_NAME_USERNAME + " = '%s')";
 
     public static final String selection_folder_format = "(" + CloudStorgeContract.CloudStorge.COLUMN_NAME_FOLDER_ID + "=%d and "
+            + CloudStorgeContract.CloudStorge.COLUMN_NAME_USERNAME +
+            " = '%s')";
+
+    public static final String selection_file_format = "(" + CloudStorgeContract.CloudStorge.COLUMN_NAME_FILE_ID + "=%d and "
             + CloudStorgeContract.CloudStorge.COLUMN_NAME_USERNAME +
             " = '%s')";
 
@@ -116,13 +128,13 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
     };
 
     // 当前账户
-    private static Account current_account;
+    public static Account current_account;
     // ContentProvider回调响应对象
     private CloudStorgeObserver mCloudStorgeObserver;
     // 是否为根目录
     private static Boolean isRoot;
     // 是否为回收站
-    private Boolean isTrash;
+    private static Boolean isTrash;
     // 是否是空文件夹
     private static Boolean isEmptyFolder;
     // 当前目录编号
@@ -131,14 +143,14 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
     private static int parentFolderId;
     // context
     private static Context mContext;
-
+    // 碎片管理
     private static FragmentManager fragmentManager;
-
-    static LoaderManager.LoaderCallbacks<Cursor> callbackLoader;
-
-    static LoaderManager loadm;
-
-    static Intent mIntent;
+    // loader回调接口
+    private static LoaderManager.LoaderCallbacks<Cursor> callbackLoader;
+    // loader管理
+    private static LoaderManager loadmanager;
+    // ProgressDialog对象
+    private ProgressDialog progressDialog;
 
     // activity onCreate
     @Override
@@ -149,7 +161,6 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
         current_account = (Account) getIntent().getExtras().get("current_account");
         // 从上一个activity中获得是否是当前目录
         isRoot = (Boolean) getIntent().getExtras().get("isRoot");
-        mIntent = getIntent();
         isTrash = false;
         isEmptyFolder = false;
         if (isRoot) {
@@ -165,7 +176,7 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
         mContext = getApplicationContext();
         fragmentManager = getSupportFragmentManager();
         callbackLoader = MainActivity.this;
-        loadm = getSupportLoaderManager();
+        loadmanager = getSupportLoaderManager();
         mSortType = SORT_NAME;
 
         // 初始化ActionBar
@@ -251,11 +262,6 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
             return;
         }
         if (!isRoot) {
-            /*String selection = String.format(selection_folder_format, parentFolderId, current_account.name);
-            Cursor mCursor = getContentResolver().query(CloudStorgeContract.CloudStorge.CONTENT_URI, PROJECTION, selection, null, null);
-            mCursor.moveToFirst();
-            if (Contract.FOLDER_ROOT == mCursor.getInt(Contract.PROJECTION_PARENT_FOLDER_ID))
-                parentFolderId = Contract.FOLDER_ROOT;*/
             if (Contract.FOLDER_ROOT == get_assignParentFolder(parentFolderId))
                 parentFolderId = Contract.FOLDER_ROOT;
         }
@@ -273,26 +279,22 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
     }
 
     // 获取根目录文件夹编号
-    public int get_folderRoot()
-    {
+    public int get_folderRoot() {
         return get_specialFolder(Contract.FOLDER_ROOT);
     }
 
     // 获取回收站文件夹编号
-    public int get_folderTrash()
-    {
+    public int get_folderTrash() {
         return get_specialFolder(Contract.FOLDER_TRASH);
     }
 
     // 获得共享文件夹编号
-    public int get_folderShare()
-    {
+    public int get_folderShare() {
         return get_specialFolder(Contract.FOLDER_SHARE);
     }
 
-    // 特殊文件夹获取
-    public int get_specialFolder(int folderId)
-    {
+    // 特殊文件夹编号获取
+    public int get_specialFolder(int folderId) {
         String selection = String.format(SELECTION_CHILD, folderId, current_account.name);
         Cursor cursor = getContentResolver().query(CloudStorgeContract.CloudStorge.CONTENT_URI, PROJECTION, selection, null, null);
         cursor.moveToFirst();
@@ -300,27 +302,91 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
     }
 
     // 指定文件夹获取
-    public int get_assignFolder(int folderId)
-    {
+    public Cursor get_assignFolder(int folderId) {
         String selection = String.format(selection_folder_format, folderId, current_account.name);
         Cursor cursor = getContentResolver().query(CloudStorgeContract.CloudStorge.CONTENT_URI, PROJECTION, selection, null, null);
         cursor.moveToFirst();
-        return cursor.getInt(Contract.PROJECTION_FOLDER_ID);
+        return cursor;
+    }
+
+    // 指定文件获取
+    public Cursor get_assignFile(int fileId) {
+        String selection = String.format(selection_file_format, fileId, current_account.name);
+        Cursor cursor = getContentResolver().query(CloudStorgeContract.CloudStorge.CONTENT_URI, PROJECTION, selection, null, null);
+        cursor.moveToFirst();
+        return cursor;
     }
 
     // 指定文件夹父文件夹获取
-    public int get_assignParentFolder(int folderId)
-    {
+    public int get_assignParentFolder(int folderId) {
         String selection = String.format(selection_folder_format, folderId, current_account.name);
         Cursor cursor = getContentResolver().query(CloudStorgeContract.CloudStorge.CONTENT_URI, PROJECTION, selection, null, null);
         cursor.moveToFirst();
         return cursor.getInt(Contract.PROJECTION_PARENT_FOLDER_ID);
     }
 
+    // 获取当前时间字符串(yyyy-MM-dd HH:mm:ss)
+    public String get_currentDateString() {
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date today = Calendar.getInstance().getTime();
+        return df.format(today);
+    }
+
+    // 创建普通提示对话框
+    public void create_tipDialog(int title, int message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(title);
+        builder.setMessage(message);
+        builder.setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    // 创建普通ProgressDialog
+    public void create_progressDialog(String message) {
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage(message);
+        progressDialog.setCancelable(false);
+        progressDialog.setIndeterminate(true);
+        progressDialog.show();
+    }
+
     // 创建文件夹回调接口
     @Override
     public void onFinishAddFolderDialog(String inputText) {
-        Toast.makeText(this, "Hi, " + inputText, Toast.LENGTH_SHORT).show();
+        if (null == inputText || "".equals(inputText)) {
+            create_tipDialog(R.string.tip, R.string.null_new_folder_name_tip);
+            return;
+        }
+        // 查询是否有重名文件夹
+        boolean flag = true;
+        int specialFolderId = Contract.FOLDER_ROOT;
+        if (isTrash)
+            specialFolderId = Contract.FOLDER_TRASH;
+        String selection = isRoot || isTrash ? String.format(SELECTION_SPECIAL, specialFolderId, current_account.name, current_account.name)
+                : String.format(SELECTION_CHILD, currentFolderId, current_account.name);
+        Cursor cursor = getContentResolver().query(CloudStorgeContract.CloudStorge.CONTENT_URI,
+                PROJECTION, selection, null, null);
+        while (cursor.moveToNext()) {
+            String oldname = cursor.getString(Contract.PROJECTION_NAME);
+            if (oldname.equals(inputText)) {
+                flag = false;
+                break;
+            }
+        }
+        if (!flag) {
+            create_tipDialog(R.string.tip, R.string.error_add_folder_exists_tip);
+            return;
+        }
+        if (!ConnectionChangeReceiver.isHasConnect) {
+            create_tipDialog(R.string.tip, R.string.error_add_folder_no_network_tip);
+            return;
+        }
+        new AddFolderAsyncTask().execute(inputText);
     }
 
     // 删除文件回调接口
@@ -332,31 +398,32 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
         String[] array_file = filelist.split(",");
         int trashId = get_folderTrash();
         ArrayList<ContentProviderOperation> batch = new ArrayList<ContentProviderOperation>();
-        for(int i = 0; i< array_folder.length; i++)
-        {
-            if(null == array_folder[i] || "".equals(array_folder[i]))
+        String current_date = get_currentDateString();
+        for (int i = 0; i < array_folder.length; i++) {
+            if (null == array_folder[i] || "".equals(array_folder[i]))
                 continue;
             int folderId = Integer.parseInt(array_folder[i]);
             batch.add(ContentProviderOperation.newUpdate(CloudStorgeContract.CloudStorge.CONTENT_URI)
                     .withSelection(CloudStorgeContract.CloudStorge.COLUMN_NAME_FOLDER_ID + "=" + folderId, null)
                     .withValue(CloudStorgeContract.CloudStorge.COLUMN_NAME_PARENT_FOLDER_ID, trashId)
+                    .withValue(CloudStorgeContract.CloudStorge.COLUMN_NAME_LAST_MODIFIED, current_date)
                     .build());
         }
-        for(int i = 0; i< array_file.length; i++)
-        {
-            if(null == array_file[i] || "".equals(array_file[i]))
+        for (int i = 0; i < array_file.length; i++) {
+            if (null == array_file[i] || "".equals(array_file[i]))
                 continue;
             int fileId = Integer.parseInt(array_file[i]);
             batch.add(ContentProviderOperation.newUpdate(CloudStorgeContract.CloudStorge.CONTENT_URI)
                     .withSelection(CloudStorgeContract.CloudStorge.COLUMN_NAME_FILE_ID + "=" + fileId, null)
                     .withValue(CloudStorgeContract.CloudStorge.COLUMN_NAME_PARENT_FOLDER_ID, trashId)
+                    .withValue(CloudStorgeContract.CloudStorge.COLUMN_NAME_LAST_MODIFIED, current_date)
                     .build());
         }
         try {
             getContentResolver().applyBatch(Contract.CONTENT_AUTHORITY, batch);
             //getContentResolver().notifyChange(CloudStorgeContract.CloudStorge.CONTENT_URI, null, false);
             getSupportLoaderManager().restartLoader(0, null, MainActivity.this);
-            Toast.makeText(this, R.string.delete_tip, Toast.LENGTH_SHORT);
+            Toast.makeText(this, R.string.delete_tip, Toast.LENGTH_SHORT).show();
         } catch (RemoteException e) {
             e.printStackTrace();
         } catch (OperationApplicationException e) {
@@ -372,68 +439,53 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
         int specialFolderId = Contract.FOLDER_ROOT;
         if (isTrash)
             specialFolderId = Contract.FOLDER_TRASH;
+        String current_date = get_currentDateString();
         String selection = isRoot || isTrash ? String.format(SELECTION_SPECIAL, specialFolderId, current_account.name, current_account.name)
                 : String.format(SELECTION_CHILD, currentFolderId, current_account.name);
         Cursor cursor = getContentResolver().query(CloudStorgeContract.CloudStorge.CONTENT_URI,
                 PROJECTION, selection, null, null);
-        while(cursor.moveToNext())
-        {
+        while (cursor.moveToNext()) {
             int folderId = cursor.getInt(Contract.PROJECTION_FOLDER_ID);
             String oldname = cursor.getString(Contract.PROJECTION_NAME);
-            if(type == Contract.TYPE_FILE && folderId == -1)
-            {
+            if (type == Contract.TYPE_FILE && folderId == -1) {
                 int fileId = cursor.getInt(Contract.PROJECTION_FILE_ID);
-                if(fileId == id)
+                if (fileId == id)
                     continue;
-                if(oldname.equals(name))
-                {
+                if (oldname.equals(name)) {
                     flag = false;
                     break;
                 }
-            }
-            else if(type == Contract.TYPE_FOLDER && folderId != -1)
-            {
-                if(folderId == id)
+            } else if (type == Contract.TYPE_FOLDER && folderId != -1) {
+                if (folderId == id)
                     continue;
-                if(oldname.equals(name))
-                {
+                if (oldname.equals(name)) {
                     flag = false;
                     break;
                 }
             }
         }
-        if(!flag)
-        {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle(R.string.tip);
-            builder.setMessage(R.string.rename_error);
-            builder.setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    dialog.cancel();
-                }
-            });
-            AlertDialog dialog = builder.create();
-            dialog.show();
-        }
-        else {
+        if (!flag) {
+            create_tipDialog(R.string.tip, R.string.rename_error);
+        } else {
             //没有重名文件则进行数据库操作
             String selectionUpdate = "";
-            if(type == Contract.TYPE_FOLDER)
+            if (type == Contract.TYPE_FOLDER)
                 selectionUpdate = CloudStorgeContract.CloudStorge.COLUMN_NAME_FOLDER_ID + "=" + id;
-            if(type == Contract.TYPE_FILE)
+            if (type == Contract.TYPE_FILE)
                 selectionUpdate = CloudStorgeContract.CloudStorge.COLUMN_NAME_FILE_ID + "=" + id;
             ArrayList<ContentProviderOperation> batch = new ArrayList<ContentProviderOperation>();
             batch.add(ContentProviderOperation
                     .newUpdate(CloudStorgeContract.CloudStorge.CONTENT_URI)
                     .withSelection(selectionUpdate, null)
                     .withValue(CloudStorgeContract.CloudStorge.COLUMN_NAME_NAME, name)
+                    .withValue(CloudStorgeContract.CloudStorge.COLUMN_NAME_LAST_MODIFIED, current_date)
                     .build()
             );
             try {
                 getContentResolver().applyBatch(Contract.CONTENT_AUTHORITY, batch);
                 //getContentResolver().notifyChange(CloudStorgeContract.CloudStorge.CONTENT_URI, null, false);
                 getSupportLoaderManager().restartLoader(0, null, MainActivity.this);
-                Toast.makeText(this, R.string.rename_tip, Toast.LENGTH_SHORT);
+                Toast.makeText(this, R.string.rename_tip, Toast.LENGTH_SHORT).show();
             } catch (RemoteException e) {
                 e.printStackTrace();
             } catch (OperationApplicationException e) {
@@ -445,8 +497,92 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
 
     // 选择移动目标文件夹回调接口
     @Override
-    public void onFinishSelectFolder(int folderId, String arraylist) {
+    public void onFinishSelectFolder(int destFolderId, String fileList, String folderList) {
+        // 获得删除文件夹编号
+        String[] array_folder = folderList.split(",");
+        // 获得删除文件编号
+        String[] array_file = fileList.split(",");
+        String current_date = get_currentDateString();
+        ArrayList<ContentProviderOperation> batch = new ArrayList<ContentProviderOperation>();
+        for (int i = 0; i < array_folder.length; i++) {
+            if (null == array_folder[i] || "".equals(array_folder[i]))
+                continue;
+            int folderId = Integer.parseInt(array_folder[i]);
+            Cursor cursorFolder = get_assignFolder(folderId);
+            String newName = get_newFileName(cursorFolder.getString(Contract.PROJECTION_NAME), destFolderId, Contract.TYPE_FOLDER, folderId);
+            batch.add(ContentProviderOperation.newUpdate(CloudStorgeContract.CloudStorge.CONTENT_URI)
+                    .withSelection(CloudStorgeContract.CloudStorge.COLUMN_NAME_FOLDER_ID + "=" + folderId, null)
+                    .withValue(CloudStorgeContract.CloudStorge.COLUMN_NAME_PARENT_FOLDER_ID, destFolderId)
+                    .withValue(CloudStorgeContract.CloudStorge.COLUMN_NAME_NAME, newName)
+                    .withValue(CloudStorgeContract.CloudStorge.COLUMN_NAME_LAST_MODIFIED, current_date)
+                    .build());
+        }
+        for (int i = 0; i < array_file.length; i++) {
+            if (null == array_file[i] || "".equals(array_file[i]))
+                continue;
+            int fileId = Integer.parseInt(array_file[i]);
+            Cursor cursorFile = get_assignFile(fileId);
+            String newName = get_newFileName(cursorFile.getString(Contract.PROJECTION_NAME), destFolderId, Contract.TYPE_FILE, fileId);
+            batch.add(ContentProviderOperation.newUpdate(CloudStorgeContract.CloudStorge.CONTENT_URI)
+                    .withSelection(CloudStorgeContract.CloudStorge.COLUMN_NAME_FILE_ID + "=" + fileId, null)
+                    .withValue(CloudStorgeContract.CloudStorge.COLUMN_NAME_PARENT_FOLDER_ID, destFolderId)
+                    .withValue(CloudStorgeContract.CloudStorge.COLUMN_NAME_NAME, newName)
+                    .withValue(CloudStorgeContract.CloudStorge.COLUMN_NAME_LAST_MODIFIED, current_date)
+                    .build());
+        }
+        try {
+            getContentResolver().applyBatch(Contract.CONTENT_AUTHORITY, batch);
+            //getContentResolver().notifyChange(CloudStorgeContract.CloudStorge.CONTENT_URI, null, false);
+            getSupportLoaderManager().restartLoader(0, null, MainActivity.this);
+            Toast.makeText(this, R.string.move_tip, Toast.LENGTH_SHORT).show();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        } catch (OperationApplicationException e) {
+            e.printStackTrace();
+        }
+    }
 
+    // 判断移动文件时是否有重名，有则在文件后添加-copy
+    private String get_newFileName(String oldname, int destFolderId, int type, int id) {
+        boolean runflag = true;
+        String newName = oldname;
+        String selection = destFolderId == Contract.FOLDER_ROOT ? String.format(SELECTION_SPECIAL, destFolderId, current_account.name, current_account.name)
+                : String.format(SELECTION_CHILD, destFolderId, current_account.name);
+        Cursor cursor = getContentResolver().query(CloudStorgeContract.CloudStorge.CONTENT_URI,
+                PROJECTION, selection, null, null);
+        do {
+            runflag = false;
+            if (cursor.isFirst())
+                cursor.moveToPrevious();
+            while (cursor.moveToNext()) {
+                int folderId = cursor.getInt(Contract.PROJECTION_FOLDER_ID);
+                String nameTmp = cursor.getString(Contract.PROJECTION_NAME);
+                if (type == Contract.TYPE_FILE && folderId == -1) {
+                    int fileId = cursor.getInt(Contract.PROJECTION_FILE_ID);
+                    if (fileId == id)
+                        continue;
+                    if (nameTmp.equals(newName)) {
+                        if (newName.indexOf(".") <= 0)
+                            newName = newName + "-Copy";
+                        if (newName.indexOf(".") > 0)
+                            newName = newName.substring(0, newName.indexOf(".")) +
+                                    "-Copy" + newName.substring(newName.indexOf("."), newName.length());
+                        runflag = true;
+                        break;
+                    }
+                } else if (type == Contract.TYPE_FOLDER && folderId != -1) {
+                    if (folderId == id)
+                        continue;
+                    if (nameTmp.equals(newName)) {
+                        runflag = true;
+                        newName = newName + "-Copy";
+                        break;
+                    }
+                }
+            }
+            cursor.moveToFirst();
+        } while (runflag);
+        return newName;
     }
 
     // 左侧菜单栏点击响应
@@ -536,16 +672,11 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
     @Override
     public void onBackPressed() {
         if (isRoot || isTrash) {
-            // Confirm exit
             create_exitDialog();
         } else {
             isRoot = parentFolderId == Contract.FOLDER_ROOT ? true : false;
             currentFolderId = parentFolderId;
             // 查询上级目录的上级目录
-            /*String selection = String.format(selection_folder_format, currentFolderId, current_account.name);
-            Cursor mCursor = getContentResolver().query(CloudStorgeContract.CloudStorge.CONTENT_URI, PROJECTION, selection, null, null);
-            mCursor.moveToFirst();
-            parentFolderId = mCursor.getInt(6);*/
             parentFolderId = get_assignParentFolder(currentFolderId);
             getSupportLoaderManager().restartLoader(0, null, MainActivity.this);
         }
@@ -656,7 +787,6 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
         private Map<Integer, Integer> mapSelected;
 
         public ContentFragment() {
-            // Empty constructor required for fragment subclasses
         }
 
         // 创建view
@@ -680,6 +810,7 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
                 // 多选模式响应
                 listView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
                     private int count = 0;
+
                     // 列选择状态变更
                     @Override
                     public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
@@ -743,20 +874,16 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
                         Iterator it = mapSelected.entrySet().iterator();
                         while (it.hasNext()) {
                             Map.Entry ma = (Map.Entry) it.next();
-                            if(-1 == ma.getValue())
-                            {
+                            if (-1 == ma.getValue()) {
                                 cursor = mAdapter.getCursor();
-                                cursor.moveToPosition(Integer.parseInt(ma.getKey()+""));
+                                cursor.moveToPosition(Integer.parseInt(ma.getKey() + ""));
                                 filelist += cursor.getInt(Contract.PROJECTION_FILE_ID) + "" + ",";
-                            }
-                            else
-                            {
+                            } else {
                                 folderlist += ma.getValue() + "" + ",";
                             }
-                            if(item.getItemId() == R.id.action_rename)
-                            {
+                            if (item.getItemId() == R.id.action_rename) {
                                 Cursor temp = mAdapter.getCursor();
-                                temp.moveToPosition(Integer.parseInt(ma.getKey()+""));
+                                temp.moveToPosition(Integer.parseInt(ma.getKey() + ""));
                                 oldname = temp.getString(Contract.PROJECTION_NAME);
                             }
                         }
@@ -764,11 +891,10 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
                             case R.id.action_rename:
                                 int type;
                                 int id;
-                                if("".equals(filelist)) {
+                                if ("".equals(filelist)) {
                                     type = Contract.TYPE_FOLDER;
                                     id = Integer.parseInt(folderlist.substring(0, folderlist.indexOf(",")));
-                                }
-                                else {
+                                } else {
                                     type = Contract.TYPE_FILE;
                                     id = Integer.parseInt(filelist.substring(0, filelist.indexOf(",")));
                                 }
@@ -792,9 +918,10 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
                                 FolderListDialog folderListDialog = new FolderListDialog();
                                 Bundle fld = new Bundle();
                                 fld.putString("currentUser", current_account.name);
-                                fld.putString("arraylist", filelist);
-                                fld.putInt("currentFolderId", -1);
-                                fld.putInt("parentFolderId", -1);
+                                fld.putString("filelist", filelist);
+                                fld.putString("folderlist", folderlist);
+                                fld.putInt("currentFolderId", Contract.FOLDER_ROOT);
+                                fld.putInt("parentFolderId", Contract.FOLDER_ROOT);
                                 folderListDialog.setArguments(fld);
                                 folderListDialog.show(fm, "movefile");
                                 break;
@@ -839,14 +966,13 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
                         fromColumns, toViews, 0, fragmentManager);
                 listView.setAdapter(mAdapter);
                 // 初始化load数据
-                loadm.initLoader(0, null, callbackLoader);
+                loadmanager.initLoader(0, null, callbackLoader);
                 // 文件夹、文件列表点击响应事件
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                         TextView viewFileId = (TextView) view.findViewById(R.id.list_fileId);
                         if (viewFileId.getText().equals("-1")) {
-                            //Toast.makeText(getBaseContext(), "teste", Toast.LENGTH_LONG).show();
                             TextView viewFolderId = (TextView) view.findViewById(R.id.list_folderId);
                             TextView viewParentFolderId = (TextView) view.findViewById(R.id.list_parentFolderId);
                             currentFolderId = Integer.parseInt(viewFolderId.getText().toString());
@@ -855,12 +981,72 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
                             else
                                 parentFolderId = Integer.parseInt(viewParentFolderId.getText().toString());
                             isRoot = false;
-                            loadm.restartLoader(0, null, callbackLoader);
+                            loadmanager.restartLoader(0, null, callbackLoader);
                         } else {
                         }
                     }
                 });
                 return currentView;
+            }
+        }
+    }
+
+    private class AddFolderAsyncTask extends AsyncTask<String, Void, Integer> {
+        private String folderName;
+        private int parentFolderId;
+
+        @Override
+        protected void onPreExecute() {
+            create_progressDialog(getString(R.string.progress_add_folder));
+        }
+
+        @Override
+        protected Integer doInBackground(String... folder_name) {
+            try {
+                folderName = folder_name[0];
+                if (currentFolderId == Contract.FOLDER_ROOT)
+                    parentFolderId = get_folderRoot();
+                else
+                    parentFolderId = currentFolderId;
+                return CloudStorgeRestUtilities.commitAddFolder(parentFolderId, folder_name[0]);
+            } catch (Exception ex) {
+                return -1;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(final Integer folderId) {
+            if (progressDialog.isShowing())
+                progressDialog.dismiss();
+            if (-1 == folderId)
+                Toast.makeText(mContext, R.string.error_add_folder_rest_tip, Toast.LENGTH_SHORT).show();
+            else {
+                ArrayList<ContentProviderOperation> batch = new ArrayList<ContentProviderOperation>();
+                String currentDate = get_currentDateString();
+                batch.add(ContentProviderOperation.newInsert(CloudStorgeContract.CloudStorge.CONTENT_URI)
+                        .withValue(CloudStorgeContract.CloudStorge.COLUMN_NAME_FILE_ID, -1)
+                        .withValue(CloudStorgeContract.CloudStorge.COLUMN_NAME_FOLDER_ID, folderId)
+                        .withValue(CloudStorgeContract.CloudStorge.COLUMN_NAME_NAME, folderName)
+                        .withValue(CloudStorgeContract.CloudStorge.COLUMN_NAME_MIME_TYPE, "")
+                        .withValue(CloudStorgeContract.CloudStorge.COLUMN_NAME_SIZE, "")
+                        .withValue(CloudStorgeContract.CloudStorge.COLUMN_NAME_CREATE_TIME, currentDate)
+                        .withValue(CloudStorgeContract.CloudStorge.COLUMN_NAME_LAST_MODIFIED, currentDate)
+                        .withValue(CloudStorgeContract.CloudStorge.COLUMN_NAME_USERNAME, current_account.name)
+                        .withValue(CloudStorgeContract.CloudStorge.COLUMN_NAME_REVISION_INFO, "")
+                        .withValue(CloudStorgeContract.CloudStorge.COLUMN_NAME_SHARE, "")
+                        .withValue(CloudStorgeContract.CloudStorge.COLUMN_NAME_DESCRIPTION, "")
+                        .withValue(CloudStorgeContract.CloudStorge.COLUMN_NAME_ORIGIN_FOLDER, -9999)
+                        .withValue(CloudStorgeContract.CloudStorge.COLUMN_NAME_PARENT_FOLDER_ID, parentFolderId)
+                        .build());
+                try {
+                    getContentResolver().applyBatch(Contract.CONTENT_AUTHORITY, batch);
+                    loadmanager.restartLoader(0, null, callbackLoader);
+                    Toast.makeText(mContext, R.string.add_folder_tip, Toast.LENGTH_SHORT).show();
+                } catch (RemoteException e) {
+                    Toast.makeText(mContext, R.string.error_add_folder_rest_tip, Toast.LENGTH_SHORT).show();
+                } catch (OperationApplicationException e) {
+                    Toast.makeText(mContext, R.string.error_add_folder_rest_tip, Toast.LENGTH_SHORT).show();
+                }
             }
         }
     }

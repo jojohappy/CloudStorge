@@ -15,6 +15,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
+import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,12 +37,14 @@ public class CloudStorgeRestUtilities {
 
     public static final String PARAM_PASSWORD = "password";
 
-    public static final int HTTP_REQUEST_TIMEOUT_MS = 30 * 1000;
+    public static final int HTTP_REQUEST_TIMEOUT_MS = 10 * 1000;
 
     public static final String BASE_URL = "http://rd.114.chinaetek.com:18081";
     //public static final String BASE_URL = "http://172.17.10.61:8081";
 
     public static final String AUTH_URI = BASE_URL + "/user/login";
+
+    public static final String CREATE_FOLDER_URL = BASE_URL + "/folder/create";
 
     public static final String ALL_CONTENT_URL = BASE_URL + "/list/all_files";
 
@@ -106,14 +109,47 @@ public class CloudStorgeRestUtilities {
             params.setParameter(PARAM_USERNAME, username);
             get.setParams(params);
             HttpResponse response = resp.execute(get);
-            HttpEntity entity = response.getEntity();
-            JSONObject result = new JSONObject(EntityUtils.toString(entity));
-            return result;
+            if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+                HttpEntity entity = response.getEntity();
+                JSONObject result = new JSONObject(EntityUtils.toString(entity));
+                return result;
+            }
         } catch (IOException e) {
             e.printStackTrace();
         } catch (JSONException e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static int commitAddFolder(int parent_folder_id, String folder_name) {
+        final HttpResponse resp;
+        final ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("parent_folder_id", parent_folder_id + ""));
+        params.add(new BasicNameValuePair("new_folder_name", folder_name));
+        final HttpEntity entity;
+        try {
+            entity = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+        } catch (final UnsupportedEncodingException e) {
+            throw new IllegalStateException(e);
+        }
+        final HttpPost post = new HttpPost(CREATE_FOLDER_URL);
+        post.addHeader(entity.getContentType());
+        post.setEntity(entity);
+        try {
+            resp = getHttpClient().execute(post);
+            if (resp.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+                HttpEntity resultEntity = resp.getEntity();
+                JSONObject result = new JSONObject(EntityUtils.toString(resultEntity));
+                if (result.getInt("result") != 0)
+                    return -1;
+                return result.getInt("new_folder_id");
+            }
+        } catch (final IOException e) {
+            return -1;
+        } catch (JSONException e) {
+            return -1;
+        }
+        return -1;
     }
 }

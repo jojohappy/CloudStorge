@@ -21,21 +21,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Medium Text"
-                android:id="@+id/detail_title"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="12dp"
-                android:layout_centerHorizontal="true"
-                android:gravity="center"
-                android:paddingBottom="10dp"/>
-
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="download"
+                android:text="@string/detail_download_label_string"
                 android:id="@+id/textView2"
-                android:layout_below="@+id/detail_title"
                 android:layout_alignParentLeft="true"
                 android:layout_marginTop="11dp"
                 android:textColor="#363636"
@@ -52,18 +39,19 @@
 
         <Switch
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="download entity"
+                android:layout_height="50dp"
+                android:text="@string/detail_download_switch_label_string"
                 android:id="@+id/detail_download_switch"
                 android:layout_below="@+id/imageView"
                 android:layout_alignRight="@+id/imageView"
-                android:layout_alignLeft="@+id/imageView"/>
+                android:layout_alignLeft="@+id/imageView"
+                android:background="?android:selectableItemBackground"/>
 
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="share"
+                android:text="@string/detail_share_label_string"
                 android:id="@+id/textView3"
                 android:layout_below="@+id/detail_download_switch"
                 android:layout_alignLeft="@+id/file_detail_download_switch"
@@ -84,11 +72,12 @@
 
         <Switch
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="Share"
+                android:layout_height="50dp"
+                android:text="@string/detail_share_switch_label_string"
                 android:id="@+id/detail_share_switch"
                 android:layout_below="@+id/imageView2"
-                android:layout_alignLeft="@+id/imageView2"/>
+                android:layout_alignLeft="@+id/imageView2"
+                android:background="?android:selectableItemBackground"/>
 
         <LinearLayout
                 android:id="@+id/detail_tenant_list"
@@ -103,7 +92,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Genernal"
+                android:text="@string/detail_general_label_string"
                 android:id="@+id/textView4"
                 android:layout_marginTop="21dp"
                 android:textColor="#363636"
@@ -123,7 +112,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="last modified :"
+                android:text="@string/detail_last_modified_label_string"
                 android:id="@+id/detail_lastmodified_label"
                 android:layout_below="@+id/imageView3"
                 android:layout_alignLeft="@+id/imageView3"
@@ -145,7 +134,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="size :"
+                android:text="@string/detail_size_label_string"
                 android:id="@+id/detail_size_label"
                 android:layout_below="@+id/detail_lastmodified_label"
                 android:layout_alignLeft="@+id/detail_lastmodified_label"

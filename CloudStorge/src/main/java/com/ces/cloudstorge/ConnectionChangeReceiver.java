@@ -11,6 +11,7 @@ import android.net.NetworkInfo;
  */
 public class ConnectionChangeReceiver extends BroadcastReceiver {
     public static boolean isHasConnect;
+
     @Override
     public void onReceive(Context context, Intent intent) {
         isHasConnect = check_networkStatus(context);

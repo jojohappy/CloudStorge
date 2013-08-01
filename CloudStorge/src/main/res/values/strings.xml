@@ -70,4 +70,12 @@
     <string name="tip">提示</string>
     <string name="rename_error">重命名失败!已有重名文件或文件夹</string>
     <string name="rename_tip">文件重命名成功!</string>
+    <string name="move_tip">移动文件成功!</string>
+    <string name="add_folder_tip">创建文件夹成功!</string>
+    <string name="null_new_folder_name_tip">文件夹名不能为空</string>
+    <string name="error_add_folder_exists_tip">新建文件夹失败!已有重名文件夹</string>
+    <string name="error_add_folder_no_network_tip">新建文件夹失败!请检查网络状态</string>
+    <string name="error_add_folder_rest_tip">新建文件夹失败!</string>
+    <string name="progress_add_folder">正在新建文件夹,请稍候....</string>
+
 </resources>
