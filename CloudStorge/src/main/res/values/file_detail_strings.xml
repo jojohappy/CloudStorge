@@ -7,5 +7,7 @@
     <string name="detail_general_label_string">常规信息</string>
     <string name="detail_last_modified_label_string">修改时间 :</string>
     <string name="detail_size_label_string">文件大小 :</string>
+    <string name="detail_share_failure_string">离线模式下不能分享文件</string>
+    <string name="detail_confirm_close_share_string">确认不分享该文件吗?</string>
 
 </resources>

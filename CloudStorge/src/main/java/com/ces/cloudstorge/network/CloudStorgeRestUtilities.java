@@ -48,6 +48,8 @@ public class CloudStorgeRestUtilities {
 
     public static final String ALL_CONTENT_URL = BASE_URL + "/list/all_files";
 
+    public static final String TENANTS_URL = BASE_URL + "/tenants";
+
 
     public static HttpClient getHttpClient() {
         HttpClient httpClient = new DefaultHttpClient();
@@ -151,5 +153,24 @@ public class CloudStorgeRestUtilities {
             return -1;
         }
         return -1;
+    }
+
+    public static JSONObject getTenants() {
+        try {
+            HttpClient resp;
+            resp = getHttpClient();
+            HttpGet get = new HttpGet(TENANTS_URL);
+            HttpResponse response = resp.execute(get);
+            if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+                HttpEntity entity = response.getEntity();
+                JSONObject result = new JSONObject(EntityUtils.toString(entity));
+                return result;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

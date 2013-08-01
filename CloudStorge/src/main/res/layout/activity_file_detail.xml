@@ -106,7 +106,8 @@
                 android:id="@+id/imageView3"
                 android:layout_below="@+id/textView4"
                 android:layout_alignLeft="@+id/textView4"
-                android:background="@android:color/darker_gray"/>
+                android:background="@android:color/darker_gray"
+                android:layout_marginBottom="7dp"/>
 
         <TextView
                 android:layout_width="wrap_content"
