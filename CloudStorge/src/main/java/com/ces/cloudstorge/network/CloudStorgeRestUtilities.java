@@ -50,6 +50,8 @@ public class CloudStorgeRestUtilities {
 
     public static final String TENANTS_URL = BASE_URL + "/tenants";
 
+    public static final String SHARE_URL = BASE_URL + "/share";
+
 
     public static HttpClient getHttpClient() {
         HttpClient httpClient = new DefaultHttpClient();
@@ -160,6 +162,46 @@ public class CloudStorgeRestUtilities {
             HttpClient resp;
             resp = getHttpClient();
             HttpGet get = new HttpGet(TENANTS_URL);
+            HttpResponse response = resp.execute(get);
+            if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+                HttpEntity entity = response.getEntity();
+                JSONObject result = new JSONObject(EntityUtils.toString(entity));
+                return result;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static JSONObject shareFile(int fileId, int tenant) {
+        try {
+            HttpClient resp;
+            resp = getHttpClient();
+            String combinedParams = "?file_id=" + fileId + "&entity=share&share_tenants=" + tenant;
+            HttpGet get = new HttpGet(SHARE_URL + combinedParams);
+            HttpResponse response = resp.execute(get);
+            if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+                HttpEntity entity = response.getEntity();
+                JSONObject result = new JSONObject(EntityUtils.toString(entity));
+                return result;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static JSONObject closeShareFile(int fileId, int tenant, boolean isAll) {
+        try {
+            HttpClient resp;
+            resp = getHttpClient();
+            String combinedParams = isAll ? "?file_id=" + fileId + "&entity=private" : "?file_id=" + fileId + "&entity=private&share_tenants=" + tenant;
+            HttpGet get = new HttpGet(SHARE_URL + combinedParams);
             HttpResponse response = resp.execute(get);
             if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
                 HttpEntity entity = response.getEntity();

@@ -2,10 +2,14 @@ package com.ces.cloudstorge;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.ContentProviderOperation;
 import android.content.DialogInterface;
+import android.content.OperationApplicationException;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.RemoteException;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,6 +30,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,6 +40,7 @@ public class FileDetailActivity extends Activity {
     private int hasTenant;
     private Map<Integer, String> tenantsData;
     private Switch shareSwitch;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +106,15 @@ public class FileDetailActivity extends Activity {
         });
     }
 
+    // 创建普通ProgressDialog
+    public void create_progressDialog(String message) {
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage(message);
+        progressDialog.setCancelable(false);
+        progressDialog.setIndeterminate(true);
+        progressDialog.show();
+    }
+
     // 创建普通提示对话框
     public void create_closeShareDialog(int title, int message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -114,6 +129,7 @@ public class FileDetailActivity extends Activity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 mContainerView.setVisibility(View.GONE);
+                new CloseShareFileAsyncTask().execute(fileStruct.getFileId(), -1, 1);
             }
         });
         AlertDialog dialog = builder.create();
@@ -144,9 +160,10 @@ public class FileDetailActivity extends Activity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
                 if (checked) {
-                    Toast.makeText(FileDetailActivity.this, selected_tenantId + "", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(FileDetailActivity.this, selected_tenantId + "", Toast.LENGTH_SHORT).show();
+                    new ShareFileAsyncTask().execute(fileStruct.getFileId(), selected_tenantId);
                 } else {
-
+                    new CloseShareFileAsyncTask().execute(fileStruct.getFileId(), selected_tenantId, 0);
                 }
             }
         });
@@ -247,6 +264,114 @@ public class FileDetailActivity extends Activity {
                     e.printStackTrace();
                 }
             }
+        }
+    }
+
+    private class ShareFileAsyncTask extends AsyncTask<Integer, Void, JSONObject> {
+        private int tenant;
+        @Override
+        protected void onPreExecute() {
+            create_progressDialog(getString(R.string.share_file_progress_message));
+        }
+
+        @Override
+        protected JSONObject doInBackground(Integer... file_tenant) {
+            if(!ConnectionChangeReceiver.isHasConnect)
+                return null;
+            tenant = file_tenant[1];
+
+            JSONObject result = CloudStorgeRestUtilities.shareFile(file_tenant[0], file_tenant[1]);
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(final JSONObject result) {
+            if(progressDialog.isShowing())
+                progressDialog.dismiss();
+            if(null == result) {
+                Toast.makeText(FileDetailActivity.this, R.string.share_file_error, Toast.LENGTH_SHORT).show();
+                return;
+            }
+            // 更新文件的share字段
+            String share = fileStruct.getShare() + "," + tenant;
+            fileStruct.setShare(share);
+            updateFileShare(fileStruct.getFileId(), share);
+            Toast.makeText(FileDetailActivity.this, R.string.share_file_success, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private class CloseShareFileAsyncTask extends  AsyncTask<Integer, Void, JSONObject> {
+        private int tenant;
+        private boolean isAll;
+        @Override
+        protected void onPreExecute() {
+            create_progressDialog(getString(R.string.close_share_file_progress_message));
+        }
+
+        @Override
+        protected JSONObject doInBackground(Integer... file_tenant) {
+            if(!ConnectionChangeReceiver.isHasConnect)
+                return null;
+            isAll = false;
+            if(1 == file_tenant[2])
+                isAll = true;
+            tenant = file_tenant[1];
+            JSONObject result = CloudStorgeRestUtilities.closeShareFile(file_tenant[0], file_tenant[1], isAll);
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(final JSONObject result) {
+            if(progressDialog.isShowing())
+                progressDialog.dismiss();
+            if(null == result) {
+                Toast.makeText(FileDetailActivity.this, R.string.share_file_error, Toast.LENGTH_SHORT).show();
+                return;
+            }
+            // 更新文件的share字段
+            String share = fileStruct.getShare();
+            if(isAll)
+                share = "";
+            else
+            {
+                String tmp = tenant + "";
+                String[] array = share.split(",");
+                String newShare = "";
+                for(int i = 0; i < array.length; i++) {
+                    if(null == array[i] || "".equals(array[i]))
+                        continue;
+                    if(array[i].equals(tmp)) {
+                        continue;
+                    }
+                    else
+                        newShare += array[i] + ",";
+                }
+                share = newShare;
+            }
+            updateFileShare(fileStruct.getFileId(), share);
+            fileStruct.setShare(share);
+            if(isAll)
+            {
+                hasTenant = 0;
+                mContainerView.removeAllViews();
+            }
+            Toast.makeText(FileDetailActivity.this, R.string.close_share_file_success, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void updateFileShare(int fileId, String share)
+    {
+        ArrayList<ContentProviderOperation> batch = new ArrayList<ContentProviderOperation>();
+        batch.add(ContentProviderOperation.newUpdate(CloudStorgeContract.CloudStorge.CONTENT_URI)
+                .withSelection(CloudStorgeContract.CloudStorge.COLUMN_NAME_FILE_ID + "=" + fileId, null)
+                .withValue(CloudStorgeContract.CloudStorge.COLUMN_NAME_SHARE, share)
+                .build());
+        try {
+            getContentResolver().applyBatch(Contract.CONTENT_AUTHORITY, batch);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        } catch (OperationApplicationException e) {
+            e.printStackTrace();
         }
     }
 }

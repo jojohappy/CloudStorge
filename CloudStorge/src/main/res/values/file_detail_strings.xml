@@ -9,5 +9,10 @@
     <string name="detail_size_label_string">文件大小 :</string>
     <string name="detail_share_failure_string">离线模式下不能分享文件</string>
     <string name="detail_confirm_close_share_string">确认不分享该文件吗?</string>
+    <string name="share_file_progress_message">正在分享文件,请稍候....</string>
+    <string name="close_share_file_progress_message">正在取消分享文件,请稍候....</string>
+    <string name="share_file_error">文件分享操作失败</string>
+    <string name="share_file_success">分享文件成功</string>
+    <string name="close_share_file_success">取消分享文件成功</string>
 
 </resources>
