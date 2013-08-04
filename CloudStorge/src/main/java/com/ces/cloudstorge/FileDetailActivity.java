@@ -60,13 +60,10 @@ public class FileDetailActivity extends Activity {
 
         Switch downloadSwitch = (Switch) findViewById(R.id.detail_download_switch);
         shareSwitch = (Switch) findViewById(R.id.detail_share_switch);
-        if(null == fileStruct.getShare() || "".equals(fileStruct.getShare()))
-        {
+        if (null == fileStruct.getShare() || "".equals(fileStruct.getShare())) {
             mContainerView.setVisibility(View.GONE);
             shareSwitch.setChecked(false);
-        }
-        else
-        {
+        } else {
             mContainerView.setVisibility(View.VISIBLE);
             shareSwitch.setChecked(true);
             new GetTenantsAsyncTask().execute(fileStruct.getShare());
@@ -75,29 +72,24 @@ public class FileDetailActivity extends Activity {
         shareSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                if(isChecked) {
+                if (isChecked) {
                     mContainerView.setVisibility(View.VISIBLE);
-                    if(hasTenant == 0)
+                    if (hasTenant == 0)
                         new GetTenantsAsyncTask().execute(fileStruct.getShare());
-                }
-                else {
+                } else {
                     int childCount = mContainerView.getChildCount();
                     int flag = 0;
-                    for(int i = 0; i < childCount; i++)
-                    {
+                    for (int i = 0; i < childCount; i++) {
                         View view = mContainerView.getChildAt(i);
                         CheckBox c;
-                        if(null == (c = (CheckBox) view.findViewById(R.id.tenant_checkbox)))
-                        {
+                        if (null == (c = (CheckBox) view.findViewById(R.id.tenant_checkbox))) {
                             break;
-                        }
-                        else
-                        {
-                            if(c.isChecked())
+                        } else {
+                            if (c.isChecked())
                                 flag++;
                         }
                     }
-                    if(flag != 0)
+                    if (flag != 0)
                         create_closeShareDialog(R.string.tip, R.string.detail_confirm_close_share_string);
                     else
                         mContainerView.setVisibility(View.GONE);
@@ -136,8 +128,7 @@ public class FileDetailActivity extends Activity {
         dialog.show();
     }
 
-    private FileStruct get_fileStruct(int fileId)
-    {
+    private FileStruct get_fileStruct(int fileId) {
         String selection = String.format(MainActivity.selection_file_format, fileId, MainActivity.current_account.name);
         Cursor cursor = getContentResolver().query(CloudStorgeContract.CloudStorge.CONTENT_URI, MainActivity.PROJECTION, selection, null, null);
         cursor.moveToFirst();
@@ -160,7 +151,6 @@ public class FileDetailActivity extends Activity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
                 if (checked) {
-                    //Toast.makeText(FileDetailActivity.this, selected_tenantId + "", Toast.LENGTH_SHORT).show();
                     new ShareFileAsyncTask().execute(fileStruct.getFileId(), selected_tenantId);
                 } else {
                     new CloseShareFileAsyncTask().execute(fileStruct.getFileId(), selected_tenantId, 0);
@@ -204,6 +194,7 @@ public class FileDetailActivity extends Activity {
 
     private class GetTenantsAsyncTask extends AsyncTask<String, Void, JSONObject> {
         private String shares;
+
         @Override
         protected void onPreExecute() {
             addProgressItem();
@@ -212,7 +203,7 @@ public class FileDetailActivity extends Activity {
         @Override
         protected JSONObject doInBackground(String... shares) {
             this.shares = shares[0];
-            if(!ConnectionChangeReceiver.isHasConnect)
+            if (!ConnectionChangeReceiver.isHasConnect)
                 return null;
             JSONObject result = CloudStorgeRestUtilities.getTenants();
             return result;
@@ -220,19 +211,15 @@ public class FileDetailActivity extends Activity {
 
         @Override
         protected void onPostExecute(final JSONObject tenants) {
-            if(null == tenants)
-            {
+            if (null == tenants) {
                 mContainerView.removeAllViews();
                 addShareFailureItem();
                 return;
-            }
-            else
-            {
+            } else {
                 tenantsData.clear();
                 try {
                     int result = tenants.getInt("result");
-                    if(result != 0)
-                    {
+                    if (result != 0) {
                         mContainerView.removeAllViews();
                         addShareFailureItem();
                         return;
@@ -240,19 +227,16 @@ public class FileDetailActivity extends Activity {
                     JSONArray array_tenants = tenants.getJSONArray("tenants");
                     mContainerView.removeAllViews();
                     String[] array_shares = this.shares.split(",");
-                    for(int i = 0; i < array_tenants.length(); i++)
-                    {
+                    for (int i = 0; i < array_tenants.length(); i++) {
                         boolean isChecked = false;
                         JSONObject data = array_tenants.getJSONObject(i);
                         int id = data.getInt("id");
                         String name = data.getString("name");
                         tenantsData.put(id, name);
-                        for(int j = 0; j < array_shares.length; j++)
-                        {
-                            if(null == array_shares[j] || "".equals(array_shares[j]))
+                        for (int j = 0; j < array_shares.length; j++) {
+                            if (null == array_shares[j] || "".equals(array_shares[j]))
                                 continue;
-                            if(Integer.parseInt(array_shares[j]) == id)
-                            {
+                            if (Integer.parseInt(array_shares[j]) == id) {
                                 isChecked = true;
                                 break;
                             }
@@ -269,6 +253,7 @@ public class FileDetailActivity extends Activity {
 
     private class ShareFileAsyncTask extends AsyncTask<Integer, Void, JSONObject> {
         private int tenant;
+
         @Override
         protected void onPreExecute() {
             create_progressDialog(getString(R.string.share_file_progress_message));
@@ -276,7 +261,7 @@ public class FileDetailActivity extends Activity {
 
         @Override
         protected JSONObject doInBackground(Integer... file_tenant) {
-            if(!ConnectionChangeReceiver.isHasConnect)
+            if (!ConnectionChangeReceiver.isHasConnect)
                 return null;
             tenant = file_tenant[1];
 
@@ -286,9 +271,9 @@ public class FileDetailActivity extends Activity {
 
         @Override
         protected void onPostExecute(final JSONObject result) {
-            if(progressDialog.isShowing())
+            if (progressDialog.isShowing())
                 progressDialog.dismiss();
-            if(null == result) {
+            if (null == result) {
                 Toast.makeText(FileDetailActivity.this, R.string.share_file_error, Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -300,9 +285,10 @@ public class FileDetailActivity extends Activity {
         }
     }
 
-    private class CloseShareFileAsyncTask extends  AsyncTask<Integer, Void, JSONObject> {
+    private class CloseShareFileAsyncTask extends AsyncTask<Integer, Void, JSONObject> {
         private int tenant;
         private boolean isAll;
+
         @Override
         protected void onPreExecute() {
             create_progressDialog(getString(R.string.close_share_file_progress_message));
@@ -310,10 +296,10 @@ public class FileDetailActivity extends Activity {
 
         @Override
         protected JSONObject doInBackground(Integer... file_tenant) {
-            if(!ConnectionChangeReceiver.isHasConnect)
+            if (!ConnectionChangeReceiver.isHasConnect)
                 return null;
             isAll = false;
-            if(1 == file_tenant[2])
+            if (1 == file_tenant[2])
                 isAll = true;
             tenant = file_tenant[1];
             JSONObject result = CloudStorgeRestUtilities.closeShareFile(file_tenant[0], file_tenant[1], isAll);
@@ -322,36 +308,33 @@ public class FileDetailActivity extends Activity {
 
         @Override
         protected void onPostExecute(final JSONObject result) {
-            if(progressDialog.isShowing())
+            if (progressDialog.isShowing())
                 progressDialog.dismiss();
-            if(null == result) {
+            if (null == result) {
                 Toast.makeText(FileDetailActivity.this, R.string.share_file_error, Toast.LENGTH_SHORT).show();
                 return;
             }
             // 更新文件的share字段
             String share = fileStruct.getShare();
-            if(isAll)
+            if (isAll)
                 share = "";
-            else
-            {
+            else {
                 String tmp = tenant + "";
                 String[] array = share.split(",");
                 String newShare = "";
-                for(int i = 0; i < array.length; i++) {
-                    if(null == array[i] || "".equals(array[i]))
+                for (int i = 0; i < array.length; i++) {
+                    if (null == array[i] || "".equals(array[i]))
                         continue;
-                    if(array[i].equals(tmp)) {
+                    if (array[i].equals(tmp)) {
                         continue;
-                    }
-                    else
+                    } else
                         newShare += array[i] + ",";
                 }
                 share = newShare;
             }
             updateFileShare(fileStruct.getFileId(), share);
             fileStruct.setShare(share);
-            if(isAll)
-            {
+            if (isAll) {
                 hasTenant = 0;
                 mContainerView.removeAllViews();
             }
@@ -359,8 +342,7 @@ public class FileDetailActivity extends Activity {
         }
     }
 
-    private void updateFileShare(int fileId, String share)
-    {
+    private void updateFileShare(int fileId, String share) {
         ArrayList<ContentProviderOperation> batch = new ArrayList<ContentProviderOperation>();
         batch.add(ContentProviderOperation.newUpdate(CloudStorgeContract.CloudStorge.CONTENT_URI)
                 .withSelection(CloudStorgeContract.CloudStorge.COLUMN_NAME_FILE_ID + "=" + fileId, null)

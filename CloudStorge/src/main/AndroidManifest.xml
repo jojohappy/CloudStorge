@@ -14,7 +14,6 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
-
     <uses-sdk
             android:minSdkVersion="14"
             android:targetSdkVersion="17"/>
@@ -94,6 +93,26 @@
                 android:name="com.ces.cloudstorge.FileDetailActivity"
                 android:label="@string/title_activity_file_detail"
                 android:parentActivityName="com.ces.cloudstorge.MainActivity">
+        </activity>
+        <activity
+                android:name="com.ces.cloudstorge.UploadActivity"
+                android:label="@string/title_activity_upload"
+                android:theme="@android:style/Theme.Holo.Light.Dialog">
+            <!-- filter for sending text or images; accepts SEND action and text or image data -->
+            <intent-filter>
+                <action android:name="android.intent.action.SEND"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="*/*"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND_MULTIPLE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="*/*"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.ces.cloudstorge.UploadActivity.UPLOAD_FILE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
         </activity>
     </application>
 

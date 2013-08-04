@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_activity_upload">云存储</string>
+    <string name="upload_file_label">文件名称</string>
+    <string name="upload_file_location">文件存储位置</string>
+    <string name="upload_title">上传文件到云存储</string>
+    <string name="location_text">我的云存储</string>
+    <string name="upload_error">上传文件失败</string>
+    <string name="upload_success">上传文件成功!</string>
+    <string name="terrible">糟糕</string>
+    <string name="no_account">请先登录到云存储中!</string>
+    <string name="read_file_error">文件读取失败!</string>
+    <string name="upload_file_wait">正在上传文件,请稍候....</string>
+</resources>

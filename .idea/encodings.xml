@@ -2,6 +2,7 @@
 <project version="4">
   <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false">
     <file url="file://$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/MainActivity.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/UploadActivity.java" charset="GBK" />
   </component>
 </project>
 

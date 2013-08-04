@@ -21,10 +21,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 
 /**
@@ -51,6 +56,8 @@ public class CloudStorgeRestUtilities {
     public static final String TENANTS_URL = BASE_URL + "/tenants";
 
     public static final String SHARE_URL = BASE_URL + "/share";
+
+    public static final String UPLOAD_URL = BASE_URL + "/file/upload";
 
 
     public static HttpClient getHttpClient() {

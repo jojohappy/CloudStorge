@@ -64,7 +64,6 @@
     <string name="title_activity_file_detail">FileDetailActivity</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
-
     <string name="lastmodified">修改时间:</string>
     <string name="delete_tip">文件删除成功!</string>
     <string name="tip">提示</string>
@@ -77,5 +76,6 @@
     <string name="error_add_folder_no_network_tip">新建文件夹失败!请检查网络状态</string>
     <string name="error_add_folder_rest_tip">新建文件夹失败!</string>
     <string name="progress_add_folder">正在新建文件夹,请稍候....</string>
+    <string name="choose_upload_app">选择要使用的应用</string>
 
 </resources>

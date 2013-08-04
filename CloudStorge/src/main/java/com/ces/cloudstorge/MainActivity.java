@@ -8,7 +8,10 @@ import android.content.ContentProviderOperation;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.OperationApplicationException;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.database.ContentObserver;
 import android.database.Cursor;
@@ -50,6 +53,7 @@ import com.ces.cloudstorge.adapter.DrawerListAdapter;
 import com.ces.cloudstorge.adapter.FileListAdapter;
 import com.ces.cloudstorge.network.CloudStorgeRestUtilities;
 import com.ces.cloudstorge.provider.CloudStorgeContract;
+import com.ces.cloudstorge.util.CommonUtil;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -58,6 +62,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 
@@ -325,13 +330,6 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
         return cursor.getInt(Contract.PROJECTION_PARENT_FOLDER_ID);
     }
 
-    // 获取当前时间字符串(yyyy-MM-dd HH:mm:ss)
-    public String get_currentDateString() {
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date today = Calendar.getInstance().getTime();
-        return df.format(today);
-    }
-
     // 创建普通提示对话框
     public void create_tipDialog(int title, int message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -398,7 +396,7 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
         String[] array_file = filelist.split(",");
         int trashId = get_folderTrash();
         ArrayList<ContentProviderOperation> batch = new ArrayList<ContentProviderOperation>();
-        String current_date = get_currentDateString();
+        String current_date = CommonUtil.get_currentDateString();
         for (int i = 0; i < array_folder.length; i++) {
             if (null == array_folder[i] || "".equals(array_folder[i]))
                 continue;
@@ -439,7 +437,7 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
         int specialFolderId = Contract.FOLDER_ROOT;
         if (isTrash)
             specialFolderId = Contract.FOLDER_TRASH;
-        String current_date = get_currentDateString();
+        String current_date = CommonUtil.get_currentDateString();
         String selection = isRoot || isTrash ? String.format(SELECTION_SPECIAL, specialFolderId, current_account.name, current_account.name)
                 : String.format(SELECTION_CHILD, currentFolderId, current_account.name);
         Cursor cursor = getContentResolver().query(CloudStorgeContract.CloudStorge.CONTENT_URI,
@@ -502,7 +500,9 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
         String[] array_folder = folderList.split(",");
         // 获得删除文件编号
         String[] array_file = fileList.split(",");
-        String current_date = get_currentDateString();
+        String current_date = CommonUtil.get_currentDateString();
+        if (destFolderId == Contract.FOLDER_ROOT)
+            destFolderId = get_folderRoot();
         ArrayList<ContentProviderOperation> batch = new ArrayList<ContentProviderOperation>();
         for (int i = 0; i < array_folder.length; i++) {
             if (null == array_folder[i] || "".equals(array_folder[i]))
@@ -699,7 +699,14 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
                 if (0 == position) {
                     create_newFolderDialog();
                 } else {
-
+                    Intent intent = new Intent();
+                    intent.setAction(Contract.UPLOAD_ACTION);
+                    if(currentFolderId == Contract.FOLDER_ROOT)
+                        currentFolderId = get_folderRoot();
+                    intent.putExtra("destFolderId", currentFolderId);
+                    intent.putExtra("currentAccount", current_account);
+                    intent.setClass(MainActivity.this, UploadActivity.class);
+                    startActivity(intent);
                 }
             }
         });
@@ -1022,7 +1029,7 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
                 Toast.makeText(mContext, R.string.error_add_folder_rest_tip, Toast.LENGTH_SHORT).show();
             else {
                 ArrayList<ContentProviderOperation> batch = new ArrayList<ContentProviderOperation>();
-                String currentDate = get_currentDateString();
+                String currentDate = CommonUtil.get_currentDateString();
                 batch.add(ContentProviderOperation.newInsert(CloudStorgeContract.CloudStorge.CONTENT_URI)
                         .withValue(CloudStorgeContract.CloudStorge.COLUMN_NAME_FILE_ID, -1)
                         .withValue(CloudStorgeContract.CloudStorge.COLUMN_NAME_FOLDER_ID, folderId)

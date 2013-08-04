@@ -174,7 +174,7 @@ public class FolderListDialog extends DialogFragment {
         mAdapter = new SimpleAdapter(getActivity().getApplicationContext(), listData, R.layout.list_item_dialog,
                 fromColumns, toViews);
         mDialogFolderList.setAdapter(mAdapter);
-        builder.setPositiveButton(R.string.menu_action_move, new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
                 mListener.onFinishSelectFolder(currentFolderId, fileList, folderList);
