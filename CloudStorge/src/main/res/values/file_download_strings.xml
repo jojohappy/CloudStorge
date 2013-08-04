@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_activity_download"></string>
+    <string name="download_file_tip">正在下载文件:</string>
+    <string name="download_file_error">文件下载失败!</string>
+    <string name="download_file_cannot_open">不能打开此类型的文件</string>
+    <string name="download_file_network_error">网络服务不存在,请检查</string>
+</resources>

@@ -10,8 +10,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.OperationApplicationException;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.database.ContentObserver;
 import android.database.Cursor;
@@ -55,14 +53,9 @@ import com.ces.cloudstorge.network.CloudStorgeRestUtilities;
 import com.ces.cloudstorge.provider.CloudStorgeContract;
 import com.ces.cloudstorge.util.CommonUtil;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 
@@ -701,7 +694,7 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
                 } else {
                     Intent intent = new Intent();
                     intent.setAction(Contract.UPLOAD_ACTION);
-                    if(currentFolderId == Contract.FOLDER_ROOT)
+                    if (currentFolderId == Contract.FOLDER_ROOT)
                         currentFolderId = get_folderRoot();
                     intent.putExtra("destFolderId", currentFolderId);
                     intent.putExtra("currentAccount", current_account);
@@ -933,6 +926,10 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
                                 folderListDialog.show(fm, "movefile");
                                 break;
                             case R.id.action_download:
+                                Intent intent = new Intent();
+                                intent.putExtra("fileId", Integer.parseInt(filelist.substring(0, filelist.indexOf(","))));
+                                intent.setClass(mContext, DownloadActivity.class);
+                                startActivity(intent);
                                 break;
                             case R.id.action_share:
                                 break;
@@ -990,6 +987,11 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
                             isRoot = false;
                             loadmanager.restartLoader(0, null, callbackLoader);
                         } else {
+                            // обтьнд╪Ч
+                            Intent intent = new Intent();
+                            intent.putExtra("fileId", Integer.parseInt(viewFileId.getText().toString()));
+                            intent.setClass(mContext, DownloadActivity.class);
+                            startActivity(intent);
                         }
                     }
                 });

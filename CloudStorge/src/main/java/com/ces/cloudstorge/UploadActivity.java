@@ -5,7 +5,6 @@ import android.accounts.AccountManager;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ContentProviderOperation;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.OperationApplicationException;
@@ -22,27 +21,22 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ces.cloudstorge.Dialog.FolderListDialog;
 import com.ces.cloudstorge.provider.CloudStorgeContract;
 import com.ces.cloudstorge.util.CommonUtil;
 
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -60,8 +54,7 @@ public class UploadActivity extends FragmentActivity implements FolderListDialog
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_upload);
-        if(getIntent().getAction().equals(Contract.UPLOAD_ACTION))
-        {
+        if (getIntent().getAction().equals(Contract.UPLOAD_ACTION)) {
             destFolderId = getIntent().getExtras().getInt("destFolderId");
             currentAccount = (Account) getIntent().getExtras().get("currentAccount");
             Intent shareIntent = new Intent();
@@ -177,8 +170,7 @@ public class UploadActivity extends FragmentActivity implements FolderListDialog
         }
     }
 
-    private void insert_newFile(int newFileId)
-    {
+    private void insert_newFile(int newFileId) {
         // 插入新数据
         try {
             ArrayList<ContentProviderOperation> batch = new ArrayList<ContentProviderOperation>();
@@ -225,6 +217,7 @@ public class UploadActivity extends FragmentActivity implements FolderListDialog
         private String UPLOAD_URL = "http://rd.114.chinaetek.com:18081/file/upload";
         private ProgressDialog progressDialog;
         private int newFileId;
+
         @Override
         protected void onPreExecute() {
             progressDialog = new ProgressDialog(UploadActivity.this);
@@ -242,14 +235,12 @@ public class UploadActivity extends FragmentActivity implements FolderListDialog
 
         @Override
         protected void onPostExecute(final Integer result) {
-            if(progressDialog.isShowing())
+            if (progressDialog.isShowing())
                 progressDialog.dismiss();
-            if(result == 0)
-            {
+            if (result == 0) {
                 insert_newFile(newFileId);
                 create_uploadDialog(getString(R.string.upload_title), getString(R.string.upload_success));
-            }
-            else {
+            } else {
                 create_uploadDialog(getString(R.string.terrible), getString(R.string.upload_error));
             }
         }
@@ -284,11 +275,11 @@ public class UploadActivity extends FragmentActivity implements FolderListDialog
                 conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
                 dos = new DataOutputStream(conn.getOutputStream());
                 dos.writeBytes(twoHyphens + boundary + lineEnd);
-                dos.writeBytes("Content-Disposition: form-data; name=\"current_folder_id\""  + lineEnd);
+                dos.writeBytes("Content-Disposition: form-data; name=\"current_folder_id\"" + lineEnd);
                 dos.writeBytes(lineEnd);
                 dos.writeBytes(destFolderId + "" + lineEnd);
                 dos.writeBytes(twoHyphens + boundary + lineEnd);
-                dos.writeBytes("Content-Disposition: form-data; name=\"upload_device\""  + lineEnd);
+                dos.writeBytes("Content-Disposition: form-data; name=\"upload_device\"" + lineEnd);
                 dos.writeBytes(lineEnd);
                 dos.writeBytes("android" + lineEnd);
                 dos.writeBytes(twoHyphens + boundary + lineEnd);
@@ -317,7 +308,8 @@ public class UploadActivity extends FragmentActivity implements FolderListDialog
                     StringBuilder sb2 = new StringBuilder();
                     while ((ch = in.read()) != -1) {
                         sb2.append((char) ch);
-                    };
+                    }
+                    ;
                     JSONObject jsonObject = new JSONObject(sb2.toString());
                     result = jsonObject.getInt("result");
                     newFileId = jsonObject.getInt("file_id");
@@ -344,7 +336,7 @@ public class UploadActivity extends FragmentActivity implements FolderListDialog
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode == 0) {
+        if (resultCode == 0) {
             finish();
             return;
         }
