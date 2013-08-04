@@ -77,6 +77,8 @@
     <string name="error_add_folder_rest_tip">新建文件夹失败!</string>
     <string name="progress_add_folder">正在新建文件夹,请稍候....</string>
     <string name="choose_upload_app">选择要使用的应用</string>
+    <string name="share_from">分享自:</string>
+    <string name="sync_message">正在为您同步文件,请稍候...</string>
 
 
 </resources>

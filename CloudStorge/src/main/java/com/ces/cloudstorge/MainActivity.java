@@ -85,7 +85,8 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
             CloudStorgeContract.CloudStorge.COLUMN_NAME_FOLDER_ID,
             CloudStorgeContract.CloudStorge.COLUMN_NAME_PARENT_FOLDER_ID,
             CloudStorgeContract.CloudStorge.COLUMN_NAME_SHARE,
-            CloudStorgeContract.CloudStorge.COLUMN_NAME_SIZE
+            CloudStorgeContract.CloudStorge.COLUMN_NAME_SIZE,
+            CloudStorgeContract.CloudStorge.COLUMN_NAME_ORIGIN_FOLDER
     };
 
     // sql查询条件(root)
@@ -113,7 +114,9 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
             CloudStorgeContract.CloudStorge.COLUMN_NAME_LAST_MODIFIED,
             CloudStorgeContract.CloudStorge.COLUMN_NAME_PARENT_FOLDER_ID,
             CloudStorgeContract.CloudStorge.COLUMN_NAME_FILE_ID,
-            CloudStorgeContract.CloudStorge.COLUMN_NAME_FOLDER_ID
+            CloudStorgeContract.CloudStorge.COLUMN_NAME_FOLDER_ID,
+            CloudStorgeContract.CloudStorge.COLUMN_NAME_SHARE,
+            CloudStorgeContract.CloudStorge.COLUMN_NAME_ORIGIN_FOLDER
     };
 
     // view中的对象
@@ -130,9 +133,11 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
     // ContentProvider回调响应对象
     private CloudStorgeObserver mCloudStorgeObserver;
     // 是否为根目录
-    private static Boolean isRoot;
+    public static Boolean isRoot;
     // 是否为回收站
-    private static Boolean isTrash;
+    public static Boolean isTrash;
+    // 是否为共享文件夹
+    public static Boolean isShare;
     // 是否是空文件夹
     private static Boolean isEmptyFolder;
     // 当前目录编号
@@ -160,6 +165,7 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
         // 从上一个activity中获得是否是当前目录
         isRoot = (Boolean) getIntent().getExtras().get("isRoot");
         isTrash = false;
+        isShare = false;
         isEmptyFolder = false;
         if (isRoot) {
             currentFolderId = Contract.FOLDER_ROOT;
@@ -168,6 +174,11 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
 
         if (isTrash) {
             currentFolderId = Contract.FOLDER_TRASH;
+            parentFolderId = Contract.FOLDER_ROOT;
+        }
+
+        if (isShare) {
+            currentFolderId = Contract.FOLDER_SHARE;
             parentFolderId = Contract.FOLDER_ROOT;
         }
         LayoutInflater inflater = getLayoutInflater();
@@ -232,6 +243,11 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
         // Inflate the menu; this adds items to the action bar if it is present.
         mDrawerLayout.isDrawerOpen(mDrawList);
         getMenuInflater().inflate(R.menu.main, menu);
+        MenuItem actionNew = menu.findItem(R.id.action_new);
+        if(isRoot)
+            actionNew.setVisible(true);
+        if(isTrash || isShare)
+            actionNew.setVisible(false);
         return true;
     }
 
@@ -241,7 +257,9 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
         int specialFolderId = Contract.FOLDER_ROOT;
         if (isTrash)
             specialFolderId = Contract.FOLDER_TRASH;
-        String selection = isRoot || isTrash ? String.format(SELECTION_SPECIAL, specialFolderId, current_account.name, current_account.name)
+        if (isShare)
+            specialFolderId = Contract.FOLDER_SHARE;
+        String selection = isRoot || isTrash || isShare ? String.format(SELECTION_SPECIAL, specialFolderId, current_account.name, current_account.name)
                 : String.format(SELECTION_CHILD, currentFolderId, current_account.name);
         String order = "";
         if (mSortType == SORT_NAME)
@@ -589,7 +607,7 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
                 if (isTrash)
                     mDrawList.setItemChecked(Contract.DRAWER_TRASH, true);
                 if (!isRoot && !isTrash)
-                    mDrawList.setItemChecked(Contract.DRAWER_ROOT, true);
+                    mDrawList.setItemChecked(Contract.DRAWER_SHARE, true);
                 create_exitDialog();
             } else {
                 TextView drawerText = (TextView) view.findViewById(R.id.drawer_title);
@@ -601,16 +619,20 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
                     case Contract.DRAWER_ROOT:
                         isRoot = true;
                         isTrash = false;
+                        isShare = false;
                         break;
                     case Contract.DRAWER_SHARE:
                         isRoot = false;
                         isTrash = false;
+                        isShare = true;
                         break;
                     case Contract.DRAWER_TRASH:
                         isRoot = false;
                         isTrash = true;
+                        isShare = false;
                         break;
                 }
+                //invalidateOptionsMenu();
                 getSupportLoaderManager().restartLoader(0, null, MainActivity.this);
             }
         }
@@ -640,6 +662,7 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
         // Handle action buttons
         switch (item.getItemId()) {
             case R.id.action_refresh:
+                create_progressDialog(getString(R.string.sync_message));
                 Bundle settingsBundle = new Bundle();
                 settingsBundle.putBoolean(
                         ContentResolver.SYNC_EXTRAS_MANUAL, true);
@@ -777,6 +800,8 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
 
         @Override
         public void onChange(boolean selfChange, Uri uri) {
+            if(null != progressDialog && progressDialog.isShowing())
+                progressDialog.dismiss();
             getSupportLoaderManager().restartLoader(0, null, MainActivity.this);
         }
     }
@@ -843,25 +868,38 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
                             }
                             mode.getMenu().findItem(R.id.action_copy).setVisible(false);
                             mode.getMenu().findItem(R.id.action_share).setVisible(false);
+                            mode.getMenu().findItem(R.id.action_delete).setVisible(true);
                             if (1 == folderflag && count == 1) {
                                 mode.getMenu().findItem(R.id.action_rename).setVisible(true);
                                 mode.getMenu().findItem(R.id.action_download).setVisible(false);
-                                return;
                             }
-                            if (1 == fileflag && count == 1) {
+                            else if (1 == fileflag && count == 1) {
                                 mode.getMenu().findItem(R.id.action_rename).setVisible(true);
                                 mode.getMenu().findItem(R.id.action_download).setVisible(true);
-                                return;
                             }
-                            if (((fileflag == 1 && folderflag == 1) ||
+                            else if (((fileflag == 1 && folderflag == 1) ||
                                     (fileflag == 0 && folderflag == 1)) ||
                                     (fileflag == 1 && folderflag == 0)) {
 
                                 mode.getMenu().findItem(R.id.action_rename).setVisible(false);
                                 mode.getMenu().findItem(R.id.action_download).setVisible(false);
-                                return;
                             }
                         }
+                        if(isTrash)
+                        {
+                            mode.getMenu().findItem(R.id.action_move).setVisible(false);
+                            mode.getMenu().findItem(R.id.action_rename).setVisible(false);
+                            mode.getMenu().findItem(R.id.action_download).setVisible(false);
+                            mode.getMenu().findItem(R.id.action_delete).setVisible(true);
+                        }
+                        if(isShare)
+                        {
+                            mode.getMenu().findItem(R.id.action_move).setVisible(false);
+                            mode.getMenu().findItem(R.id.action_rename).setVisible(false);
+                            mode.getMenu().findItem(R.id.action_download).setVisible(true);
+                            mode.getMenu().findItem(R.id.action_delete).setVisible(false);
+                        }
+
                     }
 
                     @Override

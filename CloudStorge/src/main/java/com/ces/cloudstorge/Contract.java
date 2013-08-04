@@ -22,6 +22,7 @@ public class Contract {
     public static final int PROJECTION_PARENT_FOLDER_ID = 6;
     public static final int PROJECTION_SHARE = 7;
     public static final int PROJECTION_SIZE = 8;
+    public static final int PROJECTION_ORIGIN_FOLDER = 9;
     public static final int TYPE_FILE = 0;
     public static final int TYPE_FOLDER = 1;
     public static final String UPLOAD_ACTION = "com.ces.cloudstorge.UploadActivity.UPLOAD_FILE";

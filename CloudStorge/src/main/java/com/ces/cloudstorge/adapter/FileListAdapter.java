@@ -12,7 +12,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.ces.cloudstorge.Contract;
 import com.ces.cloudstorge.FileDetailActivity;
+import com.ces.cloudstorge.MainActivity;
 import com.ces.cloudstorge.R;
 
 /**
@@ -20,12 +22,14 @@ import com.ces.cloudstorge.R;
  */
 public class FileListAdapter extends SimpleCursorAdapter {
     private ImageView fileImage;
-    private static final int COLUMN_MIME_TYPE = 0;
+    /*private static final int COLUMN_MIME_TYPE = 0;
     private static final int COLUMN_LAST_MODIFIED = 1;
     private static final int COLUMN_FILE_NAME = 3;
     private static final int COLUMN_FILE_ID = 4;
     private static final int COLUMN_FOLDER_ID = 5;
     private static final int COLUMN_PARENT_FOLDER_ID = 6;
+    private static final int COLUMN_SHARE = 7;
+    private static final int COLUMN_ORIGIN_FOLDER = 9;*/
     private LayoutInflater mInflater;
     private FragmentManager mFragmentManager;
     private Cursor mCursor;
@@ -95,24 +99,45 @@ public class FileListAdapter extends SimpleCursorAdapter {
                         R.layout.list_item, parent, false);
                 convertView.setTag(1);
             }
+            TextView fileName = (TextView) convertView.findViewById(R.id.list_file_name);
+            TextView lastm = (TextView) convertView.findViewById(R.id.list_last_modified);
+            TextView lastmtmp = (TextView) convertView.findViewById(R.id.list_lastmodified_tmp);
+            TextView parentFolderId = (TextView) convertView.findViewById(R.id.list_parentFolderId);
+            TextView folderId = (TextView) convertView.findViewById(R.id.list_folderId);
+            TextView fileId = (TextView) convertView.findViewById(R.id.list_fileId);
+            TextView imagefileId = (TextView) convertView.findViewById(R.id.list_image_fileId);
             fileImage = (ImageView) convertView.findViewById(R.id.fileImage);
             ImageView shareImage = (ImageView) convertView.findViewById(R.id.list_file_share);
             shareImage.setVisibility(View.VISIBLE);
             LinearLayout linearLayout = (LinearLayout) convertView.findViewById(R.id.list_share_line);
-            linearLayout.setVisibility(View.VISIBLE);
-            linearLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    TextView imagefileId = (TextView) view.findViewById(R.id.list_image_fileId);
-                    Intent intent = new Intent();
-                    intent.putExtra("file_id", imagefileId.getText());
-                    intent.setClass(mContext, FileDetailActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    mContext.startActivity(intent);
-
+            if(mCursor.getInt(Contract.PROJECTION_ORIGIN_FOLDER) == -20 || MainActivity.isTrash) {
+                linearLayout.setVisibility(View.GONE);
+                shareImage.setVisibility(View.GONE);
+                if(!MainActivity.isTrash) {
+                    lastmtmp.setText(R.string.share_from);
+                    lastm.setText(mCursor.getString(Contract.PROJECTION_SHARE).substring(9, mCursor.getString(Contract.PROJECTION_SHARE).length()));
                 }
-            });
-            if (null != (mime_type = mCursor.getString(COLUMN_MIME_TYPE))) {
+                else {
+                    lastmtmp.setText(R.string.lastmodified);
+                    lastm.setText(mCursor.getString(Contract.PROJECTION_LAST_MODIFIED));
+                }
+            } else {
+                lastmtmp.setText(R.string.lastmodified);
+                linearLayout.setVisibility(View.VISIBLE);
+                linearLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        TextView imagefileId = (TextView) view.findViewById(R.id.list_image_fileId);
+                        Intent intent = new Intent();
+                        intent.putExtra("file_id", imagefileId.getText());
+                        intent.setClass(mContext, FileDetailActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        mContext.startActivity(intent);
+                    }
+                });
+                lastm.setText(mCursor.getString(Contract.PROJECTION_LAST_MODIFIED));
+            }
+            if (null != (mime_type = mCursor.getString(Contract.PROJECTION_MIME_TYPE))) {
                 if ("".equals(mime_type)) {
                     fileImage.setImageResource(R.drawable.icon_folder);
                     shareImage.setVisibility(View.GONE);
@@ -125,18 +150,11 @@ public class FileListAdapter extends SimpleCursorAdapter {
             } else {
                 fileImage.setImageResource(R.drawable.icon_default);
             }
-            TextView fileName = (TextView) convertView.findViewById(R.id.list_file_name);
-            TextView lastm = (TextView) convertView.findViewById(R.id.list_last_modified);
-            TextView parentFolderId = (TextView) convertView.findViewById(R.id.list_parentFolderId);
-            TextView folderId = (TextView) convertView.findViewById(R.id.list_folderId);
-            TextView fileId = (TextView) convertView.findViewById(R.id.list_fileId);
-            TextView imagefileId = (TextView) convertView.findViewById(R.id.list_image_fileId);
-            imagefileId.setText(mCursor.getInt(COLUMN_FILE_ID) + "");
-            fileName.setText(mCursor.getString(COLUMN_FILE_NAME));
-            lastm.setText(mCursor.getString(COLUMN_LAST_MODIFIED));
-            parentFolderId.setText(mCursor.getInt(COLUMN_PARENT_FOLDER_ID) + "");
-            folderId.setText(mCursor.getInt(COLUMN_FOLDER_ID) + "");
-            fileId.setText(mCursor.getInt(COLUMN_FILE_ID) + "");
+            imagefileId.setText(mCursor.getInt(Contract.PROJECTION_FILE_ID) + "");
+            fileName.setText(mCursor.getString(Contract.PROJECTION_NAME));
+            parentFolderId.setText(mCursor.getInt(Contract.PROJECTION_PARENT_FOLDER_ID) + "");
+            folderId.setText(mCursor.getInt(Contract.PROJECTION_FOLDER_ID) + "");
+            fileId.setText(mCursor.getInt(Contract.PROJECTION_FILE_ID) + "");
             parentFolderId.setVisibility(View.GONE);
             folderId.setVisibility(View.GONE);
             fileId.setVisibility(View.GONE);
