@@ -37,6 +37,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -810,6 +811,10 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
     public static class ContentFragment extends Fragment {
         private ListView listView;
         private Map<Integer, Integer> mapSelected;
+        private FrameLayout mProfileHeaderContainer;
+        private View mProfileHeader;
+        private TextView mProfileTitle;
+        private TextView mCounterHeaderView;
 
         public ContentFragment() {
         }
@@ -828,8 +833,16 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
             } else {
                 View currentView = inflater.inflate(R.layout.fragment_filelist, container, false);
                 mapSelected = new HashMap<Integer, Integer>();
+
                 // 文件夹、文件列表view
                 listView = (ListView) currentView.findViewById(R.id.listView);
+                mProfileHeaderContainer = new FrameLayout(inflater.getContext());
+                mProfileHeader = inflater.inflate(R.layout.list_header, null, false);
+                mCounterHeaderView = (TextView) mProfileHeader.findViewById(R.id.contacts_count);
+                mProfileTitle = (TextView) mProfileHeader.findViewById(R.id.profile_title);
+                mProfileTitle.setAllCaps(true);
+                mProfileHeaderContainer.addView(mProfileHeader);
+                listView.addHeaderView(mProfileHeaderContainer, null, false);
                 // 设置为多选模式
                 listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
                 // 多选模式响应
