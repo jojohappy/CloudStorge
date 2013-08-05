@@ -28,16 +28,11 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -55,9 +50,7 @@ import com.ces.cloudstorge.provider.CloudStorgeContract;
 import com.ces.cloudstorge.util.CommonUtil;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.List;
 
 
 public class MainActivity extends FragmentActivity implements LoaderManager.LoaderCallbacks<Cursor>,
@@ -65,7 +58,7 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
         RenameFileDialog.RenameFileDialogListener, FolderListDialog.FolderListDialogListener {
     //private SimpleCursorAdapter mAdapter;
     // 文件夹、文件列表adapter
-    private static FileListAdapter mAdapter;
+    public static FileListAdapter mAdapter;
     // 左侧菜单栏
     private DrawerLayout mDrawerLayout;
     // actionBar对象
@@ -140,21 +133,24 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
     // 是否为共享文件夹
     public static Boolean isShare;
     // 是否是空文件夹
-    private static Boolean isEmptyFolder;
+    public static Boolean isEmptyFolder;
     // 当前目录编号
-    private static int currentFolderId;
+    public static int currentFolderId;
     // 父目录编号
-    private static int parentFolderId;
+    public static int parentFolderId;
     // context
-    private static Context mContext;
+    public static Context mContext;
     // 碎片管理
-    private static FragmentManager fragmentManager;
+    public static FragmentManager fragmentManager;
     // loader回调接口
-    private static LoaderManager.LoaderCallbacks<Cursor> callbackLoader;
+    public static LoaderManager.LoaderCallbacks<Cursor> callbackLoader;
     // loader管理
-    private static LoaderManager loadmanager;
+    public static LoaderManager loadmanager;
     // ProgressDialog对象
     private ProgressDialog progressDialog;
+
+    // 目录等级列表
+    public static List<String> listFolder;
 
     // activity onCreate
     @Override
@@ -182,6 +178,7 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
             currentFolderId = Contract.FOLDER_SHARE;
             parentFolderId = Contract.FOLDER_ROOT;
         }
+        listFolder = new ArrayList<String>();
         LayoutInflater inflater = getLayoutInflater();
         mContext = getApplicationContext();
         fragmentManager = getSupportFragmentManager();
@@ -189,6 +186,8 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
         loadmanager = getSupportLoaderManager();
         mSortType = SORT_NAME;
 
+        // 查询目录列表
+        listFolder.add(getString(R.string.app_activity_title));
         // 初始化ActionBar
         ActionBar actionBar = getActionBar();
         // 设置home图标点击
@@ -235,7 +234,12 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
         // 查看网络连接状态
         ConnectionChangeReceiver.isHasConnect = ConnectionChangeReceiver.check_networkStatus(this);
         // 初始化碎片布局
-        initFragment(false);
+        if (!ConnectionChangeReceiver.isHasConnect) {
+            create_tipDialog(R.string.terrible, R.string.network_error);
+        } else {
+            initFragment(false);
+            call_syncAdapter();
+        }
     }
 
     // 创建选择菜单
@@ -245,9 +249,9 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
         mDrawerLayout.isDrawerOpen(mDrawList);
         getMenuInflater().inflate(R.menu.main, menu);
         MenuItem actionNew = menu.findItem(R.id.action_new);
-        if(isRoot)
+        if (isRoot)
             actionNew.setVisible(true);
-        if(isTrash || isShare)
+        if (isTrash || isShare)
             actionNew.setVisible(false);
         return true;
     }
@@ -621,19 +625,25 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
                         isRoot = true;
                         isTrash = false;
                         isShare = false;
+                        listFolder.clear();
+                        listFolder.add(getString(R.string.app_activity_title));
                         break;
                     case Contract.DRAWER_SHARE:
                         isRoot = false;
                         isTrash = false;
                         isShare = true;
+                        listFolder.clear();
+                        listFolder.add(getString(R.string.share_folder));
                         break;
                     case Contract.DRAWER_TRASH:
                         isRoot = false;
                         isTrash = true;
                         isShare = false;
+                        listFolder.clear();
+                        listFolder.add(getString(R.string.trash_folder));
                         break;
                 }
-                //invalidateOptionsMenu();
+                changeListHeader();
                 getSupportLoaderManager().restartLoader(0, null, MainActivity.this);
             }
         }
@@ -654,6 +664,16 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
+    private void call_syncAdapter() {
+        create_progressDialog(getString(R.string.sync_message));
+        Bundle settingsBundle = new Bundle();
+        settingsBundle.putBoolean(
+                ContentResolver.SYNC_EXTRAS_MANUAL, true);
+        settingsBundle.putBoolean(
+                ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+        ContentResolver.requestSync(current_account, Contract.CONTENT_AUTHORITY, settingsBundle);
+    }
+
     // 选择菜单响应事件
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -663,13 +683,7 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
         // Handle action buttons
         switch (item.getItemId()) {
             case R.id.action_refresh:
-                create_progressDialog(getString(R.string.sync_message));
-                Bundle settingsBundle = new Bundle();
-                settingsBundle.putBoolean(
-                        ContentResolver.SYNC_EXTRAS_MANUAL, true);
-                settingsBundle.putBoolean(
-                        ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
-                ContentResolver.requestSync(current_account, Contract.CONTENT_AUTHORITY, settingsBundle);
+                call_syncAdapter();
                 return true;
             case R.id.action_new:
                 create_addDialog();
@@ -691,12 +705,24 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
         if (isRoot || isTrash) {
             create_exitDialog();
         } else {
+            listFolder.remove(listFolder.size() - 1);
             isRoot = parentFolderId == Contract.FOLDER_ROOT ? true : false;
             currentFolderId = parentFolderId;
+            changeListHeader();
             // 查询上级目录的上级目录
             parentFolderId = get_assignParentFolder(currentFolderId);
             getSupportLoaderManager().restartLoader(0, null, MainActivity.this);
         }
+    }
+
+    public static void changeListHeader()
+    {
+        ListHeaderFragment listFragment = (ListHeaderFragment) fragmentManager.findFragmentByTag("listHeader");
+        String folder_trace = "";
+        for (int i = 0; i < listFolder.size(); i++) {
+            folder_trace += "/" + listFolder.get(i);
+        }
+        listFragment.set_folderTrace(folder_trace);
     }
 
     // 创建关于对话框
@@ -778,14 +804,20 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
 
     // 碎片布局初始化
     private void initFragment(boolean isEmpty) {
+        Fragment fragmentTmp;
+        Fragment fragmentTmp1;
         Fragment fragment = new ContentFragment();
+        Fragment fragmentHeader = new ListHeaderFragment();
         Bundle args = new Bundle();
         args.putBoolean("isEmpty", isEmpty);
         fragment.setArguments(args);
         FragmentTransaction f = fragmentManager.beginTransaction();
-        FragmentTransaction f1 = f.replace(R.id.content_frame, fragment);
+        if (null != (fragmentTmp = fragmentManager.findFragmentByTag("listTag")))
+            f.remove(fragmentTmp);
+        if (null != (fragmentTmp1 = fragmentManager.findFragmentByTag("listHeader")))
+            f.remove(fragmentTmp1);
+        FragmentTransaction f1 = f.add(R.id.content_frame, fragment, "listTag").add(R.id.content_frame, fragmentHeader, "listHeader");
         f1.commitAllowingStateLoss();
-
     }
 
     // ContentProvider通知
@@ -801,256 +833,13 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
 
         @Override
         public void onChange(boolean selfChange, Uri uri) {
-            if(null != progressDialog && progressDialog.isShowing())
+            if (null != progressDialog && progressDialog.isShowing())
                 progressDialog.dismiss();
             getSupportLoaderManager().restartLoader(0, null, MainActivity.this);
         }
     }
 
-    // 碎片布局类
-    public static class ContentFragment extends Fragment {
-        private ListView listView;
-        private Map<Integer, Integer> mapSelected;
-        private FrameLayout mProfileHeaderContainer;
-        private View mProfileHeader;
-        private TextView mProfileTitle;
-        private TextView mCounterHeaderView;
-
-        public ContentFragment() {
-        }
-
-        // 创建view
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            boolean isEmpty = getArguments().getBoolean("isEmpty");
-            // 当文件夹内容为空时，替换碎片空布局
-            if (isEmpty) {
-                mapSelected = new HashMap<Integer, Integer>();
-                isEmptyFolder = true;
-                View currentView = inflater.inflate(R.layout.list_empty, container, false);
-                return currentView;
-            } else {
-                View currentView = inflater.inflate(R.layout.fragment_filelist, container, false);
-                mapSelected = new HashMap<Integer, Integer>();
-
-                // 文件夹、文件列表view
-                listView = (ListView) currentView.findViewById(R.id.listView);
-                mProfileHeaderContainer = new FrameLayout(inflater.getContext());
-                mProfileHeader = inflater.inflate(R.layout.list_header, null, false);
-                mCounterHeaderView = (TextView) mProfileHeader.findViewById(R.id.contacts_count);
-                mProfileTitle = (TextView) mProfileHeader.findViewById(R.id.profile_title);
-                mProfileTitle.setAllCaps(true);
-                mProfileHeaderContainer.addView(mProfileHeader);
-                listView.addHeaderView(mProfileHeaderContainer, null, false);
-                // 设置为多选模式
-                listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
-                // 多选模式响应
-                listView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
-                    private int count = 0;
-
-                    // 列选择状态变更
-                    @Override
-                    public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
-                        // Here you can do something when items are selected/de-selected,
-                        Cursor cursor = mAdapter.getCursor();
-                        cursor.moveToPosition(position);
-                        int folderId = cursor.getInt(Contract.PROJECTION_FOLDER_ID);
-                        if (checked) {
-                            mapSelected.put(position, folderId);
-                            count++;
-                        } else {
-                            mapSelected.remove(position);
-                            count--;
-                        }
-                        if (count == 0) {
-                            mode.finish();
-                            return;
-                        }
-                        mode.setTitle(mContext.getString(R.string.cab_selectd, count));
-                        {
-                            int folderflag = 0;
-                            int fileflag = 0;
-                            Iterator it = mapSelected.entrySet().iterator();
-                            while (it.hasNext()) {
-                                Map.Entry selected = (Map.Entry) it.next();
-                                if (-1 == selected.getValue())
-                                    fileflag = 1;
-                                if (-1 != selected.getValue())
-                                    folderflag = 1;
-                            }
-                            mode.getMenu().findItem(R.id.action_copy).setVisible(false);
-                            mode.getMenu().findItem(R.id.action_share).setVisible(false);
-                            mode.getMenu().findItem(R.id.action_delete).setVisible(true);
-                            if (1 == folderflag && count == 1) {
-                                mode.getMenu().findItem(R.id.action_rename).setVisible(true);
-                                mode.getMenu().findItem(R.id.action_download).setVisible(false);
-                            }
-                            else if (1 == fileflag && count == 1) {
-                                mode.getMenu().findItem(R.id.action_rename).setVisible(true);
-                                mode.getMenu().findItem(R.id.action_download).setVisible(true);
-                            }
-                            else if (((fileflag == 1 && folderflag == 1) ||
-                                    (fileflag == 0 && folderflag == 1)) ||
-                                    (fileflag == 1 && folderflag == 0)) {
-
-                                mode.getMenu().findItem(R.id.action_rename).setVisible(false);
-                                mode.getMenu().findItem(R.id.action_download).setVisible(false);
-                            }
-                        }
-                        if(isTrash)
-                        {
-                            mode.getMenu().findItem(R.id.action_move).setVisible(false);
-                            mode.getMenu().findItem(R.id.action_rename).setVisible(false);
-                            mode.getMenu().findItem(R.id.action_download).setVisible(false);
-                            mode.getMenu().findItem(R.id.action_delete).setVisible(true);
-                        }
-                        if(isShare)
-                        {
-                            mode.getMenu().findItem(R.id.action_move).setVisible(false);
-                            mode.getMenu().findItem(R.id.action_rename).setVisible(false);
-                            mode.getMenu().findItem(R.id.action_download).setVisible(true);
-                            mode.getMenu().findItem(R.id.action_delete).setVisible(false);
-                        }
-
-                    }
-
-                    @Override
-                    public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-                        FragmentManager fm = fragmentManager;
-                        String filelist = "";
-                        String folderlist = "";
-                        String oldname = "";
-                        Cursor cursor;
-                        Iterator it = mapSelected.entrySet().iterator();
-                        while (it.hasNext()) {
-                            Map.Entry ma = (Map.Entry) it.next();
-                            if (-1 == ma.getValue()) {
-                                cursor = mAdapter.getCursor();
-                                cursor.moveToPosition(Integer.parseInt(ma.getKey() + ""));
-                                filelist += cursor.getInt(Contract.PROJECTION_FILE_ID) + "" + ",";
-                            } else {
-                                folderlist += ma.getValue() + "" + ",";
-                            }
-                            if (item.getItemId() == R.id.action_rename) {
-                                Cursor temp = mAdapter.getCursor();
-                                temp.moveToPosition(Integer.parseInt(ma.getKey() + ""));
-                                oldname = temp.getString(Contract.PROJECTION_NAME);
-                            }
-                        }
-                        switch (item.getItemId()) {
-                            case R.id.action_rename:
-                                int type;
-                                int id;
-                                if ("".equals(filelist)) {
-                                    type = Contract.TYPE_FOLDER;
-                                    id = Integer.parseInt(folderlist.substring(0, folderlist.indexOf(",")));
-                                } else {
-                                    type = Contract.TYPE_FILE;
-                                    id = Integer.parseInt(filelist.substring(0, filelist.indexOf(",")));
-                                }
-                                RenameFileDialog renameFileDialog = new RenameFileDialog();
-                                Bundle rf = new Bundle();
-                                rf.putString("oldername", oldname);
-                                rf.putInt("type", type);
-                                rf.putInt("id", id);
-                                renameFileDialog.setArguments(rf);
-                                renameFileDialog.show(fm, "renamefile");
-                                break;
-                            case R.id.action_delete:
-                                DeleteFileDialog deleteFileDialog = new DeleteFileDialog();
-                                Bundle db = new Bundle();
-                                db.putString("filelist", filelist);
-                                db.putString("folderlist", folderlist);
-                                deleteFileDialog.setArguments(db);
-                                deleteFileDialog.show(fm, "deletefile");
-                                break;
-                            case R.id.action_move:
-                                FolderListDialog folderListDialog = new FolderListDialog();
-                                Bundle fld = new Bundle();
-                                fld.putString("currentUser", current_account.name);
-                                fld.putString("filelist", filelist);
-                                fld.putString("folderlist", folderlist);
-                                fld.putInt("currentFolderId", Contract.FOLDER_ROOT);
-                                fld.putInt("parentFolderId", Contract.FOLDER_ROOT);
-                                folderListDialog.setArguments(fld);
-                                folderListDialog.show(fm, "movefile");
-                                break;
-                            case R.id.action_download:
-                                Intent intent = new Intent();
-                                intent.putExtra("fileId", Integer.parseInt(filelist.substring(0, filelist.indexOf(","))));
-                                intent.setClass(mContext, DownloadActivity.class);
-                                startActivity(intent);
-                                break;
-                            case R.id.action_share:
-                                break;
-                            default:
-                                mode.finish();
-                                return false;
-                        }
-                        mode.finish();
-                        return true;
-                    }
-
-                    @Override
-                    public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-                        MenuInflater inflater = mode.getMenuInflater();
-                        inflater.inflate(R.menu.context_file_menu, menu);
-                        return true;
-                    }
-
-                    @Override
-                    public void onDestroyActionMode(ActionMode mode) {
-                        // Here you can make any necessary updates to the activity when
-                        // the CAB is removed. By default, selected items are deselected/unchecked.
-                        count = 0;
-                        mapSelected.clear();
-                    }
-
-                    @Override
-                    public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-                        // Here you can perform updates to the CAB due to
-                        // an invalidate() request
-                        return false;
-                    }
-                });
-
-                // 初始化文件夹、文件列表adapter
-                mAdapter = new FileListAdapter(mContext,
-                        R.layout.list_item, null,
-                        fromColumns, toViews, 0, fragmentManager);
-                listView.setAdapter(mAdapter);
-                // 初始化load数据
-                loadmanager.initLoader(0, null, callbackLoader);
-                // 文件夹、文件列表点击响应事件
-                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                        TextView viewFileId = (TextView) view.findViewById(R.id.list_fileId);
-                        if (viewFileId.getText().equals("-1")) {
-                            TextView viewFolderId = (TextView) view.findViewById(R.id.list_folderId);
-                            TextView viewParentFolderId = (TextView) view.findViewById(R.id.list_parentFolderId);
-                            currentFolderId = Integer.parseInt(viewFolderId.getText().toString());
-                            if (isRoot)
-                                parentFolderId = Contract.FOLDER_ROOT;
-                            else
-                                parentFolderId = Integer.parseInt(viewParentFolderId.getText().toString());
-                            isRoot = false;
-                            loadmanager.restartLoader(0, null, callbackLoader);
-                        } else {
-                            // 下载文件
-                            Intent intent = new Intent();
-                            intent.putExtra("fileId", Integer.parseInt(viewFileId.getText().toString()));
-                            intent.setClass(mContext, DownloadActivity.class);
-                            startActivity(intent);
-                        }
-                    }
-                });
-                return currentView;
-            }
-        }
-    }
-
+    // 添加文件夹异步接口
     private class AddFolderAsyncTask extends AsyncTask<String, Void, Integer> {
         private String folderName;
         private int parentFolderId;

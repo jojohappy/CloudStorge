@@ -10,6 +10,6 @@
           android:layout_alignWithParentIfMissing="false"
           android:layout_alignParentBottom="false"
           android:layout_alignParentTop="true"
-        >
+          android:smoothScrollbar="false">
 
 </ListView>

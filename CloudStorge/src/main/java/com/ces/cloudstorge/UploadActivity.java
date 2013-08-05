@@ -170,7 +170,7 @@ public class UploadActivity extends FragmentActivity implements FolderListDialog
         }
     }
 
-    private void insert_newFile(int newFileId) {
+    private void insert_newFile(int newFileId, String mime_type) {
         // 插入新数据
         try {
             ArrayList<ContentProviderOperation> batch = new ArrayList<ContentProviderOperation>();
@@ -178,7 +178,7 @@ public class UploadActivity extends FragmentActivity implements FolderListDialog
                     .withValue(CloudStorgeContract.CloudStorge.COLUMN_NAME_FILE_ID, newFileId)
                     .withValue(CloudStorgeContract.CloudStorge.COLUMN_NAME_FOLDER_ID, destFolderId)
                     .withValue(CloudStorgeContract.CloudStorge.COLUMN_NAME_NAME, uploadFile.getName())
-                    .withValue(CloudStorgeContract.CloudStorge.COLUMN_NAME_MIME_TYPE, "default")
+                    .withValue(CloudStorgeContract.CloudStorge.COLUMN_NAME_MIME_TYPE, mime_type)
                     .withValue(CloudStorgeContract.CloudStorge.COLUMN_NAME_SIZE, uploadFile.length())
                     .withValue(CloudStorgeContract.CloudStorge.COLUMN_NAME_CREATE_TIME, CommonUtil.get_currentDateString())
                     .withValue(CloudStorgeContract.CloudStorge.COLUMN_NAME_LAST_MODIFIED, CommonUtil.get_currentDateString())
@@ -217,6 +217,7 @@ public class UploadActivity extends FragmentActivity implements FolderListDialog
         private String UPLOAD_URL = "http://rd.114.chinaetek.com:18081/file/upload";
         private ProgressDialog progressDialog;
         private int newFileId;
+        private String mime_type;
 
         @Override
         protected void onPreExecute() {
@@ -238,7 +239,7 @@ public class UploadActivity extends FragmentActivity implements FolderListDialog
             if (progressDialog.isShowing())
                 progressDialog.dismiss();
             if (result == 0) {
-                insert_newFile(newFileId);
+                insert_newFile(newFileId, mime_type);
                 create_uploadDialog(getString(R.string.upload_title), getString(R.string.upload_success));
             } else {
                 create_uploadDialog(getString(R.string.terrible), getString(R.string.upload_error));
@@ -284,7 +285,9 @@ public class UploadActivity extends FragmentActivity implements FolderListDialog
                 dos.writeBytes("android" + lineEnd);
                 dos.writeBytes(twoHyphens + boundary + lineEnd);
                 dos.writeBytes("Content-Disposition: form-data; name=\"attachment\"; filename=\"");
-                dos.writeUTF(file.getName());
+                byte[] filenamebuf = file.getName().getBytes("UTF-8");
+                //dos.writeUTF(file.getName());
+                dos.write(filenamebuf, 0, filenamebuf.length);
                 dos.writeBytes("\"" + lineEnd);
                 dos.writeBytes(lineEnd);
 
@@ -309,10 +312,11 @@ public class UploadActivity extends FragmentActivity implements FolderListDialog
                     while ((ch = in.read()) != -1) {
                         sb2.append((char) ch);
                     }
-                    ;
+
                     JSONObject jsonObject = new JSONObject(sb2.toString());
                     result = jsonObject.getInt("result");
                     newFileId = jsonObject.getInt("file_id");
+                    mime_type = jsonObject.getString("mime_type");
                 } else
                     result = -1;
                 fileInputStream.close();

@@ -110,14 +110,13 @@ public class FileListAdapter extends SimpleCursorAdapter {
             ImageView shareImage = (ImageView) convertView.findViewById(R.id.list_file_share);
             shareImage.setVisibility(View.VISIBLE);
             LinearLayout linearLayout = (LinearLayout) convertView.findViewById(R.id.list_share_line);
-            if(mCursor.getInt(Contract.PROJECTION_ORIGIN_FOLDER) == -20 || MainActivity.isTrash) {
+            if (mCursor.getInt(Contract.PROJECTION_ORIGIN_FOLDER) == -20 || MainActivity.isTrash) {
                 linearLayout.setVisibility(View.GONE);
                 shareImage.setVisibility(View.GONE);
-                if(!MainActivity.isTrash) {
+                if (!MainActivity.isTrash) {
                     lastmtmp.setText(R.string.share_from);
                     lastm.setText(mCursor.getString(Contract.PROJECTION_SHARE).substring(9, mCursor.getString(Contract.PROJECTION_SHARE).length()));
-                }
-                else {
+                } else {
                     lastmtmp.setText(R.string.lastmodified);
                     lastm.setText(mCursor.getString(Contract.PROJECTION_LAST_MODIFIED));
                 }

@@ -79,6 +79,9 @@
     <string name="choose_upload_app">选择要使用的应用</string>
     <string name="share_from">分享自:</string>
     <string name="sync_message">正在为您同步文件,请稍候...</string>
+    <string name="network_error">未找到网络连接,请检查...</string>
+    <string name="share_folder">共享文件夹</string>
+    <string name="trash_folder">回收站</string>
 
 
 </resources>
