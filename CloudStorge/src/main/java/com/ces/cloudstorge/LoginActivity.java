@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.ces.cloudstorge.network.CloudStorgeRestUtilities;
+import com.ces.cloudstorge.util.CommonUtil;
 
 public class LoginActivity extends Activity {
     /**
@@ -152,6 +153,7 @@ public class LoginActivity extends Activity {
         Log.i(TAG, "finishLogin()");
         final Account account = new Account(mEmail, Contract.ACCOUNT_TYPE);
         mAccountManager.addAccountExplicitly(account, mPassword, null);
+        mAccountManager.setAuthToken(account, "all", authToken);
         // 跳转到MainActivity
         final Intent intent = new Intent();
         intent.setClass(this, MainActivity.class);
@@ -171,6 +173,8 @@ public class LoginActivity extends Activity {
             finishLogin(authToken);
         } else {
             Log.e(TAG, "onAuthenticationResult: failed to authenticate");
+            showProgress(false);
+            CommonUtil.create_tipDialog(this, getString(R.string.terrible), getString(R.string.login_error));
         }
     }
 

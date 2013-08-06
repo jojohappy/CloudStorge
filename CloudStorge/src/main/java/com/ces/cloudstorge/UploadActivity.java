@@ -23,6 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ces.cloudstorge.Dialog.FolderListDialog;
+import com.ces.cloudstorge.network.CloudStorgeRestUtilities;
 import com.ces.cloudstorge.provider.CloudStorgeContract;
 import com.ces.cloudstorge.util.CommonUtil;
 
@@ -214,7 +215,7 @@ public class UploadActivity extends FragmentActivity implements FolderListDialog
     }
 
     public class UploadAsyncTask extends AsyncTask<String, String, Integer> {
-        private String UPLOAD_URL = "http://rd.114.chinaetek.com:18081/file/upload";
+       //private String UPLOAD_URL = "http://rd.114.chinaetek.com:18081/file/upload";
         private ProgressDialog progressDialog;
         private int newFileId;
         private String mime_type;
@@ -265,15 +266,17 @@ public class UploadActivity extends FragmentActivity implements FolderListDialog
                 File file = new File(path);
                 FileInputStream fileInputStream = new FileInputStream(file);
                 Long fileSize = file.length();
-                URL url = new URL(UPLOAD_URL);
+                URL url = new URL(CloudStorgeRestUtilities.UPLOAD_URL);
                 conn = (HttpURLConnection) url.openConnection();
                 conn.setDoInput(true);
                 conn.setDoOutput(true);
                 conn.setUseCaches(false);
                 conn.setRequestMethod("POST");
                 conn.setRequestProperty("Connection", "Keep-Alive");
+                conn.setRequestProperty("User-Agent", Contract.USER_AGENT);
                 conn.setRequestProperty("Charsert", "UTF-8");
                 conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
+                conn.setRequestProperty("Authorization", CloudStorgeRestUtilities.getAuthToken());
                 dos = new DataOutputStream(conn.getOutputStream());
                 dos.writeBytes(twoHyphens + boundary + lineEnd);
                 dos.writeBytes("Content-Disposition: form-data; name=\"current_folder_id\"" + lineEnd);

@@ -49,7 +49,7 @@ public class CloudStorgeProcessor {
                 syncResult.stats.numInserts++;
             }
             mContentResolver.applyBatch(Contract.CONTENT_AUTHORITY, batch);
-            mContentResolver.notifyChange(CloudStorgeContract.CloudStorge.CONTENT_URI, null, false);
+            //mContentResolver.notifyChange(CloudStorgeContract.CloudStorge.CONTENT_URI, null, false);
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (RemoteException e) {
@@ -57,6 +57,7 @@ public class CloudStorgeProcessor {
         } catch (OperationApplicationException e) {
             e.printStackTrace();
         }
+        mContentResolver.notifyChange(CloudStorgeContract.CloudStorge.CONTENT_URI, null, false);
         return 0;
     }
 }

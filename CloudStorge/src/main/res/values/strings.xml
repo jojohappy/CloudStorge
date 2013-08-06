@@ -82,6 +82,8 @@
     <string name="network_error">未找到网络连接,请检查...</string>
     <string name="share_folder">共享文件夹</string>
     <string name="trash_folder">回收站</string>
+    <string name="login_error">登录失败,用户名或密码错误!</string>
+
 
 
 </resources>

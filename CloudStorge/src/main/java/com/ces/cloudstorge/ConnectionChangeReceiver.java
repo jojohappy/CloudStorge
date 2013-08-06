@@ -21,10 +21,10 @@ public class ConnectionChangeReceiver extends BroadcastReceiver {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetInfo = connectivityManager.getActiveNetworkInfo();
         NetworkInfo mobNetInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-        if (activeNetInfo != null) {
+        if (null != activeNetInfo && activeNetInfo.getState() == NetworkInfo.State.CONNECTED) {
             return true;
         }
-        if (mobNetInfo != null) {
+        if (null != mobNetInfo && mobNetInfo.getState() == NetworkInfo.State.CONNECTED) {
             return true;
         }
         return false;

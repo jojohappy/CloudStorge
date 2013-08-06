@@ -1,6 +1,7 @@
 package com.ces.cloudstorge;
 
 import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -152,6 +153,8 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
     // 目录等级列表
     public static List<String> listFolder;
 
+    public static AccountManager am;
+
     // activity onCreate
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -159,6 +162,7 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
         setContentView(R.layout.activity_main);
         // 从上一个activity中获得当前账户对象
         current_account = (Account) getIntent().getExtras().get("current_account");
+        am = AccountManager.get(this);
         // 从上一个activity中获得是否是当前目录
         isRoot = (Boolean) getIntent().getExtras().get("isRoot");
         isTrash = false;
@@ -231,13 +235,12 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
         // 注册ContentProvider回调事件
         mCloudStorgeObserver = new CloudStorgeObserver(new Handler());
         getContentResolver().registerContentObserver(CloudStorgeContract.CloudStorge.CONTENT_URI, true, mCloudStorgeObserver);
-        // 查看网络连接状态
-        ConnectionChangeReceiver.isHasConnect = ConnectionChangeReceiver.check_networkStatus(this);
+
         // 初始化碎片布局
+        initFragment(false);
         if (!ConnectionChangeReceiver.isHasConnect) {
             create_tipDialog(R.string.terrible, R.string.network_error);
         } else {
-            initFragment(false);
             call_syncAdapter();
         }
     }
@@ -665,6 +668,11 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
     }
 
     private void call_syncAdapter() {
+        if(!ConnectionChangeReceiver.isHasConnect)
+        {
+            create_tipDialog(R.string.terrible, R.string.network_error);
+            return;
+        }
         create_progressDialog(getString(R.string.sync_message));
         Bundle settingsBundle = new Bundle();
         settingsBundle.putBoolean(

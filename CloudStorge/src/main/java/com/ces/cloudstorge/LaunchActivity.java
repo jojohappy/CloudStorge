@@ -33,6 +33,8 @@ public class LaunchActivity extends Activity {
                     intent.putExtra("isRoot", true);
                     intent.setClass(LaunchActivity.this, MainActivity.class);
                 }
+                // 查看网络连接状态
+                ConnectionChangeReceiver.isHasConnect = ConnectionChangeReceiver.check_networkStatus(LaunchActivity.this);
                 startActivity(intent);
                 finish();
             }

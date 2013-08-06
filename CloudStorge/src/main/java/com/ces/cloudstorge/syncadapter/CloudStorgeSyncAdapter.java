@@ -1,6 +1,7 @@
 package com.ces.cloudstorge.syncadapter;
 
 import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
@@ -9,6 +10,7 @@ import android.content.SyncResult;
 import android.os.Bundle;
 
 import com.ces.cloudstorge.CloudStorgeProcessor;
+import com.ces.cloudstorge.MainActivity;
 import com.ces.cloudstorge.network.CloudStorgeRestUtilities;
 
 import org.json.JSONObject;
@@ -24,7 +26,8 @@ public class CloudStorgeSyncAdapter extends AbstractThreadedSyncAdapter {
     @Override
     public void onPerformSync(Account account, Bundle bundle, String authority, ContentProviderClient contentProviderClient, SyncResult syncResult) {
         ContentResolver contentResolver = getContext().getContentResolver();
-        JSONObject jobject = CloudStorgeRestUtilities.syncAllContent(account.name);
+        AccountManager am = AccountManager.get(getContext());
+        JSONObject jobject = CloudStorgeRestUtilities.syncAllContent(account.name, am.peekAuthToken(account, "all"));
         int result = CloudStorgeProcessor.syncContentData(jobject, authority, contentResolver, syncResult);
     }
 }

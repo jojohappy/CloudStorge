@@ -13,6 +13,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 
+import com.ces.cloudstorge.network.CloudStorgeRestUtilities;
 import com.ces.cloudstorge.provider.CloudStorgeContract;
 import com.ces.cloudstorge.util.CommonUtil;
 
@@ -64,7 +65,7 @@ public class DownloadActivity extends Activity {
     }
 
     public class DownloadAsyncTask extends AsyncTask<Integer, String, Integer> {
-        private String DOWNLOAD_URL = "http://rd.114.chinaetek.com:18080/file/download";
+        //private String DOWNLOAD_URL = "http://rd.114.chinaetek.com:18080/file/download";
         private ProgressDialog progressDialog;
         private Uri fileUri;
         //private Cursor cursor;
@@ -124,13 +125,15 @@ public class DownloadActivity extends Activity {
             FileOutputStream fileStream;
             try {
                 URL url = null;
-                url = new URL(DOWNLOAD_URL + "?file_id=" + fileId);
+                url = new URL(CloudStorgeRestUtilities.DOWNLOAD_URL + "?file_id=" + fileId);
                 conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("GET");
                 conn.setRequestProperty("Connection", "Keep-Alive");
+                conn.setRequestProperty("User-Agent", Contract.USER_AGENT);
+                conn.setRequestProperty("Authorization", CloudStorgeRestUtilities.getAuthToken());
                 conn.setUseCaches(false);
                 conn.connect();
-                int serverResponseCode = conn.getResponseCode();
+                conn.getResponseCode();
                 fileSize = cursor.getInt(Contract.PROJECTION_SIZE);
                 inStream = new BufferedInputStream(conn.getInputStream());
                 outFile = new File(Environment.getDataDirectory() + "/data/com.ces.cloudstorge/cache/" + cursor.getString(Contract.PROJECTION_NAME));
