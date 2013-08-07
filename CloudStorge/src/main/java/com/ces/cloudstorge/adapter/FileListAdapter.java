@@ -16,6 +16,7 @@ import com.ces.cloudstorge.Contract;
 import com.ces.cloudstorge.FileDetailActivity;
 import com.ces.cloudstorge.MainActivity;
 import com.ces.cloudstorge.R;
+import com.ces.cloudstorge.util.CommonUtil;
 
 /**
  * Created by MichaelDai on 13-7-25.
@@ -79,6 +80,7 @@ public class FileListAdapter extends SimpleCursorAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         mCursor.moveToPosition(position);
+        Integer mimeTypeIconResId;
         /*if(position == 1)
         {
             if(null == convertView)
@@ -144,7 +146,9 @@ public class FileListAdapter extends SimpleCursorAdapter {
                 } else if ("default".equals(mime_type)) {
                     fileImage.setImageResource(R.drawable.icon_default);
                 } else {
-                    fileImage.setImageResource(R.drawable.icon_default);
+                    if(null == (mimeTypeIconResId = CommonUtil.mime_type_icon.get(mime_type)))
+                        mimeTypeIconResId = R.drawable.icon_default;
+                    fileImage.setImageResource(mimeTypeIconResId);
                 }
             } else {
                 fileImage.setImageResource(R.drawable.icon_default);

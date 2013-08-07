@@ -22,7 +22,8 @@
                 android:layout_height="50dp"
                 android:id="@+id/fileImage"
                 android:layout_gravity="center"
-                android:adjustViewBounds="false"/>
+                android:adjustViewBounds="false"
+                />
     </LinearLayout>
 
     <TextView

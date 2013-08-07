@@ -41,7 +41,10 @@
                 android:name="com.ces.cloudstorge.authenticator.AuthenticatorActivity"
                 android:configChanges="orientation"
                 android:excludeFromRecents="true"
-                android:label="@string/app_name">
+                android:label="@string/app_name"
+                android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen"
+                android:windowSoftInputMode="adjustPan|stateVisible"
+                >
         </activity>
 
         <provider
@@ -88,12 +91,14 @@
         <activity
                 android:name="com.ces.cloudstorge.LoginActivity"
                 android:label="@string/app_name"
-                android:windowSoftInputMode="adjustResize|stateVisible">
+                android:windowSoftInputMode="adjustPan|stateVisible"
+                android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen">
         </activity>
         <activity
                 android:name="com.ces.cloudstorge.FileDetailActivity"
                 android:label="@string/title_activity_file_detail"
-                android:parentActivityName="com.ces.cloudstorge.MainActivity">
+                android:parentActivityName="com.ces.cloudstorge.MainActivity"
+                android:icon="@drawable/ic_actionbar">
         </activity>
         <activity
                 android:name="com.ces.cloudstorge.UploadActivity"

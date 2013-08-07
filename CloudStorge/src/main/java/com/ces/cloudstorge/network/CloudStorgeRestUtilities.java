@@ -72,6 +72,8 @@ public class CloudStorgeRestUtilities {
 
     public static final String UPLOAD_URL = BASE_URL + "/file/upload";
 
+    public static final String DELETE_FOLDER_URL = BASE_URL + "/list/delete";
+
     public static final String DOWNLOAD_URL = "http://rd.114.chinaetek.com:18080" + "/file/download";
 
     //public static String authToken;
@@ -90,7 +92,6 @@ public class CloudStorgeRestUtilities {
     public static String getAuthToken()
     {
         String auth = MainActivity.am.peekAuthToken(MainActivity.current_account, "all");
-        System.out.println("1111111111111==========" + auth);
         return "OAuth2 " + auth;
     }
 
@@ -244,6 +245,37 @@ public class CloudStorgeRestUtilities {
             e.printStackTrace();
         } catch (JSONException e) {
             e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static JSONObject deleteFileForever(String fileArray, String folderArray) {
+        final HttpResponse resp;
+        final ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("file_id", fileArray));
+        params.add(new BasicNameValuePair("folder_id", folderArray));
+        params.add(new BasicNameValuePair("is_forever", "1"));
+        final HttpEntity entity;
+        try {
+            entity = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+        } catch (final UnsupportedEncodingException e) {
+            throw new IllegalStateException(e);
+        }
+        final HttpPost post = new HttpPost(DELETE_FOLDER_URL);
+        post.addHeader(entity.getContentType());
+        post.addHeader("Authorization", getAuthToken());
+        post.setEntity(entity);
+        try {
+            resp = getHttpClient().execute(post);
+            if (resp.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+                HttpEntity resultEntity = resp.getEntity();
+                JSONObject result = new JSONObject(EntityUtils.toString(resultEntity));
+                return result;
+            }
+        } catch (final IOException e) {
+            return null;
+        } catch (JSONException e) {
+            return null;
         }
         return null;
     }

@@ -1,0 +1,117 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:divider="?android:attr/dividerHorizontal"
+              android:showDividers="middle">
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:fillViewport="true">
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                        xmlns:tools="http://schemas.android.com/tools"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/activity_horizontal_margin"
+                        android:paddingRight="@dimen/activity_horizontal_margin"
+                        android:paddingTop="@dimen/activity_vertical_margin"
+                        tools:context=".UploadActivity">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:id="@+id/upload_textView"
+                    android:layout_alignParentTop="true"
+                    android:paddingBottom="5dp"
+                    android:textSize="15dp"
+                    android:textColor="#363636"
+                    android:text="@string/upload_file_label"/>
+
+            <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="2dp"
+                    android:id="@+id/upload_imageView"
+                    android:layout_below="@+id/upload_textView"
+                    android:layout_alignParentLeft="true"
+                    android:src="@android:color/darker_gray"/>
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:id="@+id/upload_file_name"
+                    android:layout_below="@+id/upload_imageView"
+                    android:layout_alignLeft="@+id/upload_imageView"
+                    android:paddingTop="7dp"/>
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:id="@+id/upload_textView3"
+                    android:layout_below="@+id/upload_file_name"
+                    android:layout_alignLeft="@+id/upload_file_name"
+                    android:layout_marginTop="40dp"
+                    android:textSize="15dp"
+                    android:textColor="#363636"
+                    android:paddingBottom="5dp"
+                    android:text="@string/upload_file_location"/>
+
+            <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="2dp"
+                    android:id="@+id/imageView_upload2"
+                    android:layout_below="@+id/upload_textView3"
+                    android:layout_alignLeft="@+id/upload_textView3"
+                    android:src="@android:color/darker_gray"/>
+
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/imageView_upload2"
+                    android:layout_alignLeft="@+id/imageView_upload2"
+                    android:paddingBottom="20dp"
+                    android:clickable="true"
+                    android:id="@+id/upload_location"
+                    android:background="?android:selectableItemBackground">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:id="@+id/upload_file_location_text"
+                        android:layout_gravity="left|center_vertical"
+                        android:layout_marginTop="7dp"/>
+            </LinearLayout>
+        </RelativeLayout>
+    </ScrollView>
+
+    <LinearLayout
+            style="?android:attr/buttonBarStyle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+
+        <Button
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/cancel"
+                android:id="@+id/upload_cancel"/>
+
+        <Button
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/ok"
+                android:id="@+id/upload_ok"/>
+    </LinearLayout>
+</LinearLayout><!-- From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/layout/activity_upload.xml -->

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="?android:listPreferredItemHeightSmall"
+              android:orientation="horizontal"
+              android:showDividers="middle"
+              android:divider="?android:dividerVertical"
+              android:dividerPadding="8dp"
+              android:gravity="center">
+
+    <TextView
+            android:id="@+id/tenant_id_text"
+            style="?android:textAppearanceMedium"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:paddingLeft="?android:listPreferredItemPaddingLeft"/>
+
+    <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tenant_checkbox"
+            android:layout_gravity="center_vertical|right"
+            android:checked="false"
+            />
+
+</LinearLayout><!-- From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/layout/list_tenant_checked.xml -->

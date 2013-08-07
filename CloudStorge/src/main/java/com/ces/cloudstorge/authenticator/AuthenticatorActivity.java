@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ces.cloudstorge.Contract;
@@ -68,7 +69,8 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
         mLoginFormView = findViewById(R.id.login_form);
         mLoginStatusView = findViewById(R.id.login_status);
         mLoginStatusMessageView = (TextView) findViewById(R.id.login_status_message);
-
+        LinearLayout linearLayout = (LinearLayout)findViewById(R.id.login_linearlayout);
+        linearLayout.getBackground().setAlpha(45);
         mUsernameEdit = (EditText) findViewById(R.id.email);
         mPasswordEdit = (EditText) findViewById(R.id.password);
 
@@ -156,6 +158,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
         final Account account = new Account(mUsername, Contract.ACCOUNT_TYPE);
         if (mRequestNewAccount) {
             mAccountManager.addAccountExplicitly(account, mPassword, null);
+            mAccountManager.setAuthToken(account, "all", authToken);
             //ContentResolver.setSyncAutomatically(account, CloudStorgeContract.AUTHORITY, true);
         } else {
             mAccountManager.setPassword(account, mPassword);

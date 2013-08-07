@@ -50,6 +50,7 @@ public class FileDetailActivity extends Activity {
         int fileId = Integer.parseInt(getIntent().getExtras().getString("file_id"));
         fileStruct = get_fileStruct(fileId);
         setTitle(fileStruct.getName());
+
         hasTenant = 0;
         tenantsData = new HashMap<Integer, String>();
         TextView detailSize = (TextView) findViewById(R.id.detail_size);

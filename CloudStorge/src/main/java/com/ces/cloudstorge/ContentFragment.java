@@ -124,17 +124,20 @@ public class ContentFragment extends Fragment {
                             mode.getMenu().findItem(R.id.action_download).setVisible(false);
                         }
                     }
+                    mode.getMenu().findItem(R.id.action_undo).setVisible(false);
                     if (MainActivity.isTrash) {
                         mode.getMenu().findItem(R.id.action_move).setVisible(false);
                         mode.getMenu().findItem(R.id.action_rename).setVisible(false);
                         mode.getMenu().findItem(R.id.action_download).setVisible(false);
                         mode.getMenu().findItem(R.id.action_delete).setVisible(true);
+                        mode.getMenu().findItem(R.id.action_undo).setVisible(true);
                     }
                     if (MainActivity.isShare) {
                         mode.getMenu().findItem(R.id.action_move).setVisible(false);
                         mode.getMenu().findItem(R.id.action_rename).setVisible(false);
                         mode.getMenu().findItem(R.id.action_download).setVisible(true);
                         mode.getMenu().findItem(R.id.action_delete).setVisible(false);
+                        //mode.getMenu().findItem(R.id.action_undo).setVisible(false);
                     }
 
                 }
@@ -187,10 +190,15 @@ public class ContentFragment extends Fragment {
                             Bundle db = new Bundle();
                             db.putString("filelist", filelist);
                             db.putString("folderlist", folderlist);
+                            if(MainActivity.isTrash)
+                                db.putBoolean("isForever", true);
+                            else
+                                db.putBoolean("isForever", false);
                             deleteFileDialog.setArguments(db);
                             deleteFileDialog.show(fm, "deletefile");
                             break;
                         case R.id.action_move:
+                        case R.id.action_undo:
                             FolderListDialog folderListDialog = new FolderListDialog();
                             Bundle fld = new Bundle();
                             fld.putString("currentUser", MainActivity.current_account.name);

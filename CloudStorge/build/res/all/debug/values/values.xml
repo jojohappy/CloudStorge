@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="http://schemas.android.com/apk/res/android">
+
+    <!-- From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings.xml -->
+    <string-array name="array_action_add">
+        <item>文件夹</item>
+        <item>上传</item>
+    </string-array>
+    <string-array name="do_array">
+        <item>我的云存储</item>
+        <item>共享文件夹</item>
+        <item>回收站</item>
+        <item>登出</item>
+    </string-array>
+    <string-array name="sort_array">
+        <item>名称</item>
+        <item>最后修改时间</item>
+    </string-array>
+    <!-- From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/colors.xml -->
+    <color name="black_overlay">#66000000</color>
+    <!-- From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/attrs.xml -->
+    <declare-styleable name="ButtonBarContainerTheme">
+        <attr name="buttonBarStyle" format="reference" />
+        <attr name="buttonBarButtonStyle" format="reference" />
+    </declare-styleable>
+    <!-- From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/dimens.xml -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <!-- From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings.xml -->
+    <string name="action_about">关于</string>
+    <string name="action_new">新建</string>
+    <string name="action_new_folder">新建文件夹</string>
+    <string name="action_refresh">刷新</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_sign_in_register">登录</string>
+    <string name="action_sign_in_short">登录</string>
+    <string name="action_sort">排序方式</string>
+    <string name="add_folder_tip">创建文件夹成功!</string>
+    <string name="app_activity_title">我的云存储</string>
+    <string name="app_name">CloudStorge</string>
+    <string name="app_title">云存储</string>
+    <string name="cab_selectd">"<ns1:g id="COUNT">%d</ns1:g>        已选中"</string>
+    <string name="cancel">取消</string>
+    <string name="choose_upload_app">选择要使用的应用</string>
+    <!-- From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/file_detail_strings.xml -->
+    <string name="close_share_file_progress_message">正在取消分享文件,请稍候....</string>
+    <string name="close_share_file_success">取消分享文件成功</string>
+    <!-- From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings.xml -->
+    <string name="copyright">©Copyright 2013.China Etek Service &amp; Technology Co., Ltd</string>
+    <string name="delete_confirm">确认删除文件吗?</string>
+    <string name="delete_confirm_forever">确认永久删除文件吗?</string>
+    <string name="delete_tip">文件删除成功!</string>
+    <string name="delete_tip_forever">永久删除文件成功!</string>
+    <!-- From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/file_detail_strings.xml -->
+    <string name="detail_confirm_close_share_string">确认不分享该文件吗?</string>
+    <string name="detail_download_label_string">离线</string>
+    <string name="detail_download_switch_label_string">可离线查看</string>
+    <string name="detail_general_label_string">常规信息</string>
+    <string name="detail_last_modified_label_string">修改时间 :</string>
+    <string name="detail_share_failure_string">离线模式下不能分享文件</string>
+    <string name="detail_share_label_string">分享</string>
+    <string name="detail_share_switch_label_string">分享文件</string>
+    <string name="detail_size_label_string">文件大小 :</string>
+    <!-- From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings.xml -->
+    <string name="dg_add_folder">请输入文件夹名称</string>
+    <!-- From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/file_download_strings.xml -->
+    <string name="download_file_cannot_open">不能打开此类型的文件</string>
+    <string name="download_file_error">文件下载失败!</string>
+    <string name="download_file_network_error">网络服务不存在,请检查</string>
+    <string name="download_file_tip">正在下载文件:</string>
+    <!-- From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings.xml -->
+    <string name="drawer_close">关闭导航栏</string>
+    <string name="drawer_open">打开导航栏</string>
+    <string name="error_add_folder_exists_tip">新建文件夹失败!已有重名文件夹</string>
+    <string name="error_add_folder_no_network_tip">新建文件夹失败!请检查网络状态</string>
+    <string name="error_add_folder_rest_tip">新建文件夹失败!</string>
+    <string name="error_field_required">该字段必填</string>
+    <string name="error_incorrect_password">用户名或密码不正确</string>
+    <string name="error_invalid_email">用户名无效</string>
+    <string name="exit_dialog_message">是否退出程序?</string>
+    <string name="exit_dialog_title">提示</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="input_new_name">请输入新名称:</string>
+    <string name="label">云存储</string>
+    <string name="lastmodified">修改时间:</string>
+    <string name="list_empty">无任何文件</string>
+    <!-- From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/file_upload_strings.xml -->
+    <string name="location_text">我的云存储</string>
+    <!-- From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings.xml -->
+    <string name="login_error">登录失败,用户名或密码错误!</string>
+    <string name="login_progress_signing_in">登录…</string>
+    <string name="menu_action_copy">复制</string>
+    <string name="menu_action_delete">删除</string>
+    <string name="menu_action_download">离线查看</string>
+    <string name="menu_action_move">移动</string>
+    <string name="menu_action_rename">重命名</string>
+    <string name="menu_action_share">分享</string>
+    <string name="menu_action_undo">还原</string>
+    <string name="move_tip">移动文件成功!</string>
+    <string name="network_error">未找到网络连接,请检查...</string>
+    <!-- From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/file_upload_strings.xml -->
+    <string name="no_account">请先登录到云存储中!</string>
+    <!-- From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings.xml -->
+    <string name="null_new_folder_name_tip">文件夹名不能为空</string>
+    <string name="ok">确定</string>
+    <string name="progress_add_folder">正在新建文件夹,请稍候....</string>
+    <string name="progress_delete_file">正在删除文件,请稍候....</string>
+    <string name="prompt_email">用户名</string>
+    <string name="prompt_password">密码</string>
+    <!-- From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/file_upload_strings.xml -->
+    <string name="read_file_error">文件读取失败!</string>
+    <!-- From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings.xml -->
+    <string name="rename_error">重命名失败!已有重名文件或文件夹</string>
+    <string name="rename_tip">文件重命名成功!</string>
+    <!-- From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/file_detail_strings.xml -->
+    <string name="share_file_error">文件分享操作失败</string>
+    <string name="share_file_progress_message">正在分享文件,请稍候....</string>
+    <string name="share_file_success">分享文件成功</string>
+    <!-- From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings.xml -->
+    <string name="share_folder">共享文件夹</string>
+    <string name="share_from">分享自:</string>
+    <string name="sync">同步</string>
+    <string name="sync_message">正在为您同步文件,请稍候...</string>
+    <!-- From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/file_upload_strings.xml -->
+    <string name="terrible">糟糕</string>
+    <!-- From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings.xml -->
+    <string name="tip">提示</string>
+    <!-- From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/file_download_strings.xml -->
+    <string name="title_activity_download"></string>
+    <!-- From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings.xml -->
+    <string name="title_activity_file_detail">FileDetailActivity</string>
+    <string name="title_activity_login">登录</string>
+    <!-- From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/file_upload_strings.xml -->
+    <string name="title_activity_upload">云存储</string>
+    <!-- From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings.xml -->
+    <string name="trash_folder">回收站</string>
+    <!-- From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/file_upload_strings.xml -->
+    <string name="upload_error">上传文件失败</string>
+    <string name="upload_file_label">文件名称</string>
+    <string name="upload_file_location">文件存储位置</string>
+    <string name="upload_file_wait">正在上传文件,请稍候....</string>
+    <string name="upload_success">上传文件成功!</string>
+    <string name="upload_title">上传文件到云存储</string>
+    <!-- From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/styles.xml -->
+    <style name="AppBaseTheme" parent="android:Theme.Light">
+        <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        -->
+    </style>
+
+    <style name="AppTheme" parent="AppBaseTheme">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style>
+
+    <style name="ButtonBar">
+        <item name="android:paddingLeft">2dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingRight">2dp</item>
+        <item name="android:paddingBottom">0dp</item>
+        <item name="android:background">@android:drawable/bottom_bar</item>
+    </style>
+
+    <style name="ButtonBarButton" />
+
+    <style name="FullscreenTheme" parent="android:Theme.NoTitleBar">
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowBackground">@null</item>
+        <item name="buttonBarStyle">@style/ButtonBar</item>
+        <item name="buttonBarButtonStyle">@style/ButtonBarButton</item>
+    </style>
+
+    <style name="LoginFormContainer">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">16dp</item>
+    </style>
+
+</resources>

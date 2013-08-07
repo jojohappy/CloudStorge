@@ -24,14 +24,14 @@
     <string name="action_refresh">刷新</string>
     <string name="drawer_open">打开导航栏</string>
     <string name="drawer_close">关闭导航栏</string>
-    <string name="title_activity_login">登陆</string>
+    <string name="title_activity_login">登录</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">用户名</string>
     <string name="prompt_password">密码</string>
-    <string name="action_sign_in_register">登陆</string>
-    <string name="action_sign_in_short">登陆</string>
-    <string name="login_progress_signing_in">登陆…</string>
+    <string name="action_sign_in_register">登录</string>
+    <string name="action_sign_in_short">登录</string>
+    <string name="login_progress_signing_in">登录…</string>
     <string name="error_invalid_email">用户名无效</string>
     <string name="error_incorrect_password">用户名或密码不正确</string>
     <string name="error_field_required">该字段必填</string>
@@ -47,12 +47,14 @@
     <string name="menu_action_download">离线查看</string>
     <string name="menu_action_move">移动</string>
     <string name="menu_action_share">分享</string>
+    <string name="menu_action_undo">还原</string>
     <string name="cab_selectd">"
         <xliff:g id="COUNT">%d</xliff:g>
         已选中"
     </string>
     <string name="dg_add_folder">请输入文件夹名称</string>
     <string name="delete_confirm">确认删除文件吗?</string>
+    <string name="delete_confirm_forever">确认永久删除文件吗?</string>
     <string name="input_new_name">请输入新名称:</string>
 
     <string-array name="sort_array">
@@ -66,6 +68,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="lastmodified">修改时间:</string>
     <string name="delete_tip">文件删除成功!</string>
+    <string name="delete_tip_forever">永久删除文件成功!</string>
     <string name="tip">提示</string>
     <string name="rename_error">重命名失败!已有重名文件或文件夹</string>
     <string name="rename_tip">文件重命名成功!</string>
@@ -76,6 +79,7 @@
     <string name="error_add_folder_no_network_tip">新建文件夹失败!请检查网络状态</string>
     <string name="error_add_folder_rest_tip">新建文件夹失败!</string>
     <string name="progress_add_folder">正在新建文件夹,请稍候....</string>
+    <string name="progress_delete_file">正在删除文件,请稍候....</string>
     <string name="choose_upload_app">选择要使用的应用</string>
     <string name="share_from">分享自:</string>
     <string name="sync_message">正在为您同步文件,请稍候...</string>
