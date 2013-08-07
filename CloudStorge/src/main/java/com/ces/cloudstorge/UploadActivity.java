@@ -214,6 +214,13 @@ public class UploadActivity extends FragmentActivity implements FolderListDialog
         dialog.show();
     }
 
+    public String getAuthToken()
+    {
+        AccountManager mAccountManager = AccountManager.get(this);
+        String auth = mAccountManager.peekAuthToken(currentAccount, "all");
+        return "OAuth2 " + auth;
+    }
+
     public class UploadAsyncTask extends AsyncTask<String, String, Integer> {
        //private String UPLOAD_URL = "http://rd.114.chinaetek.com:18081/file/upload";
         private ProgressDialog progressDialog;
@@ -276,7 +283,7 @@ public class UploadActivity extends FragmentActivity implements FolderListDialog
                 conn.setRequestProperty("User-Agent", Contract.USER_AGENT);
                 conn.setRequestProperty("Charsert", "UTF-8");
                 conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
-                conn.setRequestProperty("Authorization", CloudStorgeRestUtilities.getAuthToken());
+                conn.setRequestProperty("Authorization", getAuthToken());
                 dos = new DataOutputStream(conn.getOutputStream());
                 dos.writeBytes(twoHyphens + boundary + lineEnd);
                 dos.writeBytes("Content-Disposition: form-data; name=\"current_folder_id\"" + lineEnd);

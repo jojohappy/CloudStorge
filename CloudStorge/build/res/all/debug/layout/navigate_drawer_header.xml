@@ -27,7 +27,7 @@
             android:layout_alignTop="@+id/drawer_header_icon"
             android:layout_toRightOf="@+id/drawer_header_icon"
             android:textSize="16dp"
-            android:singleLine="true"
+            android:singleLine="false"
             android:paddingLeft="7dp"/>
 
 </RelativeLayout><!-- From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/layout/navigate_drawer_header.xml -->
