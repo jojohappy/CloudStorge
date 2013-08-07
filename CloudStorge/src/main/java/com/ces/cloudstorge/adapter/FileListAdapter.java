@@ -146,7 +146,7 @@ public class FileListAdapter extends SimpleCursorAdapter {
                 } else if ("default".equals(mime_type)) {
                     fileImage.setImageResource(R.drawable.icon_default);
                 } else {
-                    if(null == (mimeTypeIconResId = CommonUtil.mime_type_icon.get(mime_type)))
+                    if (null == (mimeTypeIconResId = CommonUtil.mime_type_icon.get(mime_type)))
                         mimeTypeIconResId = R.drawable.icon_default;
                     fileImage.setImageResource(mimeTypeIconResId);
                 }

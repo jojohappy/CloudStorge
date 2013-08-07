@@ -69,7 +69,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
         mLoginFormView = findViewById(R.id.login_form);
         mLoginStatusView = findViewById(R.id.login_status);
         mLoginStatusMessageView = (TextView) findViewById(R.id.login_status_message);
-        LinearLayout linearLayout = (LinearLayout)findViewById(R.id.login_linearlayout);
+        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.login_linearlayout);
         linearLayout.getBackground().setAlpha(45);
         mUsernameEdit = (EditText) findViewById(R.id.email);
         mPasswordEdit = (EditText) findViewById(R.id.password);

@@ -37,10 +37,10 @@
             android:title="@string/menu_action_download"/>
 
     <item
-        android:id="@+id/action_share"
-        android:orderInCategory="100"
-        android:showAsAction="ifRoom"
-        android:title="@string/menu_action_share"/>
+            android:id="@+id/action_share"
+            android:orderInCategory="100"
+            android:showAsAction="ifRoom"
+            android:title="@string/menu_action_share"/>
 
     <item
             android:id="@+id/action_undo"

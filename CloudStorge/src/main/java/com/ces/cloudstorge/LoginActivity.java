@@ -65,7 +65,7 @@ public class LoginActivity extends Activity {
                 return false;
             }
         });
-        LinearLayout linearLayout = (LinearLayout)findViewById(R.id.login_linearlayout);
+        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.login_linearlayout);
         linearLayout.getBackground().setAlpha(45);
         mLoginFormView = findViewById(R.id.login_form);
         mLoginStatusView = findViewById(R.id.login_status);

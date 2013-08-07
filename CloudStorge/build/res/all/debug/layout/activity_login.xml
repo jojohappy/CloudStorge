@@ -1,7 +1,7 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
        xmlns:tools="http://schemas.android.com/tools"
        tools:context=".LoginActivity"
-       >
+        >
 
     <!-- Login progress -->
     <LinearLayout
@@ -100,4 +100,4 @@
 
     </ScrollView>
 </merge>
-<!-- From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/layout/activity_login.xml -->
+        <!-- From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/layout/activity_login.xml -->

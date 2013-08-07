@@ -34,7 +34,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,7 +52,6 @@ import com.ces.cloudstorge.util.CommonUtil;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class MainActivity extends FragmentActivity implements LoaderManager.LoaderCallbacks<Cursor>,
@@ -161,7 +159,7 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
     private ProgressDialog progressDialog;
 
     // 目录等级列表
-    public static List<String> listFolder;
+    public static ArrayList<String> listFolder;
 
     public static AccountManager am;
 
@@ -175,33 +173,45 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
         am = AccountManager.get(this);
         // 从上一个activity中获得是否是当前目录
         isRoot = (Boolean) getIntent().getExtras().get("isRoot");
-        isTrash = false;
-        isShare = false;
-        isEmptyFolder = false;
-        if (isRoot) {
-            currentFolderId = Contract.FOLDER_ROOT;
-            parentFolderId = Contract.FOLDER_ROOT;
-        }
-
-        if (isTrash) {
-            currentFolderId = Contract.FOLDER_TRASH;
-            parentFolderId = Contract.FOLDER_ROOT;
-        }
-
-        if (isShare) {
-            currentFolderId = Contract.FOLDER_SHARE;
-            parentFolderId = Contract.FOLDER_ROOT;
-        }
+        // 查询目录列表
         listFolder = new ArrayList<String>();
+        if (null == savedInstanceState) {
+            isTrash = false;
+            isShare = false;
+            isEmptyFolder = false;
+            mSortType = SORT_NAME;
+            listFolder.add(getString(R.string.app_activity_title));
+            if (isRoot) {
+                currentFolderId = Contract.FOLDER_ROOT;
+                parentFolderId = Contract.FOLDER_ROOT;
+            }
+
+            if (isTrash) {
+                currentFolderId = Contract.FOLDER_TRASH;
+                parentFolderId = Contract.FOLDER_ROOT;
+            }
+
+            if (isShare) {
+                currentFolderId = Contract.FOLDER_SHARE;
+                parentFolderId = Contract.FOLDER_ROOT;
+            }
+        } else {
+            isRoot = savedInstanceState.getBoolean("isRoot");
+            isTrash = savedInstanceState.getBoolean("isTrash");
+            isShare = savedInstanceState.getBoolean("isShare");
+            isEmptyFolder = savedInstanceState.getBoolean("isEmptyFolder");
+            mSortType = savedInstanceState.getInt("mSortType");
+            currentFolderId = savedInstanceState.getInt("currentFolderId");
+            parentFolderId = savedInstanceState.getInt("parentFolderId");
+            listFolder = savedInstanceState.getStringArrayList("listFolder");
+        }
+
         LayoutInflater inflater = getLayoutInflater();
         mContext = getApplicationContext();
         fragmentManager = getSupportFragmentManager();
         callbackLoader = MainActivity.this;
         loadmanager = getSupportLoaderManager();
-        mSortType = SORT_NAME;
 
-        // 查询目录列表
-        listFolder.add(getString(R.string.app_activity_title));
         // 初始化ActionBar
         ActionBar actionBar = getActionBar();
         // 设置home图标点击
@@ -246,7 +256,7 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
         getContentResolver().registerContentObserver(CloudStorgeContract.CloudStorge.CONTENT_URI, true, mCloudStorgeObserver);
 
         // 初始化碎片布局
-        if(null == savedInstanceState) {
+        if (null == savedInstanceState) {
             initFragment(false);
             if (!ConnectionChangeReceiver.isHasConnect) {
                 create_tipDialog(R.string.terrible, R.string.network_error);
@@ -254,6 +264,20 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
                 call_syncAdapter();
             }
         }
+    }
+
+    // 保存现有状态
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putBoolean("isRoot", isRoot);
+        outState.putBoolean("isTrash", isTrash);
+        outState.putBoolean("isShare", isShare);
+        outState.putBoolean("isEmptyFolder", isEmptyFolder);
+        outState.putInt("mSortType", mSortType);
+        outState.putInt("currentFolderId", currentFolderId);
+        outState.putInt("parentFolderId", parentFolderId);
+        outState.putStringArrayList("listFolder", listFolder);
+        super.onSaveInstanceState(outState);
     }
 
     // 创建选择菜单
@@ -280,7 +304,7 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
             specialFolderId = Contract.FOLDER_SHARE;
         String selection = isRoot || isTrash ? String.format(SELECTION_SPECIAL, specialFolderId, current_account.name, current_account.name)
                 : String.format(SELECTION_CHILD, currentFolderId, current_account.name);
-        if(isShare)
+        if (isShare)
             selection = String.format(SELECTION_SHARE, specialFolderId, current_account.name);
         String order = "";
         if (mSortType == SORT_NAME)
@@ -429,7 +453,7 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
         int trashId = get_folderTrash();
         ArrayList<ContentProviderOperation> batch = new ArrayList<ContentProviderOperation>();
         String current_date = CommonUtil.get_currentDateString();
-        if(!isForever) {
+        if (!isForever) {
             for (int i = 0; i < array_folder.length; i++) {
                 if (null == array_folder[i] || "".equals(array_folder[i]))
                     continue;
@@ -460,14 +484,10 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
             } catch (OperationApplicationException e) {
                 e.printStackTrace();
             }
-        }
-        else {
-            if(!ConnectionChangeReceiver.isHasConnect)
-            {
+        } else {
+            if (!ConnectionChangeReceiver.isHasConnect) {
                 create_tipDialog(R.string.terrible, R.string.network_error);
-            }
-            else
-            {
+            } else {
                 new DeleteFileForeverAsyncTask().execute(filelist, folderlist);
             }
 
@@ -694,8 +714,7 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
     }
 
     private void call_syncAdapter() {
-        if(!ConnectionChangeReceiver.isHasConnect)
-        {
+        if (!ConnectionChangeReceiver.isHasConnect) {
             create_tipDialog(R.string.terrible, R.string.network_error);
             return;
         }
@@ -749,8 +768,7 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
         }
     }
 
-    public static void changeListHeader()
-    {
+    public static void changeListHeader() {
         ListHeaderFragment listFragment = (ListHeaderFragment) fragmentManager.findFragmentByTag("listHeader");
         String folder_trace = "";
         for (int i = 0; i < listFolder.size(); i++) {
@@ -938,6 +956,7 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
     private class DeleteFileForeverAsyncTask extends AsyncTask<String, Void, JSONObject> {
         private String fileArray;
         private String folderArray;
+
         @Override
         protected void onPreExecute() {
             create_progressDialog(getString(R.string.progress_delete_file));

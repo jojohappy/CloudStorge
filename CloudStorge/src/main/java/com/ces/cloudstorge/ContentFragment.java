@@ -32,11 +32,10 @@ import java.util.Map;
  */
 public class ContentFragment extends Fragment {
     private ListView listView;
-    private Map<Integer, Integer> mapSelected;
+    private HashMap<Integer, Integer> mapSelected;
     private FrameLayout mProfileHeaderContainer;
     private View mProfileHeader;
-    private TextView mProfileTitle;
-    private TextView mCounterHeaderView;
+    private int count;
 
     public ContentFragment() {
     }
@@ -48,8 +47,8 @@ public class ContentFragment extends Fragment {
         boolean isEmpty = true;
         if (null != getArguments())
             isEmpty = getArguments().getBoolean("isEmpty");
-        //if(null == getArguments().getBoolean("isEmpty"))
 
+        count = null == savedInstanceState ? 0 : savedInstanceState.getInt("count");
         // 当文件夹内容为空时，替换碎片空布局
         if (isEmpty) {
             mapSelected = new HashMap<Integer, Integer>();
@@ -59,14 +58,13 @@ public class ContentFragment extends Fragment {
         } else {
             View currentView = inflater.inflate(R.layout.fragment_filelist, container, false);
             mapSelected = new HashMap<Integer, Integer>();
+            if (null != savedInstanceState)
+                mapSelected = (HashMap<Integer, Integer>) savedInstanceState.getSerializable("mapSelected");
 
             // 文件夹、文件列表view
             listView = (ListView) currentView.findViewById(R.id.listView);
             mProfileHeaderContainer = new FrameLayout(inflater.getContext());
             mProfileHeader = inflater.inflate(R.layout.list_header, null, false);
-            mProfileTitle = (TextView) mProfileHeader.findViewById(R.id.folder_trace);
-            //mProfileTitle.setAllCaps(true);
-            //changeHeader();
             mProfileHeaderContainer.addView(mProfileHeader);
             listView.addHeaderView(mProfileHeaderContainer, null, false);
             listView.setVerticalScrollBarEnabled(false);
@@ -75,8 +73,6 @@ public class ContentFragment extends Fragment {
             listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
             // 多选模式响应
             listView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
-                private int count = 0;
-
                 // 列选择状态变更
                 @Override
                 public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
@@ -96,50 +92,7 @@ public class ContentFragment extends Fragment {
                         return;
                     }
                     mode.setTitle(getString(R.string.cab_selectd, count));
-                    {
-                        int folderflag = 0;
-                        int fileflag = 0;
-                        Iterator it = mapSelected.entrySet().iterator();
-                        while (it.hasNext()) {
-                            Map.Entry selected = (Map.Entry) it.next();
-                            if (-1 == selected.getValue())
-                                fileflag = 1;
-                            if (-1 != selected.getValue())
-                                folderflag = 1;
-                        }
-                        mode.getMenu().findItem(R.id.action_copy).setVisible(false);
-                        mode.getMenu().findItem(R.id.action_share).setVisible(false);
-                        mode.getMenu().findItem(R.id.action_delete).setVisible(true);
-                        if (1 == folderflag && count == 1) {
-                            mode.getMenu().findItem(R.id.action_rename).setVisible(true);
-                            mode.getMenu().findItem(R.id.action_download).setVisible(false);
-                        } else if (1 == fileflag && count == 1) {
-                            mode.getMenu().findItem(R.id.action_rename).setVisible(true);
-                            mode.getMenu().findItem(R.id.action_download).setVisible(true);
-                        } else if (((fileflag == 1 && folderflag == 1) ||
-                                (fileflag == 0 && folderflag == 1)) ||
-                                (fileflag == 1 && folderflag == 0)) {
-
-                            mode.getMenu().findItem(R.id.action_rename).setVisible(false);
-                            mode.getMenu().findItem(R.id.action_download).setVisible(false);
-                        }
-                    }
-                    mode.getMenu().findItem(R.id.action_undo).setVisible(false);
-                    if (MainActivity.isTrash) {
-                        mode.getMenu().findItem(R.id.action_move).setVisible(false);
-                        mode.getMenu().findItem(R.id.action_rename).setVisible(false);
-                        mode.getMenu().findItem(R.id.action_download).setVisible(false);
-                        mode.getMenu().findItem(R.id.action_delete).setVisible(true);
-                        mode.getMenu().findItem(R.id.action_undo).setVisible(true);
-                    }
-                    if (MainActivity.isShare) {
-                        mode.getMenu().findItem(R.id.action_move).setVisible(false);
-                        mode.getMenu().findItem(R.id.action_rename).setVisible(false);
-                        mode.getMenu().findItem(R.id.action_download).setVisible(true);
-                        mode.getMenu().findItem(R.id.action_delete).setVisible(false);
-                        //mode.getMenu().findItem(R.id.action_undo).setVisible(false);
-                    }
-
+                    set_actionModeMenuVisible(mode);
                 }
 
                 @Override
@@ -190,7 +143,7 @@ public class ContentFragment extends Fragment {
                             Bundle db = new Bundle();
                             db.putString("filelist", filelist);
                             db.putString("folderlist", folderlist);
-                            if(MainActivity.isTrash)
+                            if (MainActivity.isTrash)
                                 db.putBoolean("isForever", true);
                             else
                                 db.putBoolean("isForever", false);
@@ -244,7 +197,12 @@ public class ContentFragment extends Fragment {
                 public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
                     // Here you can perform updates to the CAB due to
                     // an invalidate() request
-                    return false;
+                    if (null != mapSelected && 0 != mapSelected.size()) {
+                        set_actionModeMenuVisible(mode);
+                    }
+                    if (count != 0)
+                        mode.setTitle(getString(R.string.cab_selectd, count));
+                    return true;
                 }
             });
 
@@ -286,5 +244,57 @@ public class ContentFragment extends Fragment {
             });
             return currentView;
         }
+    }
+
+    public void set_actionModeMenuVisible(ActionMode mode) {
+        int folderflag = 0;
+        int fileflag = 0;
+        Iterator it = mapSelected.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry selected = (Map.Entry) it.next();
+            if (-1 == selected.getValue())
+                fileflag = 1;
+            if (-1 != selected.getValue())
+                folderflag = 1;
+        }
+        mode.getMenu().findItem(R.id.action_copy).setVisible(false);
+        mode.getMenu().findItem(R.id.action_share).setVisible(false);
+        mode.getMenu().findItem(R.id.action_delete).setVisible(true);
+        if (1 == folderflag && count == 1) {
+            mode.getMenu().findItem(R.id.action_rename).setVisible(true);
+            mode.getMenu().findItem(R.id.action_download).setVisible(false);
+        } else if (1 == fileflag && count == 1) {
+            mode.getMenu().findItem(R.id.action_rename).setVisible(true);
+            mode.getMenu().findItem(R.id.action_download).setVisible(true);
+        } else if (((fileflag == 1 && folderflag == 1) ||
+                (fileflag == 0 && folderflag == 1)) ||
+                (fileflag == 1 && folderflag == 0)) {
+
+            mode.getMenu().findItem(R.id.action_rename).setVisible(false);
+            mode.getMenu().findItem(R.id.action_download).setVisible(false);
+        }
+        mode.getMenu().findItem(R.id.action_undo).setVisible(false);
+        if (MainActivity.isTrash) {
+            mode.getMenu().findItem(R.id.action_move).setVisible(false);
+            mode.getMenu().findItem(R.id.action_rename).setVisible(false);
+            mode.getMenu().findItem(R.id.action_download).setVisible(false);
+            mode.getMenu().findItem(R.id.action_delete).setVisible(true);
+            mode.getMenu().findItem(R.id.action_undo).setVisible(true);
+        }
+        if (MainActivity.isShare) {
+            mode.getMenu().findItem(R.id.action_move).setVisible(false);
+            mode.getMenu().findItem(R.id.action_rename).setVisible(false);
+            mode.getMenu().findItem(R.id.action_download).setVisible(true);
+            mode.getMenu().findItem(R.id.action_delete).setVisible(false);
+            //mode.getMenu().findItem(R.id.action_undo).setVisible(false);
+        }
+    }
+
+    // 保存现有状态
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putInt("count", count);
+        outState.putSerializable("mapSelected", mapSelected);
+        super.onSaveInstanceState(outState);
     }
 }

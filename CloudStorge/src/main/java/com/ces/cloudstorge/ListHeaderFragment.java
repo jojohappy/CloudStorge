@@ -12,6 +12,7 @@ import android.widget.TextView;
  */
 public class ListHeaderFragment extends Fragment {
     private TextView folderTrace;
+
     public ListHeaderFragment() {
     }
 
@@ -19,7 +20,7 @@ public class ListHeaderFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View currentView = inflater.inflate(R.layout.list_header, container, false);
-        folderTrace= (TextView) currentView.findViewById(R.id.folder_trace);
+        folderTrace = (TextView) currentView.findViewById(R.id.folder_trace);
         set_folderTrace(changeHeader());
         return currentView;
     }
@@ -32,8 +33,7 @@ public class ListHeaderFragment extends Fragment {
         return folder_trace;
     }
 
-    public void set_folderTrace(String trace)
-    {
+    public void set_folderTrace(String trace) {
         folderTrace.setText(trace);
     }
 

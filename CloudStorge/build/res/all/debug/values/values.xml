@@ -20,8 +20,8 @@
     <color name="black_overlay">#66000000</color>
     <!-- From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/attrs.xml -->
     <declare-styleable name="ButtonBarContainerTheme">
-        <attr name="buttonBarStyle" format="reference" />
-        <attr name="buttonBarButtonStyle" format="reference" />
+        <attr name="buttonBarStyle" format="reference"/>
+        <attr name="buttonBarButtonStyle" format="reference"/>
     </declare-styleable>
     <!-- From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/dimens.xml -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
@@ -39,7 +39,10 @@
     <string name="app_activity_title">我的云存储</string>
     <string name="app_name">CloudStorge</string>
     <string name="app_title">云存储</string>
-    <string name="cab_selectd">"<ns1:g id="COUNT">%d</ns1:g>        已选中"</string>
+    <string name="cab_selectd">"
+        <ns1:g id="COUNT">%d</ns1:g>
+        已选中"
+    </string>
     <string name="cancel">取消</string>
     <string name="choose_upload_app">选择要使用的应用</string>
     <!-- From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/file_detail_strings.xml -->
@@ -162,7 +165,7 @@
         <item name="android:background">@android:drawable/bottom_bar</item>
     </style>
 
-    <style name="ButtonBarButton" />
+    <style name="ButtonBarButton"/>
 
     <style name="FullscreenTheme" parent="android:Theme.NoTitleBar">
         <item name="android:windowContentOverlay">@null</item>

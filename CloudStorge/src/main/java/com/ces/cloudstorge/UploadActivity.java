@@ -214,15 +214,14 @@ public class UploadActivity extends FragmentActivity implements FolderListDialog
         dialog.show();
     }
 
-    public String getAuthToken()
-    {
+    public String getAuthToken() {
         AccountManager mAccountManager = AccountManager.get(this);
         String auth = mAccountManager.peekAuthToken(currentAccount, "all");
         return "OAuth2 " + auth;
     }
 
     public class UploadAsyncTask extends AsyncTask<String, String, Integer> {
-       //private String UPLOAD_URL = "http://rd.114.chinaetek.com:18081/file/upload";
+        //private String UPLOAD_URL = "http://rd.114.chinaetek.com:18081/file/upload";
         private ProgressDialog progressDialog;
         private int newFileId;
         private String mime_type;

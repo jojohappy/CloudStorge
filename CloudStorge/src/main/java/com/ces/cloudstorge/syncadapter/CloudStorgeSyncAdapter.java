@@ -10,7 +10,6 @@ import android.content.SyncResult;
 import android.os.Bundle;
 
 import com.ces.cloudstorge.CloudStorgeProcessor;
-import com.ces.cloudstorge.MainActivity;
 import com.ces.cloudstorge.network.CloudStorgeRestUtilities;
 import com.ces.cloudstorge.provider.CloudStorgeContract;
 
@@ -30,15 +29,12 @@ public class CloudStorgeSyncAdapter extends AbstractThreadedSyncAdapter {
         AccountManager am = AccountManager.get(getContext());
         try {
             JSONObject jobject = CloudStorgeRestUtilities.syncAllContent(account.name, am.peekAuthToken(account, "all"));
-            if(null == jobject)
-            {
+            if (null == jobject) {
                 getContext().getContentResolver().notifyChange(CloudStorgeContract.CloudStorge.CONTENT_URI, null, false);
                 return;
             }
             int result = CloudStorgeProcessor.syncContentData(jobject, authority, contentResolver, syncResult);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             getContext().getContentResolver().notifyChange(CloudStorgeContract.CloudStorge.CONTENT_URI, null, false);
         }
     }

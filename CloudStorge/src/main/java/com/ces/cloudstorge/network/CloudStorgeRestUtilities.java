@@ -1,14 +1,9 @@
 package com.ces.cloudstorge.network;
 
-import android.accounts.AccountManager;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.Environment;
 import android.util.Log;
 
 import com.ces.cloudstorge.Contract;
 import com.ces.cloudstorge.MainActivity;
-import com.ces.cloudstorge.util.CommonUtil;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -21,7 +16,6 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.params.ConnManagerParams;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.params.CoreConnectionPNames;
 import org.apache.http.params.CoreProtocolPNames;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
@@ -30,18 +24,8 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 
 /**
@@ -89,8 +73,7 @@ public class CloudStorgeRestUtilities {
         return httpClient;
     }
 
-    public static String getAuthToken()
-    {
+    public static String getAuthToken() {
         String auth = MainActivity.am.peekAuthToken(MainActivity.current_account, "all");
         return "OAuth2 " + auth;
     }
@@ -107,7 +90,7 @@ public class CloudStorgeRestUtilities {
             if (resp.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
                 HttpEntity entityResult = resp.getEntity();
                 JSONObject result = new JSONObject(EntityUtils.toString(entityResult));
-                if(result.has("result"))
+                if (result.has("result"))
                     return null;
                 else {
                     authToken = result.getString("access_token");
