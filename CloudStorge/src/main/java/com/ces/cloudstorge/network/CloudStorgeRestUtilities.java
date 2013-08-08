@@ -58,10 +58,15 @@ public class CloudStorgeRestUtilities {
 
     public static final String DELETE_FOLDER_URL = BASE_URL + "/list/delete";
 
+    public static final String MOVE_FOLDER_URL = BASE_URL + "/folder/move";
+
+    public static final String MOVE_FILE_URL = BASE_URL + "/file/move";
+
+    public static final String RENAME_FILE_URL = BASE_URL + "/file/rename";
+
+    public static final String RENAME_FOLDER_URL = BASE_URL + "/folder/rename";
+
     public static final String DOWNLOAD_URL = "http://rd.114.chinaetek.com:18080" + "/file/download";
-
-    //public static String authToken;
-
 
     public static HttpClient getHttpClient() {
         HttpClient httpClient = new DefaultHttpClient();
@@ -81,7 +86,7 @@ public class CloudStorgeRestUtilities {
     public static String authenticate(String username, String password) {
         HttpResponse resp;
         String combinedParams = "?username=" + username + "&password=" + password + "&response_type=token&" +
-                "client_id=" + Contract.CLIENT_ID + "&client_secret=" + Contract.CLIENT_SECRET + "&grant_type=password&scopt=all";
+                "client_id=" + Contract.CLIENT_ID + "&client_secret=" + Contract.CLIENT_SECRET + "&grant_type=password&scope=all";
         Log.i(TAG, "Authenticating to: " + AUTH_URI + combinedParams);
         final HttpGet get = new HttpGet(AUTH_URI + combinedParams);
         try {
@@ -232,12 +237,12 @@ public class CloudStorgeRestUtilities {
         return null;
     }
 
-    public static JSONObject deleteFileForever(String fileArray, String folderArray) {
+    public static JSONObject deleteFile(String fileArray, String folderArray, int isForever, String accessToken) {
         final HttpResponse resp;
         final ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("file_id", fileArray));
         params.add(new BasicNameValuePair("folder_id", folderArray));
-        params.add(new BasicNameValuePair("is_forever", "1"));
+        params.add(new BasicNameValuePair("is_forever", isForever + ""));
         final HttpEntity entity;
         try {
             entity = new UrlEncodedFormEntity(params, HTTP.UTF_8);
@@ -246,7 +251,83 @@ public class CloudStorgeRestUtilities {
         }
         final HttpPost post = new HttpPost(DELETE_FOLDER_URL);
         post.addHeader(entity.getContentType());
-        post.addHeader("Authorization", getAuthToken());
+        post.addHeader("Authorization", null == accessToken ? getAuthToken() : "OAuth2 " + accessToken);
+        post.setEntity(entity);
+        try {
+            resp = getHttpClient().execute(post);
+            if (resp.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+                HttpEntity resultEntity = resp.getEntity();
+                JSONObject result = new JSONObject(EntityUtils.toString(resultEntity));
+                return result;
+            }
+        } catch (final IOException e) {
+            return null;
+        } catch (JSONException e) {
+            return null;
+        }
+        return null;
+    }
+
+    public static JSONObject moveFile(int fileId, int folderId, int new_parentFolderId, int fileType, String accessToken) {
+        final HttpResponse resp;
+        final ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
+        final HttpPost post;
+        if(fileType == Contract.TYPE_FILE) {
+            params.add(new BasicNameValuePair("file_id", fileId + ""));
+            params.add(new BasicNameValuePair("dest_folder_id", new_parentFolderId + ""));
+            post = new HttpPost(MOVE_FILE_URL);
+        }
+        else {
+            params.add(new BasicNameValuePair("folder_id", folderId + ""));
+            params.add(new BasicNameValuePair("dest_folder_id", new_parentFolderId + ""));
+            post = new HttpPost(MOVE_FOLDER_URL);
+        }
+        final HttpEntity entity;
+        try {
+            entity = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+        } catch (final UnsupportedEncodingException e) {
+            throw new IllegalStateException(e);
+        }
+        post.addHeader(entity.getContentType());
+        post.addHeader("Authorization", null == accessToken ? getAuthToken() : "OAuth2 " + accessToken);
+        post.setEntity(entity);
+        try {
+            resp = getHttpClient().execute(post);
+            if (resp.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+                HttpEntity resultEntity = resp.getEntity();
+                JSONObject result = new JSONObject(EntityUtils.toString(resultEntity));
+                return result;
+            }
+        } catch (final IOException e) {
+            return null;
+        } catch (JSONException e) {
+            return null;
+        }
+        return null;
+    }
+
+    public static JSONObject renameFile(int fileId, int folderId, String newName, int fileType, String accessToken) {
+        final HttpResponse resp;
+        final ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
+        final HttpPost post;
+        if(fileType == Contract.TYPE_FILE) {
+            params.add(new BasicNameValuePair("file_id", fileId + ""));
+            params.add(new BasicNameValuePair("new_file_name", newName));
+            post = new HttpPost(RENAME_FILE_URL);
+        }
+        else {
+            params.add(new BasicNameValuePair("folder_id", folderId + ""));
+            params.add(new BasicNameValuePair("new_folder_name", newName));
+            post = new HttpPost(RENAME_FOLDER_URL);
+        }
+        final HttpEntity entity;
+        try {
+            entity = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+        } catch (final UnsupportedEncodingException e) {
+            throw new IllegalStateException(e);
+        }
+        post.addHeader(entity.getContentType());
+        post.addHeader("Authorization", null == accessToken ? getAuthToken() : "OAuth2 " + accessToken);
         post.setEntity(entity);
         try {
             resp = getHttpClient().execute(post);

@@ -170,7 +170,7 @@ public class DownloadActivity extends Activity {
 
     private Cursor get_fileInDatabase(int fileId) {
         String selection = String.format(MainActivity.selection_file_share, fileId);
-        Cursor cursor = getContentResolver().query(CloudStorgeContract.CloudStorge.CONTENT_URI, MainActivity.PROJECTION, selection, null, null);
+        Cursor cursor = getContentResolver().query(CloudStorgeContract.CloudStorge.CONTENT_URI, Contract.PROJECTION, selection, null, null);
         cursor.moveToFirst();
         return cursor;
     }

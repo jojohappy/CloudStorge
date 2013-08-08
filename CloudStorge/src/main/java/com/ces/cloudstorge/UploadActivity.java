@@ -142,7 +142,7 @@ public class UploadActivity extends FragmentActivity implements FolderListDialog
     public int getRootFolderId() {
         String selection = String.format(MainActivity.SELECTION_CHILD, Contract.FOLDER_ROOT, currentAccount.name);
         Cursor cursor = getContentResolver().query(CloudStorgeContract.CloudStorge.CONTENT_URI,
-                MainActivity.PROJECTION, selection, null, null);
+                Contract.PROJECTION, selection, null, null);
         cursor.moveToFirst();
         return cursor.getInt(Contract.PROJECTION_FOLDER_ID);
     }
@@ -150,7 +150,7 @@ public class UploadActivity extends FragmentActivity implements FolderListDialog
     private String getDestFolderName(int destFolderId) {
         String selection = String.format(MainActivity.selection_folder_format, destFolderId, currentAccount.name);
         Cursor cursor = getContentResolver().query(CloudStorgeContract.CloudStorge.CONTENT_URI,
-                MainActivity.PROJECTION, selection, null, null);
+                Contract.PROJECTION, selection, null, null);
         cursor.moveToFirst();
         return cursor.getString(Contract.PROJECTION_NAME);
     }

@@ -131,12 +131,12 @@ public class FileDetailActivity extends Activity {
 
     private FileStruct get_fileStruct(int fileId) {
         String selection = String.format(MainActivity.selection_file_format, fileId, MainActivity.current_account.name);
-        Cursor cursor = getContentResolver().query(CloudStorgeContract.CloudStorge.CONTENT_URI, MainActivity.PROJECTION, selection, null, null);
+        Cursor cursor = getContentResolver().query(CloudStorgeContract.CloudStorge.CONTENT_URI, Contract.PROJECTION, selection, null, null);
         cursor.moveToFirst();
         FileStruct fileStruct = new FileStruct(cursor.getInt(Contract.PROJECTION_FILE_ID), cursor.getInt(Contract.PROJECTION_FOLDER_ID),
                 cursor.getInt(Contract.PROJECTION_PARENT_FOLDER_ID), cursor.getString(Contract.PROJECTION_NAME),
                 cursor.getString(Contract.PROJECTION_MIME_TYPE), cursor.getString(Contract.PROJECTION_SHARE),
-                cursor.getInt(Contract.PROJECTION_SIZE), cursor.getString(Contract.PROJECTION_LAST_MODIFIED));
+                cursor.getInt(Contract.PROJECTION_SIZE), cursor.getString(Contract.PROJECTION_LAST_MODIFIED), null, null, null,null,-1);
         return fileStruct;
     }
 

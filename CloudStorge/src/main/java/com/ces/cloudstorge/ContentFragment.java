@@ -229,7 +229,8 @@ public class ContentFragment extends Fragment {
                         else
                             MainActivity.parentFolderId = Integer.parseInt(viewParentFolderId.getText().toString());
                         MainActivity.isRoot = false;
-                        MainActivity.listFolder.add(viewFileName.getText().toString());
+                        if(!MainActivity.isTrash)
+                            MainActivity.listFolder.add(viewFileName.getText().toString());
                         //changeHeader();
                         MainActivity.changeListHeader();
                         MainActivity.loadmanager.restartLoader(0, null, MainActivity.callbackLoader);

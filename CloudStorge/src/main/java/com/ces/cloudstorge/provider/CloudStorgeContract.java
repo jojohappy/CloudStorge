@@ -16,6 +16,9 @@ public class CloudStorgeContract {
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + Contract.CONTENT_AUTHORITY);
 
     private static final String PATH_ENTRIES = "cloudstorge";
+    private static final String PATH_DELETE_ENTRIES = "cloudstorge_delete";
+    private static final String PATH_MOVE_ENTRIES = "cloudstorge_move";
+    private static final String PATH_RENAME_ENTRIES = "cloudstorge_rename";
 
     public static class CloudStorge implements BaseColumns {
 
@@ -25,8 +28,13 @@ public class CloudStorgeContract {
         public static final String CONTENT_ITEM_TYPE =
                 ContentResolver.CURSOR_ITEM_BASE_TYPE + "/vnd.cloudstorgeadapter.cloudstorges";
 
-        public static final Uri CONTENT_URI =
-                BASE_CONTENT_URI.buildUpon().appendPath(PATH_ENTRIES).build();
+        public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_ENTRIES).build();
+
+        public static final Uri CONTENT_DELETE_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_DELETE_ENTRIES).build();
+
+        public static final Uri CONTENT_MOVE_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_MOVE_ENTRIES).build();
+
+        public static final Uri CONTENT_RENAME_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_RENAME_ENTRIES).build();
 
         public static final String TABLE_NAME = "cloudstorge";
 
@@ -55,5 +63,11 @@ public class CloudStorgeContract {
         public static final String COLUMN_NAME_ORIGIN_FOLDER = "origin_folder";
 
         public static final String COLUMN_NAME_PARENT_FOLDER_ID = "parent_folder_id";
+
+        public static final String COLUMN_NAME_IS_NEED_SYNC = "is_need_sync";
+
+        public static final String COLUMN_NAME_SYNC_ACTION = "sync_action";
+
+        public static final String COLUMN_NAME_IS_OFFLINE = "is_offline";
     }
 }

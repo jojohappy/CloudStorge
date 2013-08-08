@@ -20,19 +20,19 @@ public class CloudStorgeProvider extends ContentProvider {
 
     private static final String AUTHORITY = Contract.CONTENT_AUTHORITY;
     public static final int ROUTE_CLOUDSTORGES = 1;
-
-    /**
-     * URI ID for route: /entries/{ID}
-     */
     public static final int ROUTE_CLOUDSTORGE_ID = 2;
-    /**
-     * UriMatcher, used to decode incoming URIs.
-     */
+    public static final int ROUTE_CLOUDSTORGE_DELETE = 3;
+    public static final int ROUTE_CLOUDSTORGE_MOVE = 4;
+    public static final int ROUTE_CLOUDSTORGE_RENAME = 5;
+
     private static final UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
     static {
         sUriMatcher.addURI(AUTHORITY, "cloudstorge", ROUTE_CLOUDSTORGES);
         sUriMatcher.addURI(AUTHORITY, "cloudstorge/*", ROUTE_CLOUDSTORGE_ID);
+        sUriMatcher.addURI(AUTHORITY, "cloudstorge_delete", ROUTE_CLOUDSTORGE_DELETE);
+        sUriMatcher.addURI(AUTHORITY, "cloudstorge_move", ROUTE_CLOUDSTORGE_MOVE);
+        sUriMatcher.addURI(AUTHORITY, "cloudstorge_rename", ROUTE_CLOUDSTORGE_RENAME);
     }
 
     /**
@@ -117,7 +117,7 @@ public class CloudStorgeProvider extends ContentProvider {
             case ROUTE_CLOUDSTORGE_ID:
                 String id = uri.getLastPathSegment();
                 count = builder.table(CloudStorgeContract.CloudStorge.TABLE_NAME)
-                        .where(CloudStorgeContract.CloudStorge.COLUMN_NAME_FILE_ID + "=?", id)
+                        .where(CloudStorgeContract.CloudStorge._ID + "=?", id)
                         .where(selection, selectionArgs)
                         .delete(db);
                 break;
@@ -139,6 +139,9 @@ public class CloudStorgeProvider extends ContentProvider {
         int count;
         switch (match) {
             case ROUTE_CLOUDSTORGES:
+            case ROUTE_CLOUDSTORGE_DELETE:
+            case ROUTE_CLOUDSTORGE_MOVE:
+            case ROUTE_CLOUDSTORGE_RENAME:
                 count = builder.table(CloudStorgeContract.CloudStorge.TABLE_NAME)
                         .where(selection, selectionArgs)
                         .update(db, contentValues);
@@ -153,9 +156,9 @@ public class CloudStorgeProvider extends ContentProvider {
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
-        Context ctx = getContext();
-        assert ctx != null;
-        ctx.getContentResolver().notifyChange(uri, null, false);
+        //Context ctx = getContext();
+        //assert ctx != null;
+        //ctx.getContentResolver().notifyChange(uri, null, false);
         return count;
     }
 
@@ -187,7 +190,10 @@ public class CloudStorgeProvider extends ContentProvider {
                         CloudStorgeContract.CloudStorge.COLUMN_NAME_SHARE + TYPE_TEXT + COMMA_SEP +
                         CloudStorgeContract.CloudStorge.COLUMN_NAME_DESCRIPTION + TYPE_TEXT + COMMA_SEP +
                         CloudStorgeContract.CloudStorge.COLUMN_NAME_ORIGIN_FOLDER + TYPE_INTEGER + COMMA_SEP +
-                        CloudStorgeContract.CloudStorge.COLUMN_NAME_PARENT_FOLDER_ID + TYPE_INTEGER +
+                        CloudStorgeContract.CloudStorge.COLUMN_NAME_PARENT_FOLDER_ID + TYPE_INTEGER + COMMA_SEP +
+                        CloudStorgeContract.CloudStorge.COLUMN_NAME_IS_NEED_SYNC + TYPE_INTEGER + COMMA_SEP +
+                        CloudStorgeContract.CloudStorge.COLUMN_NAME_SYNC_ACTION + TYPE_INTEGER + COMMA_SEP +
+                        CloudStorgeContract.CloudStorge.COLUMN_NAME_IS_OFFLINE + TYPE_INTEGER +
                         ")";
 
         /**

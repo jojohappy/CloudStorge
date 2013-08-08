@@ -116,11 +116,11 @@ public class FolderListDialog extends DialogFragment {
                 listData.clear();
                 String selection = String.format(SELECTION_CHILD, parentFolderId, username);
                 String selectionParent = String.format(selection_folder_format, parentFolderId, username);
-                Cursor parentCursor = mContentResolver.query(CloudStorgeContract.CloudStorge.CONTENT_URI, MainActivity.PROJECTION, selectionParent, null, null);
+                Cursor parentCursor = mContentResolver.query(CloudStorgeContract.CloudStorge.CONTENT_URI, Contract.PROJECTION, selectionParent, null, null);
                 parentCursor.moveToFirst();
                 int parentFolderIdtmp = parentCursor.getInt(Contract.PROJECTION_PARENT_FOLDER_ID);
                 String folderName = parentCursor.getString(Contract.PROJECTION_NAME);
-                Cursor cursor = mContentResolver.query(CloudStorgeContract.CloudStorge.CONTENT_URI, MainActivity.PROJECTION, selection, null, null);
+                Cursor cursor = mContentResolver.query(CloudStorgeContract.CloudStorge.CONTENT_URI, Contract.PROJECTION, selection, null, null);
                 while (cursor.moveToNext()) {
                     Map<String, String> map = new HashMap<String, String>();
                     map.put(CloudStorgeContract.CloudStorge.COLUMN_NAME_NAME, cursor.getString(Contract.PROJECTION_NAME));
@@ -139,7 +139,7 @@ public class FolderListDialog extends DialogFragment {
 
         listData = new ArrayList<Map<String, String>>();
         String selection = String.format(SELECTION_SPECIAL, Contract.FOLDER_ROOT, username, username);
-        Cursor cursor = mContentResolver.query(CloudStorgeContract.CloudStorge.CONTENT_URI, MainActivity.PROJECTION, selection, null, null);
+        Cursor cursor = mContentResolver.query(CloudStorgeContract.CloudStorge.CONTENT_URI, Contract.PROJECTION, selection, null, null);
         while (cursor.moveToNext()) {
             Map<String, String> map = new HashMap<String, String>();
             map.put(CloudStorgeContract.CloudStorge.COLUMN_NAME_NAME, cursor.getString(Contract.PROJECTION_NAME));
@@ -159,7 +159,7 @@ public class FolderListDialog extends DialogFragment {
                 parentFolderId = parentfolderId;
                 listData.clear();
                 String selection = String.format(SELECTION_CHILD, folderId, username);
-                Cursor cursor = mContentResolver.query(CloudStorgeContract.CloudStorge.CONTENT_URI, MainActivity.PROJECTION, selection, null, null);
+                Cursor cursor = mContentResolver.query(CloudStorgeContract.CloudStorge.CONTENT_URI, Contract.PROJECTION, selection, null, null);
                 while (cursor.moveToNext()) {
                     Map<String, String> map = new HashMap<String, String>();
                     map.put(CloudStorgeContract.CloudStorge.COLUMN_NAME_NAME, cursor.getString(Contract.PROJECTION_NAME));

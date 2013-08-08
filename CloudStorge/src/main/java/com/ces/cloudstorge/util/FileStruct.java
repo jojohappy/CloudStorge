@@ -12,9 +12,17 @@ public class FileStruct {
     private String share;
     private int size;
     private String last_modified;
+    private String username;
+    private String createTime;
+    private String revisionInfo;
+    private String description;
+    private int originFolder;
+
+    public FileStruct() {}
 
     public FileStruct(int fileId, int folderId, int parentFolderId, String name, String mimeType,
-                      String share, int size, String last_modified) {
+                      String share, int size, String last_modified, String username, String createTime,
+                      String revisionInfo, String description, int originFolder) {
         this.fileId = fileId;
         this.folderId = folderId;
         this.parentFolderId = parentFolderId;
@@ -23,6 +31,11 @@ public class FileStruct {
         this.share = share;
         this.size = size;
         this.last_modified = last_modified;
+        this.username = username;
+        this.createTime = createTime;
+        this.revisionInfo = revisionInfo;
+        this.description = description;
+        this.originFolder = originFolder;
     }
 
     public int getFileId() {
@@ -87,5 +100,45 @@ public class FileStruct {
 
     public void setLast_modified(String last_modified) {
         this.last_modified = last_modified;
+    }
+
+    public int getOriginFolder() {
+        return originFolder;
+    }
+
+    public void setOriginFolder(int originFolder) {
+        this.originFolder = originFolder;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getRevisionInfo() {
+        return revisionInfo;
+    }
+
+    public void setRevisionInfo(String revisionInfo) {
+        this.revisionInfo = revisionInfo;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
