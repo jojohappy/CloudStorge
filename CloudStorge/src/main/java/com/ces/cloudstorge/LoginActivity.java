@@ -16,6 +16,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -83,6 +84,11 @@ public class LoginActivity extends Activity {
         if (mAuthTask != null) {
             return;
         }
+
+        // 隐藏键盘
+        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(mPasswordView.getWindowToken(), 0);
+        imm.hideSoftInputFromWindow(mEmailView.getWindowToken(), 0);
 
         mEmailView.setError(null);
         mPasswordView.setError(null);
@@ -156,6 +162,7 @@ public class LoginActivity extends Activity {
         final Account account = new Account(mEmail, Contract.ACCOUNT_TYPE);
         mAccountManager.addAccountExplicitly(account, mPassword, null);
         mAccountManager.setAuthToken(account, "all", authToken);
+
         // 跳转到MainActivity
         final Intent intent = new Intent();
         intent.setClass(this, MainActivity.class);
@@ -188,7 +195,6 @@ public class LoginActivity extends Activity {
     public class UserLoginTask extends AsyncTask<Void, Void, String> {
         @Override
         protected String doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
             try {
                 return CloudStorgeRestUtilities.authenticate(mEmail, mPassword);
             } catch (Exception ex) {
