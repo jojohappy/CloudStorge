@@ -482,7 +482,8 @@ public class CommonUtil {
         mime_type.put("m21", "application/mp21");
         mime_type.put("mp4a", "audio/mp4");
         mime_type.put("mp4", "video/mp4");
-        mime_type.put("mp4", "application/mp4");
+        //mime_type.put("mp4", "application/mp4");
+        mime_type.put("mp3", "audio/mpeg");
         mime_type.put("m3u8", "application/vnd.apple.mpegurl");
         mime_type.put("mus", "application/vnd.musician");
         mime_type.put("msty", "application/vnd.muvee.style");

@@ -64,8 +64,8 @@
                     android:background="@drawable/shape_edittext"
                     android:autoText="false"
                     android:layout_marginTop="15dp"
-                    android:paddingStart="5dp"
-                    android:paddingEnd="5dp"/>
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"/>
 
             <EditText
                     android:id="@+id/password"
@@ -80,8 +80,8 @@
                     android:imeOptions="actionUnspecified"
                     android:background="@drawable/shape_edittext"
                     android:layout_marginTop="10dp"
-                    android:paddingStart="5dp"
-                    android:paddingEnd="5dp"/>
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"/>
 
             <Button
                     android:id="@+id/sign_in_button"

@@ -110,6 +110,10 @@ public class FileListAdapter extends SimpleCursorAdapter {
             TextView imagefileId = (TextView) convertView.findViewById(R.id.list_image_fileId);
             fileImage = (ImageView) convertView.findViewById(R.id.fileImage);
             ImageView shareImage = (ImageView) convertView.findViewById(R.id.list_file_share);
+            ImageView sharedImage = (ImageView) convertView.findViewById(R.id.list_shared);
+            ImageView offlineImage = (ImageView) convertView.findViewById(R.id.list_offline);
+            offlineImage.setVisibility(View.GONE);
+            sharedImage.setVisibility(View.GONE);
             shareImage.setVisibility(View.VISIBLE);
             LinearLayout linearLayout = (LinearLayout) convertView.findViewById(R.id.list_share_line);
             if (mCursor.getInt(Contract.PROJECTION_ORIGIN_FOLDER) == -20 || MainActivity.isTrash) {
@@ -152,6 +156,10 @@ public class FileListAdapter extends SimpleCursorAdapter {
                 }
             } else {
                 fileImage.setImageResource(R.drawable.icon_default);
+            }
+            if(null != mCursor.getString(Contract.PROJECTION_SHARE) && !"".equals(mCursor.getString(Contract.PROJECTION_SHARE)))
+            {
+                sharedImage.setVisibility(View.VISIBLE);
             }
             imagefileId.setText(mCursor.getInt(Contract.PROJECTION_FILE_ID) + "");
             fileName.setText(mCursor.getString(Contract.PROJECTION_NAME));

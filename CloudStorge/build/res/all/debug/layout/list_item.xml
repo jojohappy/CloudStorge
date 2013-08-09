@@ -28,14 +28,35 @@
 
     <TextView
             android:id="@+id/list_file_name"
-            android:layout_width="240dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/thumbnail"
             android:layout_toRightOf="@+id/thumbnail"
             android:textColor="#040404"
             android:textSize="17dip"
             android:paddingTop="5dp"
-            android:singleLine="true"/>
+            android:singleLine="true"
+            android:paddingRight="50dp"
+            />
+
+    <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_below="@+id/list_file_name"
+            android:layout_toRightOf="@+id/thumbnail"
+            android:id="@+id/list_shared"
+            android:src="@drawable/ic_list_shared"
+            android:layout_marginTop="-1dip"/>
+
+    <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_below="@+id/list_file_name"
+            android:layout_toRightOf="@+id/list_shared"
+            android:id="@+id/list_offline"
+            android:src="@drawable/ic_list_offline"
+            android:layout_marginTop="-1dip"
+            android:layout_marginLeft="2dp"/>
 
     <TextView
             android:layout_width="wrap_content"
@@ -44,19 +65,21 @@
             android:text="@string/lastmodified"
             android:id="@+id/list_lastmodified_tmp"
             android:layout_below="@+id/list_file_name"
-            android:layout_toRightOf="@+id/thumbnail"
+            android:layout_toRightOf="@+id/list_offline"
             android:textColor="#ff686868"
             android:textSize="13dip"
-            android:layout_marginTop="1dip"/>
+            android:layout_marginTop="1dip"
+            android:layout_marginLeft="2dip"/>
 
     <TextView
             android:id="@+id/list_last_modified"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#ff686868"
             android:textSize="13dip"
             android:layout_alignTop="@+id/list_lastmodified_tmp"
-            android:layout_toRightOf="@+id/list_lastmodified_tmp"/>
+            android:layout_toRightOf="@+id/list_lastmodified_tmp"
+            android:paddingRight="50dp"/>
 
     <LinearLayout
             android:id="@+id/list_share_line"

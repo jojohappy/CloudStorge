@@ -17,7 +17,6 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.ces.cloudstorge.Contract;
-import com.ces.cloudstorge.MainActivity;
 import com.ces.cloudstorge.R;
 import com.ces.cloudstorge.provider.CloudStorgeContract;
 

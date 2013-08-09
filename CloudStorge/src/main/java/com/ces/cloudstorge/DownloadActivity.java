@@ -43,6 +43,10 @@ public class DownloadActivity extends Activity {
         }
         File dir = new File(Environment.getDataDirectory() + "/data/com.ces.cloudstorge/cache/");
         dir.mkdirs();
+        dir.setReadable(true, false);
+        dir.setWritable(true, false);
+        dir.setExecutable(true, false);
+
         fileId = getIntent().getExtras().getInt("fileId");
         cursor = get_fileInDatabase(fileId);
         new DownloadAsyncTask().execute(fileId);
@@ -92,21 +96,24 @@ public class DownloadActivity extends Activity {
             if (progressDialog.isShowing())
                 progressDialog.dismiss();
             if (result == 0) {
-                Intent shareIntent = new Intent();
-                shareIntent.setAction(Intent.ACTION_VIEW);
-                shareIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                Intent downloadIntent = new Intent();
+                downloadIntent.setAction(Intent.ACTION_VIEW);
+                downloadIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 //shareIntent.setType(mimeType);
-                shareIntent.setDataAndType(fileUri, mimeType);
+                downloadIntent.setDataAndType(fileUri, mimeType);
                 PackageManager packageManager = getPackageManager();
-                List<ResolveInfo> activities = packageManager.queryIntentActivities(shareIntent, 0);
+                List<ResolveInfo> activities = packageManager.queryIntentActivities(downloadIntent, 0);
                 boolean isIntentSafe = activities.size() > 0;
                 if (!isIntentSafe)
                     create_DownloadDialog(getString(R.string.terrible), getString(R.string.download_file_cannot_open));
-                startActivityForResult(shareIntent, RESULT_CANCELED);
+                else {
+                    startActivityForResult(downloadIntent, RESULT_CANCELED);
+                    finish();
+                }
             } else {
                 create_DownloadDialog(getString(R.string.terrible), getString(R.string.download_file_error));
             }
-            finish();
+
         }
 
         @Override
@@ -153,6 +160,8 @@ public class DownloadActivity extends Activity {
                 fileUri = Uri.fromFile(outFile);
                 String fileType = cursor.getString(Contract.PROJECTION_MIME_TYPE);
                 mimeType = CommonUtil.mime_type.get(fileType);
+                if(null == mimeType)
+                    mimeType = "application/octet-stream";
                 outFile.setReadable(true, false);
                 outFile.setWritable(true, false);
             } catch (IllegalStateException e) {

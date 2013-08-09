@@ -17,7 +17,13 @@ public final class R {
          */
         public static final int array_action_add=0x7f060000;
         public static final int do_array=0x7f060001;
-        public static final int sort_array=0x7f060002;
+        /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings_activity_settings.xml 
+         */
+        public static final int pref_example_list_titles=0x7f060002;
+        public static final int pref_example_list_values=0x7f060003;
+        /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings.xml 
+         */
+        public static final int sort_array=0x7f060004;
     }
     public static final class attr {
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
@@ -60,75 +66,77 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int ic_actionbar=0x7f02000e;
         public static final int ic_drawer=0x7f02000f;
         public static final int ic_launcher=0x7f020010;
-        public static final int ic_list_share=0x7f020011;
-        public static final int ic_menu_about=0x7f020012;
-        public static final int ic_menu_copy=0x7f020013;
-        public static final int ic_menu_download=0x7f020014;
-        public static final int ic_menu_rename=0x7f020015;
-        public static final int icon=0x7f020016;
-        public static final int icon_7z=0x7f020017;
-        public static final int icon_ai=0x7f020018;
-        public static final int icon_apk=0x7f020019;
-        public static final int icon_avi=0x7f02001a;
-        public static final int icon_bmp=0x7f02001b;
-        public static final int icon_cdr=0x7f02001c;
-        public static final int icon_css=0x7f02001d;
-        public static final int icon_csv=0x7f02001e;
-        public static final int icon_default=0x7f02001f;
-        public static final int icon_dmg=0x7f020020;
-        public static final int icon_doc=0x7f020021;
-        public static final int icon_docx=0x7f020022;
-        public static final int icon_eps=0x7f020023;
-        public static final int icon_exe=0x7f020024;
-        public static final int icon_fla=0x7f020025;
-        public static final int icon_folder=0x7f020026;
-        public static final int icon_folder_dialog=0x7f020027;
-        public static final int icon_gif=0x7f020028;
-        public static final int icon_html=0x7f020029;
-        public static final int icon_ico=0x7f02002a;
-        public static final int icon_iso=0x7f02002b;
-        public static final int icon_jar=0x7f02002c;
-        public static final int icon_jpg=0x7f02002d;
-        public static final int icon_js=0x7f02002e;
-        public static final int icon_json=0x7f02002f;
-        public static final int icon_mov=0x7f020030;
-        public static final int icon_mp3=0x7f020031;
-        public static final int icon_pdf=0x7f020032;
-        public static final int icon_php=0x7f020033;
-        public static final int icon_png=0x7f020034;
-        public static final int icon_ppt=0x7f020035;
-        public static final int icon_pptx=0x7f020036;
-        public static final int icon_psd=0x7f020037;
-        public static final int icon_rar=0x7f020038;
-        public static final int icon_svg=0x7f020039;
-        public static final int icon_swf=0x7f02003a;
-        public static final int icon_tiff=0x7f02003b;
-        public static final int icon_ttf=0x7f02003c;
-        public static final int icon_txt=0x7f02003d;
-        public static final int icon_war=0x7f02003e;
-        public static final int icon_wav=0x7f02003f;
-        public static final int icon_xls=0x7f020040;
-        public static final int icon_xlsx=0x7f020041;
-        public static final int icon_xml=0x7f020042;
-        public static final int icon_zip=0x7f020043;
-        public static final int list_section_divider_holo_custom=0x7f020044;
-        public static final int login_wallpaper=0x7f020045;
-        public static final int shape_button=0x7f020046;
-        public static final int shape_edittext=0x7f020047;
+        public static final int ic_list_offline=0x7f020011;
+        public static final int ic_list_share=0x7f020012;
+        public static final int ic_list_shared=0x7f020013;
+        public static final int ic_menu_about=0x7f020014;
+        public static final int ic_menu_copy=0x7f020015;
+        public static final int ic_menu_download=0x7f020016;
+        public static final int ic_menu_rename=0x7f020017;
+        public static final int icon=0x7f020018;
+        public static final int icon_7z=0x7f020019;
+        public static final int icon_ai=0x7f02001a;
+        public static final int icon_apk=0x7f02001b;
+        public static final int icon_avi=0x7f02001c;
+        public static final int icon_bmp=0x7f02001d;
+        public static final int icon_cdr=0x7f02001e;
+        public static final int icon_css=0x7f02001f;
+        public static final int icon_csv=0x7f020020;
+        public static final int icon_default=0x7f020021;
+        public static final int icon_dmg=0x7f020022;
+        public static final int icon_doc=0x7f020023;
+        public static final int icon_docx=0x7f020024;
+        public static final int icon_eps=0x7f020025;
+        public static final int icon_exe=0x7f020026;
+        public static final int icon_fla=0x7f020027;
+        public static final int icon_folder=0x7f020028;
+        public static final int icon_folder_dialog=0x7f020029;
+        public static final int icon_gif=0x7f02002a;
+        public static final int icon_html=0x7f02002b;
+        public static final int icon_ico=0x7f02002c;
+        public static final int icon_iso=0x7f02002d;
+        public static final int icon_jar=0x7f02002e;
+        public static final int icon_jpg=0x7f02002f;
+        public static final int icon_js=0x7f020030;
+        public static final int icon_json=0x7f020031;
+        public static final int icon_mov=0x7f020032;
+        public static final int icon_mp3=0x7f020033;
+        public static final int icon_pdf=0x7f020034;
+        public static final int icon_php=0x7f020035;
+        public static final int icon_png=0x7f020036;
+        public static final int icon_ppt=0x7f020037;
+        public static final int icon_pptx=0x7f020038;
+        public static final int icon_psd=0x7f020039;
+        public static final int icon_rar=0x7f02003a;
+        public static final int icon_svg=0x7f02003b;
+        public static final int icon_swf=0x7f02003c;
+        public static final int icon_tiff=0x7f02003d;
+        public static final int icon_ttf=0x7f02003e;
+        public static final int icon_txt=0x7f02003f;
+        public static final int icon_war=0x7f020040;
+        public static final int icon_wav=0x7f020041;
+        public static final int icon_xls=0x7f020042;
+        public static final int icon_xlsx=0x7f020043;
+        public static final int icon_xml=0x7f020044;
+        public static final int icon_zip=0x7f020045;
+        public static final int list_section_divider_holo_custom=0x7f020046;
+        public static final int login_wallpaper=0x7f020047;
+        public static final int shape_button=0x7f020048;
+        public static final int shape_edittext=0x7f020049;
     }
     public static final class id {
-        public static final int action_about=0x7f0c0051;
-        public static final int action_copy=0x7f0c0049;
-        public static final int action_delete=0x7f0c0047;
-        public static final int action_download=0x7f0c004a;
-        public static final int action_move=0x7f0c0046;
-        public static final int action_new=0x7f0c004f;
-        public static final int action_refresh=0x7f0c004e;
-        public static final int action_rename=0x7f0c0048;
-        public static final int action_settings=0x7f0c004d;
-        public static final int action_share=0x7f0c004b;
-        public static final int action_sort=0x7f0c0050;
-        public static final int action_undo=0x7f0c004c;
+        public static final int action_about=0x7f0c0053;
+        public static final int action_copy=0x7f0c004b;
+        public static final int action_delete=0x7f0c0049;
+        public static final int action_download=0x7f0c004c;
+        public static final int action_move=0x7f0c0048;
+        public static final int action_new=0x7f0c0051;
+        public static final int action_refresh=0x7f0c0050;
+        public static final int action_rename=0x7f0c004a;
+        public static final int action_settings=0x7f0c004f;
+        public static final int action_share=0x7f0c004d;
+        public static final int action_sort=0x7f0c0052;
+        public static final int action_undo=0x7f0c004e;
         public static final int add_folder_linear=0x7f0c0025;
         public static final int content_frame=0x7f0c0017;
         public static final int copyright_view=0x7f0c0023;
@@ -142,12 +150,12 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int detail_tenant_list=0x7f0c0007;
         public static final int dialog_folder_icon=0x7f0c002a;
         public static final int dialog_folder_name=0x7f0c002b;
-        public static final int drawer_header_icon=0x7f0c0041;
-        public static final int drawer_header_title=0x7f0c0042;
-        public static final int drawer_icon=0x7f0c0043;
-        public static final int drawer_item=0x7f0c0040;
+        public static final int drawer_header_icon=0x7f0c0043;
+        public static final int drawer_header_title=0x7f0c0044;
+        public static final int drawer_icon=0x7f0c0045;
+        public static final int drawer_item=0x7f0c0042;
         public static final int drawer_layout=0x7f0c0016;
-        public static final int drawer_title=0x7f0c0044;
+        public static final int drawer_title=0x7f0c0046;
         public static final int email=0x7f0c0012;
         public static final int fileImage=0x7f0c0030;
         public static final int file_detail_download_switch=0x7f0c0004;
@@ -159,30 +167,32 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int lbl_folder_name=0x7f0c0026;
         public static final int left_drawer=0x7f0c0018;
         public static final int listView=0x7f0c0029;
-        public static final int list_dialog_folderid=0x7f0c003c;
-        public static final int list_dialog_image=0x7f0c003a;
-        public static final int list_dialog_parentfolderid=0x7f0c003d;
-        public static final int list_dialog_text=0x7f0c003b;
-        public static final int list_fileId=0x7f0c0038;
+        public static final int list_dialog_folderid=0x7f0c003e;
+        public static final int list_dialog_image=0x7f0c003c;
+        public static final int list_dialog_parentfolderid=0x7f0c003f;
+        public static final int list_dialog_text=0x7f0c003d;
+        public static final int list_fileId=0x7f0c003a;
         public static final int list_file_name=0x7f0c0031;
-        public static final int list_file_share=0x7f0c0035;
-        public static final int list_folderId=0x7f0c0039;
+        public static final int list_file_share=0x7f0c0037;
+        public static final int list_folderId=0x7f0c003b;
         public static final int list_folder_dialog=0x7f0c002c;
-        public static final int list_image_fileId=0x7f0c0036;
-        public static final int list_last_modified=0x7f0c0033;
-        public static final int list_lastmodified_tmp=0x7f0c0032;
-        public static final int list_parentFolderId=0x7f0c0037;
-        public static final int list_share_line=0x7f0c0034;
+        public static final int list_image_fileId=0x7f0c0038;
+        public static final int list_last_modified=0x7f0c0035;
+        public static final int list_lastmodified_tmp=0x7f0c0034;
+        public static final int list_offline=0x7f0c0033;
+        public static final int list_parentFolderId=0x7f0c0039;
+        public static final int list_share_line=0x7f0c0036;
+        public static final int list_shared=0x7f0c0032;
         public static final int login=0x7f0c0014;
         public static final int login_form=0x7f0c0010;
         public static final int login_linearlayout=0x7f0c0011;
         public static final int login_status=0x7f0c000e;
         public static final int login_status_message=0x7f0c000f;
         public static final int password=0x7f0c0013;
-        public static final int progressBar=0x7f0c0045;
+        public static final int progressBar=0x7f0c0047;
         public static final int sign_in_button=0x7f0c0015;
-        public static final int tenant_checkbox=0x7f0c003f;
-        public static final int tenant_id_text=0x7f0c003e;
+        public static final int tenant_checkbox=0x7f0c0041;
+        public static final int tenant_id_text=0x7f0c0040;
         public static final int textView=0x7f0c0028;
         public static final int textView2=0x7f0c0000;
         public static final int textView3=0x7f0c0003;
@@ -246,126 +256,149 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int cab_selectd=0x7f09000c;
         public static final int cancel=0x7f09000d;
         public static final int choose_upload_app=0x7f09000e;
+        /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings_activity_settings.xml 
+         */
+        public static final int clear_cache=0x7f09000f;
+        public static final int clear_cache_confirm=0x7f090010;
+        public static final int clear_cache_failure=0x7f090011;
+        public static final int clear_cache_success=0x7f090012;
+        public static final int clear_cache_summary=0x7f090013;
         /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/file_detail_strings.xml 
          */
-        public static final int close_share_file_progress_message=0x7f09000f;
-        public static final int close_share_file_success=0x7f090010;
+        public static final int close_share_file_progress_message=0x7f090014;
+        public static final int close_share_file_success=0x7f090015;
         /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings.xml 
          */
-        public static final int copyright=0x7f090011;
-        public static final int delete_confirm=0x7f090012;
-        public static final int delete_confirm_forever=0x7f090013;
-        public static final int delete_tip=0x7f090014;
-        public static final int delete_tip_forever=0x7f090015;
+        public static final int copyright=0x7f090016;
+        public static final int delete_confirm=0x7f090017;
+        public static final int delete_confirm_forever=0x7f090018;
+        public static final int delete_tip=0x7f090019;
+        public static final int delete_tip_forever=0x7f09001a;
         /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/file_detail_strings.xml 
          */
-        public static final int detail_confirm_close_share_string=0x7f090016;
-        public static final int detail_download_label_string=0x7f090017;
-        public static final int detail_download_switch_label_string=0x7f090018;
-        public static final int detail_general_label_string=0x7f090019;
-        public static final int detail_last_modified_label_string=0x7f09001a;
-        public static final int detail_share_failure_string=0x7f09001b;
-        public static final int detail_share_label_string=0x7f09001c;
-        public static final int detail_share_switch_label_string=0x7f09001d;
-        public static final int detail_size_label_string=0x7f09001e;
+        public static final int detail_confirm_close_share_string=0x7f09001b;
+        public static final int detail_download_label_string=0x7f09001c;
+        public static final int detail_download_switch_label_string=0x7f09001d;
+        public static final int detail_general_label_string=0x7f09001e;
+        public static final int detail_last_modified_label_string=0x7f09001f;
+        public static final int detail_share_failure_string=0x7f090020;
+        public static final int detail_share_label_string=0x7f090021;
+        public static final int detail_share_switch_label_string=0x7f090022;
+        public static final int detail_size_label_string=0x7f090023;
         /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings.xml 
          */
-        public static final int dg_add_folder=0x7f09001f;
+        public static final int dg_add_folder=0x7f090024;
+        /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings_activity_settings.xml 
+         */
+        public static final int doc_cache=0x7f090025;
         /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/file_download_strings.xml 
          */
-        public static final int download_file_cannot_open=0x7f090020;
-        public static final int download_file_error=0x7f090021;
-        public static final int download_file_network_error=0x7f090022;
-        public static final int download_file_tip=0x7f090023;
+        public static final int download_file_cannot_open=0x7f090026;
+        public static final int download_file_error=0x7f090027;
+        public static final int download_file_network_error=0x7f090028;
+        public static final int download_file_tip=0x7f090029;
         /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings.xml 
          */
-        public static final int drawer_close=0x7f090024;
-        public static final int drawer_open=0x7f090025;
-        public static final int error_add_folder_exists_tip=0x7f090026;
-        public static final int error_add_folder_no_network_tip=0x7f090027;
-        public static final int error_add_folder_rest_tip=0x7f090028;
-        public static final int error_field_required=0x7f090029;
-        public static final int error_incorrect_password=0x7f09002a;
-        public static final int error_invalid_email=0x7f09002b;
-        public static final int exit_dialog_message=0x7f09002c;
-        public static final int exit_dialog_title=0x7f09002d;
-        public static final int hello_world=0x7f09002e;
-        public static final int input_new_name=0x7f09002f;
-        public static final int label=0x7f090030;
-        public static final int lastmodified=0x7f090031;
-        public static final int list_empty=0x7f090032;
+        public static final int drawer_close=0x7f09002a;
+        public static final int drawer_open=0x7f09002b;
+        public static final int error_add_folder_exists_tip=0x7f09002c;
+        public static final int error_add_folder_no_network_tip=0x7f09002d;
+        public static final int error_add_folder_rest_tip=0x7f09002e;
+        public static final int error_field_required=0x7f09002f;
+        public static final int error_incorrect_password=0x7f090030;
+        public static final int error_invalid_email=0x7f090031;
+        public static final int exit_dialog_message=0x7f090032;
+        public static final int exit_dialog_title=0x7f090033;
+        public static final int input_new_name=0x7f090034;
+        public static final int label=0x7f090035;
+        public static final int lastmodified=0x7f090036;
+        public static final int list_empty=0x7f090037;
         /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/file_upload_strings.xml 
          */
-        public static final int location_text=0x7f090033;
+        public static final int location_text=0x7f090038;
         /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings.xml 
          */
-        public static final int login_error=0x7f090034;
-        public static final int login_progress_signing_in=0x7f090035;
-        public static final int menu_action_copy=0x7f090036;
-        public static final int menu_action_delete=0x7f090037;
-        public static final int menu_action_download=0x7f090038;
-        public static final int menu_action_move=0x7f090039;
-        public static final int menu_action_rename=0x7f09003a;
-        public static final int menu_action_share=0x7f09003b;
-        public static final int menu_action_undo=0x7f09003c;
-        public static final int move_tip=0x7f09003d;
-        public static final int network_error=0x7f09003e;
+        public static final int login_error=0x7f090039;
+        public static final int login_progress_signing_in=0x7f09003a;
+        public static final int menu_action_copy=0x7f09003b;
+        public static final int menu_action_delete=0x7f09003c;
+        public static final int menu_action_download=0x7f09003d;
+        public static final int menu_action_move=0x7f09003e;
+        public static final int menu_action_rename=0x7f09003f;
+        public static final int menu_action_share=0x7f090040;
+        public static final int menu_action_undo=0x7f090041;
+        public static final int move_tip=0x7f090042;
+        public static final int network_error=0x7f090043;
         /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/file_upload_strings.xml 
          */
-        public static final int no_account=0x7f09003f;
+        public static final int no_account=0x7f090044;
         /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings.xml 
          */
-        public static final int null_new_folder_name_tip=0x7f090040;
-        public static final int ok=0x7f090041;
-        public static final int progress_add_folder=0x7f090042;
-        public static final int progress_delete_file=0x7f090043;
-        public static final int prompt_email=0x7f090044;
-        public static final int prompt_password=0x7f090045;
+        public static final int null_new_folder_name_tip=0x7f090045;
+        public static final int ok=0x7f090046;
+        /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings_activity_settings.xml 
+         */
+        public static final int pref_default_display_name=0x7f090047;
+        public static final int pref_description_social_recommendations=0x7f090048;
+        public static final int pref_header_general=0x7f090049;
+        public static final int pref_title_add_friends_to_messages=0x7f09004a;
+        public static final int pref_title_display_name=0x7f09004b;
+        public static final int pref_title_social_recommendations=0x7f09004c;
+        /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings.xml 
+         */
+        public static final int progress_add_folder=0x7f09004d;
+        public static final int progress_delete_file=0x7f09004e;
+        public static final int prompt_email=0x7f09004f;
+        public static final int prompt_password=0x7f090050;
         /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/file_upload_strings.xml 
          */
-        public static final int read_file_error=0x7f090046;
+        public static final int read_file_error=0x7f090051;
         /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings.xml 
          */
-        public static final int rename_error=0x7f090047;
-        public static final int rename_tip=0x7f090048;
+        public static final int rename_error=0x7f090052;
+        public static final int rename_tip=0x7f090053;
         /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/file_detail_strings.xml 
          */
-        public static final int share_file_error=0x7f090049;
-        public static final int share_file_progress_message=0x7f09004a;
-        public static final int share_file_success=0x7f09004b;
+        public static final int share_file_error=0x7f090054;
+        public static final int share_file_progress_message=0x7f090055;
+        public static final int share_file_success=0x7f090056;
         /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings.xml 
          */
-        public static final int share_folder=0x7f09004c;
-        public static final int share_from=0x7f09004d;
-        public static final int sync=0x7f09004e;
-        public static final int sync_message=0x7f09004f;
+        public static final int share_folder=0x7f090057;
+        public static final int share_from=0x7f090058;
+        public static final int sync=0x7f090059;
+        public static final int sync_message=0x7f09005a;
         /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/file_upload_strings.xml 
          */
-        public static final int terrible=0x7f090050;
+        public static final int terrible=0x7f09005b;
         /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings.xml 
          */
-        public static final int tip=0x7f090051;
+        public static final int tip=0x7f09005c;
         /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/file_download_strings.xml 
          */
-        public static final int title_activity_download=0x7f090052;
+        public static final int title_activity_download=0x7f09005d;
         /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings.xml 
          */
-        public static final int title_activity_file_detail=0x7f090053;
-        public static final int title_activity_login=0x7f090054;
+        public static final int title_activity_file_detail=0x7f09005e;
+        public static final int title_activity_login=0x7f09005f;
+        /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings_activity_settings.xml 
+         */
+        public static final int title_activity_settings=0x7f090060;
         /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/file_upload_strings.xml 
          */
-        public static final int title_activity_upload=0x7f090055;
+        public static final int title_activity_upload=0x7f090061;
         /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings.xml 
          */
-        public static final int trash_folder=0x7f090056;
+        public static final int trash_folder=0x7f090062;
         /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/file_upload_strings.xml 
          */
-        public static final int upload_error=0x7f090057;
-        public static final int upload_file_label=0x7f090058;
-        public static final int upload_file_location=0x7f090059;
-        public static final int upload_file_wait=0x7f09005a;
-        public static final int upload_success=0x7f09005b;
-        public static final int upload_title=0x7f09005c;
+        public static final int upload_error=0x7f090063;
+        public static final int upload_file_label=0x7f090064;
+        public static final int upload_file_location=0x7f090065;
+        public static final int upload_file_wait=0x7f090066;
+        public static final int upload_max_size=0x7f090067;
+        public static final int upload_success=0x7f090068;
+        public static final int upload_title=0x7f090069;
     }
     public static final class style {
         /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/styles.xml 
@@ -394,6 +427,8 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
     public static final class xml {
         public static final int authenticator=0x7f050000;
         public static final int cloudstorgesyncadapter=0x7f050001;
+        public static final int pref_general=0x7f050002;
+        public static final int pref_headers=0x7f050003;
     }
     public static final class styleable {
         /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/attrs.xml 

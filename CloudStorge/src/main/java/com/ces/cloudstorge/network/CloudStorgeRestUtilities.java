@@ -272,12 +272,11 @@ public class CloudStorgeRestUtilities {
         final HttpResponse resp;
         final ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
         final HttpPost post;
-        if(fileType == Contract.TYPE_FILE) {
+        if (fileType == Contract.TYPE_FILE) {
             params.add(new BasicNameValuePair("file_id", fileId + ""));
             params.add(new BasicNameValuePair("dest_folder_id", new_parentFolderId + ""));
             post = new HttpPost(MOVE_FILE_URL);
-        }
-        else {
+        } else {
             params.add(new BasicNameValuePair("folder_id", folderId + ""));
             params.add(new BasicNameValuePair("dest_folder_id", new_parentFolderId + ""));
             post = new HttpPost(MOVE_FOLDER_URL);
@@ -310,12 +309,11 @@ public class CloudStorgeRestUtilities {
         final HttpResponse resp;
         final ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
         final HttpPost post;
-        if(fileType == Contract.TYPE_FILE) {
+        if (fileType == Contract.TYPE_FILE) {
             params.add(new BasicNameValuePair("file_id", fileId + ""));
             params.add(new BasicNameValuePair("new_file_name", newName));
             post = new HttpPost(RENAME_FILE_URL);
-        }
-        else {
+        } else {
             params.add(new BasicNameValuePair("folder_id", folderId + ""));
             params.add(new BasicNameValuePair("new_folder_name", newName));
             post = new HttpPost(RENAME_FOLDER_URL);

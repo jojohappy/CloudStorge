@@ -136,7 +136,7 @@ public class FileDetailActivity extends Activity {
         FileStruct fileStruct = new FileStruct(cursor.getInt(Contract.PROJECTION_FILE_ID), cursor.getInt(Contract.PROJECTION_FOLDER_ID),
                 cursor.getInt(Contract.PROJECTION_PARENT_FOLDER_ID), cursor.getString(Contract.PROJECTION_NAME),
                 cursor.getString(Contract.PROJECTION_MIME_TYPE), cursor.getString(Contract.PROJECTION_SHARE),
-                cursor.getInt(Contract.PROJECTION_SIZE), cursor.getString(Contract.PROJECTION_LAST_MODIFIED), null, null, null,null,-1);
+                cursor.getInt(Contract.PROJECTION_SIZE), cursor.getString(Contract.PROJECTION_LAST_MODIFIED), null, null, null, null, -1);
         return fileStruct;
     }
 

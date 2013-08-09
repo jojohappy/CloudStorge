@@ -248,6 +248,8 @@ public class UploadActivity extends FragmentActivity implements FolderListDialog
             if (result == 0) {
                 insert_newFile(newFileId, mime_type);
                 create_uploadDialog(getString(R.string.upload_title), getString(R.string.upload_success));
+            } else if (result == -2) {
+                create_uploadDialog(getString(R.string.terrible), getString(R.string.upload_max_size));
             } else {
                 create_uploadDialog(getString(R.string.terrible), getString(R.string.upload_error));
             }
@@ -270,6 +272,8 @@ public class UploadActivity extends FragmentActivity implements FolderListDialog
             int maxBufferSize = 1 * 1024 * 1024;
             try {
                 File file = new File(path);
+                if (file.length() > 20 * 1024 * 1024)
+                    return -2;
                 FileInputStream fileInputStream = new FileInputStream(file);
                 Long fileSize = file.length();
                 URL url = new URL(CloudStorgeRestUtilities.UPLOAD_URL);

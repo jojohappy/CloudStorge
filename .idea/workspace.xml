@@ -73,7 +73,49 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a437b136-d2f2-4d62-a11c-353c81955d74" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/LoginActivity.java" afterPath="$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/LoginActivity.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/CloudStorge/build/res/all/debug/drawable-hdpi/ic_list_offline.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/CloudStorge/build/res/all/debug/drawable-mdpi/ic_list_offline.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/CloudStorge/build/res/all/debug/drawable-xhdpi/ic_list_offline.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/CloudStorge/src/main/res/drawable-hdpi/ic_list_offline.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/CloudStorge/src/main/res/drawable-mdpi/ic_list_offline.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/CloudStorge/src/main/res/drawable-xhdpi/ic_list_offline.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/CloudStorge/build/res/all/debug/drawable-hdpi/ic_list_shared.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/CloudStorge/build/res/all/debug/drawable-mdpi/ic_list_shared.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/CloudStorge/build/res/all/debug/drawable-xhdpi/ic_list_shared.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/CloudStorge/src/main/res/drawable-hdpi/ic_list_shared.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/CloudStorge/src/main/res/drawable-mdpi/ic_list_shared.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/CloudStorge/src/main/res/drawable-xhdpi/ic_list_shared.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/Dialog/ClearCacheDailog.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/SettingsActivity.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/CloudStorge/build/res/all/debug/xml/pref_general.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/CloudStorge/src/main/res/xml/pref_general.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/CloudStorge/build/res/all/debug/xml/pref_headers.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/CloudStorge/src/main/res/xml/pref_headers.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/CloudStorge/src/main/res/values/strings_activity_settings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CloudStorge/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/CloudStorge/src/main/AndroidManifest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/CloudStorgeProcessor.java" afterPath="$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/CloudStorgeProcessor.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/provider/CloudStorgeProvider.java" afterPath="$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/provider/CloudStorgeProvider.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/network/CloudStorgeRestUtilities.java" afterPath="$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/network/CloudStorgeRestUtilities.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/syncadapter/CloudStorgeSyncAdapter.java" afterPath="$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/syncadapter/CloudStorgeSyncAdapter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/util/CommonUtil.java" afterPath="$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/util/CommonUtil.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/ContentFragment.java" afterPath="$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/ContentFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/DownloadActivity.java" afterPath="$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/DownloadActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/FileDetailActivity.java" afterPath="$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/FileDetailActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/adapter/FileListAdapter.java" afterPath="$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/adapter/FileListAdapter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/util/FileStruct.java" afterPath="$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/util/FileStruct.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/Dialog/FolderListDialog.java" afterPath="$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/Dialog/FolderListDialog.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/MainActivity.java" afterPath="$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/MainActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CloudStorge/build/source/r/debug/com/ces/cloudstorge/R.java" afterPath="$PROJECT_DIR$/CloudStorge/build/source/r/debug/com/ces/cloudstorge/R.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/UploadActivity.java" afterPath="$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/UploadActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CloudStorge/build/res/all/debug/layout/activity_login.xml" afterPath="$PROJECT_DIR$/CloudStorge/build/res/all/debug/layout/activity_login.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CloudStorge/src/main/res/layout/activity_login.xml" afterPath="$PROJECT_DIR$/CloudStorge/src/main/res/layout/activity_login.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CloudStorge/src/main/res/values/file_upload_strings.xml" afterPath="$PROJECT_DIR$/CloudStorge/src/main/res/values/file_upload_strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CloudStorge/build/res/all/debug/layout/list_item.xml" afterPath="$PROJECT_DIR$/CloudStorge/build/res/all/debug/layout/list_item.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CloudStorge/src/main/res/layout/list_item.xml" afterPath="$PROJECT_DIR$/CloudStorge/src/main/res/layout/list_item.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CloudStorge/build/res/all/debug/menu/main.xml" afterPath="$PROJECT_DIR$/CloudStorge/build/res/all/debug/menu/main.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CloudStorge/src/main/res/menu/main.xml" afterPath="$PROJECT_DIR$/CloudStorge/src/main/res/menu/main.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CloudStorge/src/main/res/values/strings.xml" afterPath="$PROJECT_DIR$/CloudStorge/src/main/res/values/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CloudStorge/build/res/all/debug/values/values.xml" afterPath="$PROJECT_DIR$/CloudStorge/build/res/all/debug/values/values.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="CloudStorge.iws" />
@@ -138,66 +180,12 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="MainActivity.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="MainActivity.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="468" column="40" selection-start="19230" selection-end="19230" vertical-scroll-proportion="0.0" vertical-offset="9031" max-vertical-offset="19171">
-              <folding>
-                <element signature="e#8523#8561#0" expanded="true" />
-                <element signature="e#16949#17111#0" expanded="true" />
-                <element signature="e#17100#17101#0" expanded="true" />
-                <element signature="e#19296#19322#0" expanded="true" />
-                <element signature="e#21736#21740#0" expanded="true" />
-                <element signature="e#24317#24343#0" expanded="true" />
-                <element signature="e#25412#25416#0" expanded="true" />
-                <element signature="e#26172#26198#0" expanded="true" />
-                <element signature="e#28974#28978#0" expanded="true" />
-                <element signature="e#32537#32575#0" expanded="true" />
-                <element signature="e#32861#32893#0" expanded="true" />
-                <element signature="e#33179#33211#0" expanded="true" />
-                <element signature="e#34151#34183#0" expanded="true" />
-                <element signature="e#36790#37582#0" expanded="true" />
-                <element signature="e#37571#37572#0" expanded="true" />
-                <element signature="e#37636#37798#0" expanded="true" />
-                <element signature="e#37787#37788#0" expanded="true" />
-                <element signature="e#38100#38432#0" expanded="true" />
-                <element signature="e#38421#38422#0" expanded="true" />
-                <element signature="e#39031#39186#0" expanded="true" />
-                <element signature="e#39175#39176#0" expanded="true" />
-                <element signature="e#39240#39402#0" expanded="true" />
-                <element signature="e#39391#39392#0" expanded="true" />
-                <element signature="e#41815#41854#0" expanded="true" />
-                <element signature="e#42622#42630#0" expanded="true" />
-                <element signature="e#42788#42814#0" expanded="true" />
-                <element signature="e#44542#44550#0" expanded="true" />
-                <element signature="e#44686#44694#0" expanded="true" />
-                <element signature="e#44855#44863#0" expanded="true" />
-                <element signature="e#45250#45290#0" expanded="true" />
-                <element signature="e#45932#45958#0" expanded="true" />
-                <element signature="e#47234#47251#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ContentFragment.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/ContentFragment.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="227" column="58" selection-start="11253" selection-end="11253" vertical-scroll-proportion="0.24415888" vertical-offset="3591" max-vertical-offset="5301">
+            <state line="920" column="9" selection-start="41318" selection-end="41318" vertical-scroll-proportion="-1.4792408" vertical-offset="17435" max-vertical-offset="19019">
               <folding />
             </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="activity_login.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/CloudStorge/src/main/res/layout/activity_login.xml">
-          <provider editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2052">
-              <folding />
-            </state>
-          </provider>
-          <provider selected="true" editor-type-id="android-designer">
-            <state />
           </provider>
         </entry>
       </file>
@@ -280,22 +268,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/CloudStorge/src/main/res/layout/list_empty.xml" />
-        <option value="$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/provider/CloudStorgeContract.java" />
-        <option value="$PROJECT_DIR$/CloudStorge/src/main/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/util/FileStruct.java" />
-        <option value="$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/Contract.java" />
-        <option value="$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/FileDetailActivity.java" />
-        <option value="$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/Dialog/FolderListDialog.java" />
-        <option value="$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/DownloadActivity.java" />
-        <option value="$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/UploadActivity.java" />
-        <option value="$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/provider/CloudStorgeProvider.java" />
-        <option value="$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/CloudStorgeProcessor.java" />
+        <option value="$PROJECT_DIR$/CloudStorge/build/source/r/debug/com/ces/cloudstorge/R.java" />
         <option value="$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/syncadapter/CloudStorgeSyncAdapter.java" />
-        <option value="$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/network/CloudStorgeRestUtilities.java" />
-        <option value="$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/MainActivity.java" />
+        <option value="$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/adapter/FileListAdapter.java" />
+        <option value="$PROJECT_DIR$/CloudStorge/src/main/res/layout/list_item.xml" />
         <option value="$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/ContentFragment.java" />
-        <option value="$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/LoginActivity.java" />
+        <option value="$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/util/CommonUtil.java" />
+        <option value="$PROJECT_DIR$/CloudStorge/src/main/res/menu/main.xml" />
+        <option value="$PROJECT_DIR$/CloudStorge/src/main/res/values/strings.xml" />
+        <option value="$PROJECT_DIR$/CloudStorge/src/main/res/xml/pref_headers.xml" />
+        <option value="$PROJECT_DIR$/CloudStorge/src/main/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/CloudStorge/src/main/res/xml/pref_general.xml" />
+        <option value="$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/DownloadActivity.java" />
+        <option value="$PROJECT_DIR$/CloudStorge/src/main/res/values/strings_activity_settings.xml" />
+        <option value="$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/SettingsActivity.java" />
+        <option value="$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/Dialog/ClearCacheDailog.java" />
+        <option value="$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/MainActivity.java" />
       </list>
     </option>
   </component>
@@ -353,8 +341,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -432,6 +418,96 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="xml" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CloudStorge" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CloudStorge" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CloudStorge" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CloudStorge" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CloudStorge" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CloudStorge" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="values" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CloudStorge" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CloudStorge" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CloudStorge" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="menu" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -735,6 +811,8 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -756,11 +834,11 @@
     <property name="AndroidRunProguardForReleaseBuild" value="false" />
     <property name="OverrideImplement.overriding.sorted" value="false" />
     <property name="UI_DESIGNER_EDITOR_MODE.PaletteToolWindowManager.STATE" value="left" />
-    <property name="MemberChooser.showClasses" value="true" />
     <property name="FullScreen" value="false" />
+    <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -989,7 +1067,11 @@
       <created>1375956529383</created>
       <updated>1375956529383</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="finish all">
+      <created>1376011731986</created>
+      <updated>1376011731986</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -1013,7 +1095,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2504052" sideWeight="0.80860704" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.267423" sideWeight="0.80860704" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.19139297" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
@@ -1098,191 +1180,139 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/UploadActivity.java">
+    <entry file="file://$PROJECT_DIR$/CloudStorge/src/main/res/values/styles.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="152" column="24" selection-start="6519" selection-end="6519" vertical-scroll-proportion="0.085409254" vertical-offset="1828" max-vertical-offset="6004">
-          <folding>
-            <element signature="e#3068#3090#0" expanded="false" />
-            <element signature="e#3606#3634#0" expanded="false" />
-            <element signature="e#3636#3671#0" expanded="false" />
-            <element signature="e#3958#3986#0" expanded="false" />
-            <element signature="e#4008#4038#0" expanded="false" />
-            <element signature="e#10589#10625#0" expanded="false" />
-            <element signature="e#11232#11264#0" expanded="false" />
-            <element signature="e#11266#11300#0" expanded="false" />
-            <element signature="e#11360#11388#0" expanded="false" />
-            <element signature="e#11390#11422#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/FileDetailActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="133" column="104" selection-start="5489" selection-end="5489" vertical-scroll-proportion="0.06761566" vertical-offset="1710" max-vertical-offset="6137">
-          <folding>
-            <element signature="e#7637#7673#0" expanded="false" />
-            <element signature="e#10766#10813#0" expanded="false" />
-            <element signature="e#11409#11432#0" expanded="false" />
-            <element signature="e#11747#11770#0" expanded="false" />
-            <element signature="e#12087#12140#0" expanded="false" />
-            <element signature="e#12841#12864#0" expanded="false" />
-            <element signature="e#13867#13890#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/DownloadActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="172" column="104" selection-start="7319" selection-end="7319" vertical-scroll-proportion="0.63938314" vertical-offset="2159" max-vertical-offset="3002">
-          <folding>
-            <element signature="e#1253#1281#0" expanded="false" />
-            <element signature="e#1283#1330#0" expanded="false" />
-            <element signature="e#2837#2874#0" expanded="false" />
-            <element signature="e#4002#4030#0" expanded="false" />
-            <element signature="e#4032#4077#0" expanded="false" />
-            <element signature="e#4209#4237#0" expanded="false" />
-            <element signature="e#4239#4278#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/Dialog/FolderListDialog.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="145" column="94" selection-start="7065" selection-end="7065" vertical-scroll-proportion="0.03084223" vertical-offset="2216" max-vertical-offset="3059">
-          <folding>
-            <element signature="e#4155#4182#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/provider/CloudStorgeProvider.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="119" column="66" selection-start="5050" selection-end="5050" vertical-scroll-proportion="0.0" vertical-offset="126" max-vertical-offset="4104">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="950">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CloudStorge/src/main/res/drawable/shape_button.xml">
+    <entry file="file://$PROJECT_DIR$/CloudStorge/build/manifests/debug/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="4" selection-start="190" selection-end="222" vertical-scroll-proportion="0.13317756" vertical-offset="0" max-vertical-offset="856">
-          <folding />
-        </state>
+        <state line="55" column="82" selection-start="3749" selection-end="3749" vertical-scroll-proportion="0.0" vertical-offset="859" max-vertical-offset="1748" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/Contract.java">
+    <entry file="file://$PROJECT_DIR$/CloudStorge/src/main/res/menu/main.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="28" selection-start="1289" selection-end="1289" vertical-scroll-proportion="0.33294392" vertical-offset="285" max-vertical-offset="1178">
+        <state line="22" column="38" selection-start="877" selection-end="877" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="722">
           <folding>
-            <element signature="imports" expanded="false" />
+            <element signature="e#293#307#0" expanded="false" />
+            <element signature="e#535#543#0" expanded="false" />
+            <element signature="e#624#645#0" expanded="false" />
+            <element signature="e#813#838#0" expanded="false" />
+            <element signature="e#1004#1026#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/CloudStorgeProcessor.java">
+    <entry file="file://$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/LaunchActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="118" column="19" selection-start="8612" selection-end="8612" vertical-scroll-proportion="0.0" vertical-offset="171" max-vertical-offset="3306">
-          <folding>
-            <element signature="e#1272#1284#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/network/CloudStorgeRestUtilities.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="311" column="28" selection-start="13077" selection-end="13077" vertical-scroll-proportion="0.0" vertical-offset="5351" max-vertical-offset="6194">
+        <state line="10" column="13" selection-start="258" selection-end="258" vertical-scroll-proportion="0.088785045" vertical-offset="0" max-vertical-offset="856">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/CloudStorge/src/main/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="47" column="68" selection-start="2342" selection-end="2342" vertical-scroll-proportion="1.0432243" vertical-offset="0" max-vertical-offset="2755">
+        <state line="136" column="52" selection-start="5974" selection-end="5974" vertical-scroll-proportion="0.7581776" vertical-offset="1935" max-vertical-offset="2793">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/syncadapter/CloudStorgeSyncAdapter.java">
+    <entry file="file://$PROJECT_DIR$/CloudStorge/src/main/res/values/strings.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="53" column="31" selection-start="2438" selection-end="2438" vertical-scroll-proportion="0.0" vertical-offset="1038" max-vertical-offset="1881">
+        <state line="79" column="63" selection-start="3418" selection-end="3418" vertical-scroll-proportion="1.7535046" vertical-offset="0" max-vertical-offset="1843">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CloudStorge/src/main/res/xml/pref_headers.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="0" selection-start="325" selection-end="325" vertical-scroll-proportion="0.22196262" vertical-offset="0" max-vertical-offset="856">
           <folding>
-            <element signature="e#1579#1588#0" expanded="true" />
+            <element signature="e#268#297#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/adapter/FileListAdapter.java">
+    <entry file="file://$PROJECT_DIR$/CloudStorge/src/main/res/drawable/shape_edittext.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="13" selection-start="687" selection-end="687" vertical-scroll-proportion="-2.1411626" vertical-offset="1938" max-vertical-offset="3192">
+        <state line="6" column="36" selection-start="222" selection-end="222" vertical-scroll-proportion="0.16593887" vertical-offset="0" max-vertical-offset="687">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CloudStorge/src/main/res/layout/activity_login.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="70" column="46" selection-start="2900" selection-end="2900" vertical-scroll-proportion="0.8611111" vertical-offset="772" max-vertical-offset="2052">
+          <folding>
+            <element signature="e#3875#3908#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CloudStorge/src/main/res/layout/list_item.xml">
+      <provider selected="true" editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2641">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/DownloadActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="46" column="23" selection-start="1533" selection-end="1544" vertical-scroll-proportion="0.06761566" vertical-offset="285" max-vertical-offset="3173">
+          <folding>
+            <element signature="e#1253#1281#0" expanded="true" />
+            <element signature="e#1283#1330#0" expanded="true" />
+            <element signature="e#2954#2991#0" expanded="true" />
+            <element signature="e#4134#4162#0" expanded="true" />
+            <element signature="e#4164#4209#0" expanded="true" />
+            <element signature="e#4419#4447#0" expanded="true" />
+            <element signature="e#4449#4488#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CloudStorge/src/main/res/xml/pref_general.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="35" selection-start="259" selection-end="269" vertical-scroll-proportion="0.13828239" vertical-offset="0" max-vertical-offset="687">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/Dialog/ClearCacheDailog.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="34" column="51" selection-start="980" selection-end="980" vertical-scroll-proportion="0.5992991" vertical-offset="0" max-vertical-offset="1121">
+          <folding>
+            <element signature="e#1053#1065#0" expanded="true" />
+            <element signature="e#1290#1302#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/SettingsActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="107" column="74" selection-start="4234" selection-end="4244" vertical-scroll-proportion="1.960854" vertical-offset="0" max-vertical-offset="1957">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CloudStorge/src/main/res/values/strings_activity_settings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="28" column="37" selection-start="1156" selection-end="1175" vertical-scroll-proportion="0.6214953" vertical-offset="0" max-vertical-offset="856">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="468" column="40" selection-start="19230" selection-end="19230" vertical-scroll-proportion="0.0" vertical-offset="9031" max-vertical-offset="19171">
-          <folding>
-            <element signature="e#8523#8561#0" expanded="true" />
-            <element signature="e#16949#17111#0" expanded="true" />
-            <element signature="e#17100#17101#0" expanded="true" />
-            <element signature="e#19296#19322#0" expanded="true" />
-            <element signature="e#21736#21740#0" expanded="true" />
-            <element signature="e#24317#24343#0" expanded="true" />
-            <element signature="e#25412#25416#0" expanded="true" />
-            <element signature="e#26172#26198#0" expanded="true" />
-            <element signature="e#28974#28978#0" expanded="true" />
-            <element signature="e#32537#32575#0" expanded="true" />
-            <element signature="e#32861#32893#0" expanded="true" />
-            <element signature="e#33179#33211#0" expanded="true" />
-            <element signature="e#34151#34183#0" expanded="true" />
-            <element signature="e#36790#37582#0" expanded="true" />
-            <element signature="e#37571#37572#0" expanded="true" />
-            <element signature="e#37636#37798#0" expanded="true" />
-            <element signature="e#37787#37788#0" expanded="true" />
-            <element signature="e#38100#38432#0" expanded="true" />
-            <element signature="e#38421#38422#0" expanded="true" />
-            <element signature="e#39031#39186#0" expanded="true" />
-            <element signature="e#39175#39176#0" expanded="true" />
-            <element signature="e#39240#39402#0" expanded="true" />
-            <element signature="e#39391#39392#0" expanded="true" />
-            <element signature="e#41815#41854#0" expanded="true" />
-            <element signature="e#42622#42630#0" expanded="true" />
-            <element signature="e#42788#42814#0" expanded="true" />
-            <element signature="e#44542#44550#0" expanded="true" />
-            <element signature="e#44686#44694#0" expanded="true" />
-            <element signature="e#44855#44863#0" expanded="true" />
-            <element signature="e#45250#45290#0" expanded="true" />
-            <element signature="e#45932#45958#0" expanded="true" />
-            <element signature="e#47234#47251#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CloudStorge/src/main/res/layout/activity_login.xml">
-      <provider editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2052">
-          <folding />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/LoginActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="69" selection-start="1010" selection-end="1010" vertical-scroll-proportion="0.15537383" vertical-offset="0" max-vertical-offset="3591">
-          <folding>
-            <element signature="e#3634#3674#0" expanded="true" />
-            <element signature="e#3827#3867#0" expanded="true" />
-            <element signature="e#4252#4286#0" expanded="true" />
-            <element signature="e#6953#6981#0" expanded="true" />
-            <element signature="e#6983#7014#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CloudStorge/src/main/java/com/ces/cloudstorge/ContentFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="227" column="58" selection-start="11253" selection-end="11253" vertical-scroll-proportion="0.24415888" vertical-offset="3591" max-vertical-offset="5301">
+        <state line="920" column="9" selection-start="41318" selection-end="41318" vertical-scroll-proportion="-1.4792408" vertical-offset="17435" max-vertical-offset="19019">
           <folding />
         </state>
       </provider>

@@ -18,7 +18,8 @@ public class FileStruct {
     private String description;
     private int originFolder;
 
-    public FileStruct() {}
+    public FileStruct() {
+    }
 
     public FileStruct(int fileId, int folderId, int parentFolderId, String name, String mimeType,
                       String share, int size, String last_modified, String username, String createTime,

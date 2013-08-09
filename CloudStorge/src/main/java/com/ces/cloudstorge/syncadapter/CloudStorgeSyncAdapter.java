@@ -17,9 +17,6 @@ import com.ces.cloudstorge.provider.CloudStorgeContract;
 
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by MichaelDai on 13-7-22.
  */
@@ -39,68 +36,65 @@ public class CloudStorgeSyncAdapter extends AbstractThreadedSyncAdapter {
         try {
             String delete_file_array = "";
             String delete_folder_array = "";
-            List<Integer> listId = new ArrayList<Integer>();
-            int delete_count = 0;
             Cursor needSyncCursor = contentResolver.query(CloudStorgeContract.CloudStorge.CONTENT_URI, Contract.PROJECTION, selection_need_sync, null, null);
-            while(needSyncCursor.moveToNext()) {
-                int sync_action = needSyncCursor.getInt(Contract.PROJECTION_SYNC_ACTION);
+            while (needSyncCursor.moveToNext()) {
+                String syncAction = needSyncCursor.getString(Contract.PROJECTION_SYNC_ACTION);
+                String[] syncActionArray = syncAction.split(",");
                 int fileId = needSyncCursor.getInt(Contract.PROJECTION_FILE_ID);
                 int folderId = needSyncCursor.getInt(Contract.PROJECTION_FOLDER_ID);
                 int parent_folder_id = needSyncCursor.getInt(Contract.PROJECTION_PARENT_FOLDER_ID);
                 String name = needSyncCursor.getString(Contract.PROJECTION_NAME);
                 int _id = needSyncCursor.getInt(Contract.PROJECTION_ID);
-                listId.add(_id);
                 int fileType;
-                if(fileId == -1)
+                if (fileId == -1)
                     fileType = Contract.TYPE_FOLDER;
                 else
                     fileType = Contract.TYPE_FILE;
-                System.out.println("fileId == " + fileId + "||--fileType ===== " + fileType);
                 // 暂时更新记录为无需再更新
                 CloudStorgeProcessor.set_rowDontNeedSync(contentResolver, _id);
-                switch (sync_action) {
-                    case Contract.SYNC_ACTION_DELETE:
-                        if(fileId == -1)
-                            delete_folder_array += folderId + ",";
-                        else
-                            delete_file_array += fileId + ",";
-                        delete_count++;
-                        break;
-                    case Contract.SYNC_ACTION_MOVE:
-                        JSONObject jsonObject = CloudStorgeRestUtilities.moveFile(fileId, folderId, parent_folder_id,
-                                fileType, am.peekAuthToken(account, "all"));
-                        if(null == jsonObject || jsonObject.getInt("result") != 0)
-                            // 还原记录为未同步
-                            CloudStorgeProcessor.set_rowNeedSync(contentResolver, _id);
-                        break;
-                    case Contract.SYNC_ACTION_RENAME:
-                        JSONObject jsonObject1 = CloudStorgeRestUtilities.renameFile(fileId, folderId, name,
-                                fileType, am.peekAuthToken(account, "all"));
-                        if(null == jsonObject1 || jsonObject1.getInt("result") != 0)
-                            // 还原记录为未同步
-                            CloudStorgeProcessor.set_rowNeedSync(contentResolver, _id);
-                        break;
+                for (int i = 0; i < syncActionArray.length; i++) {
+                    switch (Integer.parseInt(syncActionArray[i])) {
+                        case Contract.SYNC_ACTION_DELETE:
+                            if (fileId == -1) {
+                                delete_folder_array = folderId + "";
+                            } else {
+                                delete_file_array = fileId + "";
+                            }
+                            JSONObject jsonObjectDelete = CloudStorgeRestUtilities.deleteFile(delete_file_array, delete_folder_array, 0, am.peekAuthToken(account, "all"));
+                            if (null == jsonObjectDelete || jsonObjectDelete.getInt("result") != 0)
+                                CloudStorgeProcessor.set_rowNeedSync(contentResolver, _id);
+                            else
+                                CloudStorgeProcessor.set_rowDontNeedSyncForever(contentResolver, _id);
+                            break;
+                        case Contract.SYNC_ACTION_MOVE:
+                            JSONObject jsonObjectMove = CloudStorgeRestUtilities.moveFile(fileId, folderId, parent_folder_id,
+                                    fileType, am.peekAuthToken(account, "all"));
+                            if (null == jsonObjectMove || jsonObjectMove.getInt("result") != 0)
+                                // 还原记录为未同步
+                                CloudStorgeProcessor.set_rowNeedSync(contentResolver, _id);
+                            else
+                                CloudStorgeProcessor.set_rowDontNeedSyncForever(contentResolver, _id);
+                            break;
+                        case Contract.SYNC_ACTION_RENAME:
+                            JSONObject jsonObjectRename = CloudStorgeRestUtilities.renameFile(fileId, folderId, name,
+                                    fileType, am.peekAuthToken(account, "all"));
+                            if (null == jsonObjectRename || jsonObjectRename.getInt("result") != 0)
+                                // 还原记录为未同步
+                                CloudStorgeProcessor.set_rowNeedSync(contentResolver, _id);
+                            else
+                                CloudStorgeProcessor.set_rowDontNeedSyncForever(contentResolver, _id);
+                            break;
+                    }
                 }
             }
-            // 如果有删除的，则sync
-            if(delete_count > 0) {
-                JSONObject jsonObject = CloudStorgeRestUtilities.deleteFile(delete_file_array, delete_folder_array, 0, am.peekAuthToken(account, "all"));
-                if(null == jsonObject || jsonObject.getInt("result") != 0) {
-                    // 还原记录为未同步
-                    for(int i = 0; i < listId.size(); i++)
-                        CloudStorgeProcessor.set_rowNeedSync(contentResolver, listId.get(i));
-                }
-            }
-            if(isSync) {
+            if (isSync) {
                 JSONObject jobject = CloudStorgeRestUtilities.syncAllContent(account.name, am.peekAuthToken(account, "all"));
                 if (null == jobject) {
                     getContext().getContentResolver().notifyChange(CloudStorgeContract.CloudStorge.CONTENT_URI, null, false);
                     return;
                 }
                 CloudStorgeProcessor.syncContentData(jobject, needSyncCursor, authority, contentResolver, syncResult);
-            }
-            else
-            {
+            } else {
                 getContext().getContentResolver().notifyChange(CloudStorgeContract.CloudStorge.CONTENT_URI, null, false);
             }
 

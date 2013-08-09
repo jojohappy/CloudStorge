@@ -1,0 +1,12 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+            android:title="@string/doc_cache"
+            android:key="doc_cache">
+    <com.ces.cloudstorge.Dialog.ClearCacheDailog
+            android:key="clearCache"
+            android:title="@string/clear_cache"
+            android:dialogTitle="@string/clear_cache"
+            android:summary="@string/clear_cache_summary"
+            />
+    </PreferenceCategory>
+</PreferenceScreen>

@@ -229,12 +229,14 @@ public class ContentFragment extends Fragment {
                         else
                             MainActivity.parentFolderId = Integer.parseInt(viewParentFolderId.getText().toString());
                         MainActivity.isRoot = false;
-                        if(!MainActivity.isTrash)
+                        if (!MainActivity.isTrash)
                             MainActivity.listFolder.add(viewFileName.getText().toString());
                         //changeHeader();
                         MainActivity.changeListHeader();
                         MainActivity.loadmanager.restartLoader(0, null, MainActivity.callbackLoader);
                     } else {
+                        //if(!MainActivity.isTrash)
+                            //return;
                         // 下载文件
                         Intent intent = new Intent();
                         intent.putExtra("fileId", Integer.parseInt(viewFileId.getText().toString()));

@@ -10,8 +10,20 @@
         <item>我的云存储</item>
         <item>共享文件夹</item>
         <item>回收站</item>
-        <item>登出</item>
+        <item>退出</item>
     </string-array>
+    <!-- From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings_activity_settings.xml -->
+    <string-array name="pref_example_list_titles">
+        <item>Always</item>
+        <item>When possible</item>
+        <item>Never</item>
+    </string-array>
+    <string-array name="pref_example_list_values">
+        <item>1</item>
+        <item>0</item>
+        <item>-1</item>
+    </string-array>
+    <!-- From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings.xml -->
     <string-array name="sort_array">
         <item>名称</item>
         <item>最后修改时间</item>
@@ -31,17 +43,23 @@
     <string name="action_new">新建</string>
     <string name="action_new_folder">新建文件夹</string>
     <string name="action_refresh">刷新</string>
-    <string name="action_settings">Settings</string>
-    <string name="action_sign_in_register">登录</string>
+    <string name="action_settings">设置</string>
+    <string name="action_sign_in_register">登         录</string>
     <string name="action_sign_in_short">登录</string>
     <string name="action_sort">排序方式</string>
     <string name="add_folder_tip">创建文件夹成功!</string>
     <string name="app_activity_title">我的云存储</string>
-    <string name="app_name">CloudStorge</string>
+    <string name="app_name">云存储</string>
     <string name="app_title">云存储</string>
     <string name="cab_selectd">"<ns1:g id="COUNT">%d</ns1:g>        已选中"</string>
     <string name="cancel">取消</string>
     <string name="choose_upload_app">选择要使用的应用</string>
+    <!-- From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings_activity_settings.xml -->
+    <string name="clear_cache">清除缓存</string>
+    <string name="clear_cache_confirm">确认清除文档缓存吗?</string>
+    <string name="clear_cache_failure">清除文档缓存失败</string>
+    <string name="clear_cache_success">清除文档缓存成功</string>
+    <string name="clear_cache_summary">删除所有缓存的文档</string>
     <!-- From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/file_detail_strings.xml -->
     <string name="close_share_file_progress_message">正在取消分享文件,请稍候....</string>
     <string name="close_share_file_success">取消分享文件成功</string>
@@ -63,6 +81,8 @@
     <string name="detail_size_label_string">文件大小 :</string>
     <!-- From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings.xml -->
     <string name="dg_add_folder">请输入文件夹名称</string>
+    <!-- From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings_activity_settings.xml -->
+    <string name="doc_cache">文档缓存</string>
     <!-- From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/file_download_strings.xml -->
     <string name="download_file_cannot_open">不能打开此类型的文件</string>
     <string name="download_file_error">文件下载失败!</string>
@@ -79,7 +99,6 @@
     <string name="error_invalid_email">用户名无效</string>
     <string name="exit_dialog_message">是否退出程序?</string>
     <string name="exit_dialog_title">提示</string>
-    <string name="hello_world">Hello world!</string>
     <string name="input_new_name">请输入新名称:</string>
     <string name="label">云存储</string>
     <string name="lastmodified">修改时间:</string>
@@ -103,6 +122,14 @@
     <!-- From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings.xml -->
     <string name="null_new_folder_name_tip">文件夹名不能为空</string>
     <string name="ok">确定</string>
+    <!-- From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings_activity_settings.xml -->
+    <string name="pref_default_display_name">John Smith</string>
+    <string name="pref_description_social_recommendations">Recommendations for people to contact based on your message history</string>
+    <string name="pref_header_general">文档缓存</string>
+    <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
+    <string name="pref_title_display_name">Display name</string>
+    <string name="pref_title_social_recommendations">Enable social recommendations</string>
+    <!-- From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings.xml -->
     <string name="progress_add_folder">正在新建文件夹,请稍候....</string>
     <string name="progress_delete_file">正在删除文件,请稍候....</string>
     <string name="prompt_email">用户名</string>
@@ -128,8 +155,10 @@
     <!-- From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/file_download_strings.xml -->
     <string name="title_activity_download"></string>
     <!-- From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings.xml -->
-    <string name="title_activity_file_detail">FileDetailActivity</string>
+    <string name="title_activity_file_detail">文件详细信息</string>
     <string name="title_activity_login">登录</string>
+    <!-- From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings_activity_settings.xml -->
+    <string name="title_activity_settings">设置</string>
     <!-- From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/file_upload_strings.xml -->
     <string name="title_activity_upload">云存储</string>
     <!-- From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings.xml -->
@@ -139,6 +168,7 @@
     <string name="upload_file_label">文件名称</string>
     <string name="upload_file_location">文件存储位置</string>
     <string name="upload_file_wait">正在上传文件,请稍候....</string>
+    <string name="upload_max_size">不能上传超过20M的文件!请检查.</string>
     <string name="upload_success">上传文件成功!</string>
     <string name="upload_title">上传文件到云存储</string>
     <!-- From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/styles.xml -->

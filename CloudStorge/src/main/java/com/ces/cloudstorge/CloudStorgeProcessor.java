@@ -51,15 +51,15 @@ public class CloudStorgeProcessor {
                 listServerData.add(fileStruct);
             }
             Cursor allContentData = mContentResolver.query(CloudStorgeContract.CloudStorge.CONTENT_URI, Contract.PROJECTION, "1=1", null, null);
-            while(allContentData.moveToNext()) {
+            while (allContentData.moveToNext()) {
                 int _id = allContentData.getInt(Contract.PROJECTION_ID);
                 int fileId = allContentData.getInt(Contract.PROJECTION_FILE_ID);
                 int folderId = allContentData.getInt(Contract.PROJECTION_FOLDER_ID);
                 boolean isDelete = true;
-                for(int i = 0; i < listServerData.size(); i++) {
+                for (int i = 0; i < listServerData.size(); i++) {
                     FileStruct fileStruct = listServerData.get(i);
-                    if(fileId == -1) {
-                        if(folderId == fileStruct.getFolderId()){
+                    if (fileId == -1) {
+                        if (folderId == fileStruct.getFolderId()) {
                             isDelete = false;
                             batch.add(ContentProviderOperation.newUpdate(CloudStorgeContract.CloudStorge.CONTENT_URI)
                                     .withSelection(CloudStorgeContract.CloudStorge._ID + "=" + _id, null)
@@ -80,9 +80,8 @@ public class CloudStorgeProcessor {
                             syncResult.stats.numUpdates++;
                             break;
                         }
-                    }
-                    else {
-                        if(fileId == fileStruct.getFileId()) {
+                    } else {
+                        if (fileId == fileStruct.getFileId()) {
                             isDelete = false;
                             batch.add(ContentProviderOperation.newUpdate(CloudStorgeContract.CloudStorge.CONTENT_URI)
                                     .withSelection(CloudStorgeContract.CloudStorge._ID + "=" + _id, null)
@@ -105,7 +104,7 @@ public class CloudStorgeProcessor {
                         }
                     }
                 }
-                if(isDelete) {
+                if (isDelete) {
                     batch.add(ContentProviderOperation.newDelete(CloudStorgeContract.CloudStorge.CONTENT_URI)
                             .withSelection(CloudStorgeContract.CloudStorge._ID + "=" + _id, null)
                             .build());
@@ -113,31 +112,30 @@ public class CloudStorgeProcessor {
                 }
             }
 
-            for(int i = 0; i < listServerData.size(); i++) {
+            for (int i = 0; i < listServerData.size(); i++) {
                 FileStruct fileStruct = listServerData.get(i);
                 boolean newData = true;
-                if(allContentData.moveToFirst()) {
+                if (allContentData.moveToFirst()) {
                     int fileId = fileStruct.getFileId();
                     int folderId = fileStruct.getFolderId();
 
                     do {
                         int fileContentId = allContentData.getInt(Contract.PROJECTION_FILE_ID);
                         int folderContentId = allContentData.getInt(Contract.PROJECTION_FOLDER_ID);
-                        if(fileId == -1) {
-                            if(folderContentId == folderId) {
+                        if (fileId == -1) {
+                            if (folderContentId == folderId) {
+                                newData = false;
+                                break;
+                            }
+                        } else {
+                            if (fileContentId == fileId) {
                                 newData = false;
                                 break;
                             }
                         }
-                        else {
-                            if(fileContentId == fileId) {
-                                newData = false;
-                                break;
-                            }
-                        }
-                    } while(allContentData.moveToNext());
+                    } while (allContentData.moveToNext());
                 }
-                if(newData) {
+                if (newData) {
                     batch.add(ContentProviderOperation.newInsert(CloudStorgeContract.CloudStorge.CONTENT_URI)
                             .withValue(CloudStorgeContract.CloudStorge.COLUMN_NAME_FILE_ID, fileStruct.getFileId())
                             .withValue(CloudStorgeContract.CloudStorge.COLUMN_NAME_FOLDER_ID, fileStruct.getFolderId())
@@ -178,6 +176,13 @@ public class CloudStorgeProcessor {
     public static void set_rowNeedSync(ContentResolver mContentResolver, int _id) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(CloudStorgeContract.CloudStorge.COLUMN_NAME_IS_NEED_SYNC, Contract.NEED_SYNC);
+        mContentResolver.update(CloudStorgeContract.CloudStorge.CONTENT_URI, contentValues, CloudStorgeContract.CloudStorge._ID + "=" + _id, null);
+    }
+
+    public static void set_rowDontNeedSyncForever(ContentResolver mContentResolver, int _id) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(CloudStorgeContract.CloudStorge.COLUMN_NAME_IS_NEED_SYNC, Contract.DONT_NEED_SYNC);
+        contentValues.putNull(CloudStorgeContract.CloudStorge.COLUMN_NAME_SYNC_ACTION);
         mContentResolver.update(CloudStorgeContract.CloudStorge.CONTENT_URI, contentValues, CloudStorgeContract.CloudStorge._ID + "=" + _id, null);
     }
 }

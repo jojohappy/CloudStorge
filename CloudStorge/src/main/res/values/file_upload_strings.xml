@@ -11,4 +11,5 @@
     <string name="no_account">请先登录到云存储中!</string>
     <string name="read_file_error">文件读取失败!</string>
     <string name="upload_file_wait">正在上传文件,请稍候....</string>
+    <string name="upload_max_size">不能上传超过20M的文件!请检查.</string>
 </resources>

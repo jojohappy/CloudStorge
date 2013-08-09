@@ -192,7 +192,7 @@ public class CloudStorgeProvider extends ContentProvider {
                         CloudStorgeContract.CloudStorge.COLUMN_NAME_ORIGIN_FOLDER + TYPE_INTEGER + COMMA_SEP +
                         CloudStorgeContract.CloudStorge.COLUMN_NAME_PARENT_FOLDER_ID + TYPE_INTEGER + COMMA_SEP +
                         CloudStorgeContract.CloudStorge.COLUMN_NAME_IS_NEED_SYNC + TYPE_INTEGER + COMMA_SEP +
-                        CloudStorgeContract.CloudStorge.COLUMN_NAME_SYNC_ACTION + TYPE_INTEGER + COMMA_SEP +
+                        CloudStorgeContract.CloudStorge.COLUMN_NAME_SYNC_ACTION + TYPE_TEXT + COMMA_SEP +
                         CloudStorgeContract.CloudStorge.COLUMN_NAME_IS_OFFLINE + TYPE_INTEGER +
                         ")";
 
