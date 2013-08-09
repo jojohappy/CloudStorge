@@ -157,7 +157,7 @@ public class FileListAdapter extends SimpleCursorAdapter {
             } else {
                 fileImage.setImageResource(R.drawable.icon_default);
             }
-            if(null != mCursor.getString(Contract.PROJECTION_SHARE) && !"".equals(mCursor.getString(Contract.PROJECTION_SHARE)))
+            if(null != mCursor.getString(Contract.PROJECTION_SHARE) && !"".equals(mCursor.getString(Contract.PROJECTION_SHARE)) && !MainActivity.isTrash)
             {
                 sharedImage.setVisibility(View.VISIBLE);
             }
