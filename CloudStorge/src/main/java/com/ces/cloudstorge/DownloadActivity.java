@@ -41,6 +41,7 @@ public class DownloadActivity extends Activity {
             create_DownloadDialog(getString(R.string.terrible), getString(R.string.download_file_network_error));
             return;
         }
+
         File dir = new File(Environment.getDataDirectory() + "/data/com.ces.cloudstorge/cache/");
         dir.mkdirs();
         dir.setReadable(true, false);
