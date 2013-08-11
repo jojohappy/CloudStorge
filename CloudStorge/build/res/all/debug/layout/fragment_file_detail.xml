@@ -13,4 +13,4 @@
             android:id="@+id/textView"
             android:layout_gravity="center"
             android:phoneNumber="true"/>
-</LinearLayout><!-- From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/layout/fragment_file_detail.xml -->
+</LinearLayout><!-- From: file:/E:/android%20workspace/CloudStorge/CloudStorge/src/main/res/layout/fragment_file_detail.xml -->

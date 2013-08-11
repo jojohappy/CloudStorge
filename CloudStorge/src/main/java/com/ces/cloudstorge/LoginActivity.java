@@ -6,6 +6,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -22,6 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ces.cloudstorge.network.CloudStorgeRestUtilities;
+import com.ces.cloudstorge.provider.CloudStorgeContract;
 import com.ces.cloudstorge.util.CommonUtil;
 
 public class LoginActivity extends Activity {
@@ -162,6 +164,11 @@ public class LoginActivity extends Activity {
         final Account account = new Account(mEmail, Contract.ACCOUNT_TYPE);
         mAccountManager.addAccountExplicitly(account, mPassword, null);
         mAccountManager.setAuthToken(account, "all", authToken);
+        // 插入一条数据到数据库，保存已选择的用户
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(CloudStorgeContract.CloudStorge.COLUMN_NAME_FILE_ID, -99999);
+        contentValues.put(CloudStorgeContract.CloudStorge.COLUMN_NAME_NAME, mEmail);
+        getContentResolver().insert(CloudStorgeContract.CloudStorge.CONTENT_URI, contentValues);
 
         // 跳转到MainActivity
         final Intent intent = new Intent();

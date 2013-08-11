@@ -20,4 +20,4 @@
             android:inputType="text"
             android:imeOptions="actionDone"
             android:text="@string/action_new_folder"/>
-</LinearLayout><!-- From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/layout/fragment_add_folder_dialog.xml -->
+</LinearLayout><!-- From: file:/E:/android%20workspace/CloudStorge/CloudStorge/src/main/res/layout/fragment_add_folder_dialog.xml -->

@@ -15,12 +15,12 @@
             android:layout_gravity="center"
             android:adjustViewBounds="false"
             android:src="@drawable/ic_action_account"
-            android:paddingTop="5dp"/>
+            />
 
     <TextView
             android:id="@+id/drawer_header_title"
             android:layout_width="match_parent"
-            android:layout_height="55dp"
+            android:layout_height="50dp"
             android:gravity="center_vertical"
             android:paddingRight="7dp"
             android:textColor="@android:color/white"
@@ -28,6 +28,7 @@
             android:layout_toRightOf="@+id/drawer_header_icon"
             android:textSize="16dp"
             android:singleLine="false"
-            android:paddingLeft="7dp"/>
+            android:paddingLeft="7dp"
+    />
 
-</RelativeLayout><!-- From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/layout/navigate_drawer_header.xml -->
+</RelativeLayout><!-- From: file:/E:/android%20workspace/CloudStorge/CloudStorge/src/main/res/layout/navigate_drawer_header.xml -->

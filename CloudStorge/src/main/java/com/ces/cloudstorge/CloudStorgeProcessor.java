@@ -1,5 +1,6 @@
 package com.ces.cloudstorge;
 
+import android.accounts.Account;
 import android.content.ContentProviderOperation;
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -22,7 +23,7 @@ import java.util.ArrayList;
  */
 public class CloudStorgeProcessor {
 
-    public static int syncContentData(JSONObject jobject, Cursor needSyncCursor, String authority, ContentResolver mContentResolver, SyncResult syncResult) {
+    public static int syncContentData(Account account, JSONObject jobject, Cursor needSyncCursor, String authority, ContentResolver mContentResolver, SyncResult syncResult) {
         try {
             if (null == jobject)
                 return -1;
@@ -50,12 +51,15 @@ public class CloudStorgeProcessor {
                 fileStruct.setOriginFolder(data.getInt(CloudStorgeContract.CloudStorge.COLUMN_NAME_ORIGIN_FOLDER));
                 listServerData.add(fileStruct);
             }
-            Cursor allContentData = mContentResolver.query(CloudStorgeContract.CloudStorge.CONTENT_URI, Contract.PROJECTION, "1=1", null, null);
+            Cursor allContentData = mContentResolver.query(CloudStorgeContract.CloudStorge.CONTENT_URI, Contract.PROJECTION,
+                    CloudStorgeContract.CloudStorge.COLUMN_NAME_USERNAME + "='" + account.name + "'", null, null);
             while (allContentData.moveToNext()) {
                 int _id = allContentData.getInt(Contract.PROJECTION_ID);
                 int fileId = allContentData.getInt(Contract.PROJECTION_FILE_ID);
                 int folderId = allContentData.getInt(Contract.PROJECTION_FOLDER_ID);
                 boolean isDelete = true;
+                if(fileId == -99999)
+                    continue;
                 for (int i = 0; i < listServerData.size(); i++) {
                     FileStruct fileStruct = listServerData.get(i);
                     if (fileId == -1) {

@@ -13,15 +13,15 @@ public final class R {
         public static final int fade_out=0x7f040001;
     }
     public static final class array {
-        /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings.xml 
+        /**  From: file:/E:/android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings.xml 
          */
         public static final int array_action_add=0x7f060000;
         public static final int do_array=0x7f060001;
-        /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings_activity_settings.xml 
+        /**  From: file:/E:/android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings_activity_settings.xml 
          */
         public static final int pref_example_list_titles=0x7f060002;
         public static final int pref_example_list_values=0x7f060003;
-        /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings.xml 
+        /**  From: file:/E:/android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings.xml 
          */
         public static final int sort_array=0x7f060004;
     }
@@ -36,14 +36,14 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int buttonBarStyle=0x7f010000;
     }
     public static final class color {
-        /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/colors.xml 
+        /**  From: file:/E:/android%20workspace/CloudStorge/CloudStorge/src/main/res/values/colors.xml 
          */
         public static final int black_overlay=0x7f070000;
         public static final int navigate_account=0x7f070001;
     }
     public static final class dimen {
-        /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/dimens.xml 
- From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values-sw720dp-land/dimens.xml 
+        /**  From: file:/E:/android%20workspace/CloudStorge/CloudStorge/src/main/res/values/dimens.xml 
+ From: file:/E:/android%20workspace/CloudStorge/CloudStorge/src/main/res/values-sw720dp-land/dimens.xml 
          */
         public static final int activity_horizontal_margin=0x7f080000;
         public static final int activity_vertical_margin=0x7f080001;
@@ -239,7 +239,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int upload=0x7f0b0004;
     }
     public static final class string {
-        /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings.xml 
+        /**  From: file:/E:/android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings.xml 
          */
         public static final int action_about=0x7f090000;
         public static final int action_new=0x7f090001;
@@ -256,25 +256,25 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int cab_selectd=0x7f09000c;
         public static final int cancel=0x7f09000d;
         public static final int choose_upload_app=0x7f09000e;
-        /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings_activity_settings.xml 
+        /**  From: file:/E:/android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings_activity_settings.xml 
          */
         public static final int clear_cache=0x7f09000f;
         public static final int clear_cache_confirm=0x7f090010;
         public static final int clear_cache_failure=0x7f090011;
         public static final int clear_cache_success=0x7f090012;
         public static final int clear_cache_summary=0x7f090013;
-        /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/file_detail_strings.xml 
+        /**  From: file:/E:/android%20workspace/CloudStorge/CloudStorge/src/main/res/values/file_detail_strings.xml 
          */
         public static final int close_share_file_progress_message=0x7f090014;
         public static final int close_share_file_success=0x7f090015;
-        /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings.xml 
+        /**  From: file:/E:/android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings.xml 
          */
         public static final int copyright=0x7f090016;
         public static final int delete_confirm=0x7f090017;
         public static final int delete_confirm_forever=0x7f090018;
         public static final int delete_tip=0x7f090019;
         public static final int delete_tip_forever=0x7f09001a;
-        /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/file_detail_strings.xml 
+        /**  From: file:/E:/android%20workspace/CloudStorge/CloudStorge/src/main/res/values/file_detail_strings.xml 
          */
         public static final int detail_confirm_close_share_string=0x7f09001b;
         public static final int detail_download_label_string=0x7f09001c;
@@ -285,19 +285,19 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int detail_share_label_string=0x7f090021;
         public static final int detail_share_switch_label_string=0x7f090022;
         public static final int detail_size_label_string=0x7f090023;
-        /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings.xml 
+        /**  From: file:/E:/android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings.xml 
          */
         public static final int dg_add_folder=0x7f090024;
-        /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings_activity_settings.xml 
+        /**  From: file:/E:/android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings_activity_settings.xml 
          */
         public static final int doc_cache=0x7f090025;
-        /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/file_download_strings.xml 
+        /**  From: file:/E:/android%20workspace/CloudStorge/CloudStorge/src/main/res/values/file_download_strings.xml 
          */
         public static final int download_file_cannot_open=0x7f090026;
         public static final int download_file_error=0x7f090027;
         public static final int download_file_network_error=0x7f090028;
         public static final int download_file_tip=0x7f090029;
-        /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings.xml 
+        /**  From: file:/E:/android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings.xml 
          */
         public static final int drawer_close=0x7f09002a;
         public static final int drawer_open=0x7f09002b;
@@ -313,10 +313,10 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int label=0x7f090035;
         public static final int lastmodified=0x7f090036;
         public static final int list_empty=0x7f090037;
-        /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/file_upload_strings.xml 
+        /**  From: file:/E:/android%20workspace/CloudStorge/CloudStorge/src/main/res/values/file_upload_strings.xml 
          */
         public static final int location_text=0x7f090038;
-        /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings.xml 
+        /**  From: file:/E:/android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings.xml 
          */
         public static final int login_error=0x7f090039;
         public static final int login_progress_signing_in=0x7f09003a;
@@ -329,14 +329,14 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int menu_action_undo=0x7f090041;
         public static final int move_tip=0x7f090042;
         public static final int network_error=0x7f090043;
-        /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/file_upload_strings.xml 
+        /**  From: file:/E:/android%20workspace/CloudStorge/CloudStorge/src/main/res/values/file_upload_strings.xml 
          */
         public static final int no_account=0x7f090044;
-        /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings.xml 
+        /**  From: file:/E:/android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings.xml 
          */
         public static final int null_new_folder_name_tip=0x7f090045;
         public static final int ok=0x7f090046;
-        /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings_activity_settings.xml 
+        /**  From: file:/E:/android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings_activity_settings.xml 
          */
         public static final int pref_default_display_name=0x7f090047;
         public static final int pref_description_social_recommendations=0x7f090048;
@@ -344,53 +344,53 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int pref_title_add_friends_to_messages=0x7f09004a;
         public static final int pref_title_display_name=0x7f09004b;
         public static final int pref_title_social_recommendations=0x7f09004c;
-        /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings.xml 
+        /**  From: file:/E:/android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings.xml 
          */
         public static final int progress_add_folder=0x7f09004d;
         public static final int progress_delete_file=0x7f09004e;
         public static final int prompt_email=0x7f09004f;
         public static final int prompt_password=0x7f090050;
-        /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/file_upload_strings.xml 
+        /**  From: file:/E:/android%20workspace/CloudStorge/CloudStorge/src/main/res/values/file_upload_strings.xml 
          */
         public static final int read_file_error=0x7f090051;
-        /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings.xml 
+        /**  From: file:/E:/android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings.xml 
          */
         public static final int rename_error=0x7f090052;
         public static final int rename_tip=0x7f090053;
-        /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/file_detail_strings.xml 
+        /**  From: file:/E:/android%20workspace/CloudStorge/CloudStorge/src/main/res/values/file_detail_strings.xml 
          */
         public static final int share_file_error=0x7f090054;
         public static final int share_file_progress_message=0x7f090055;
         public static final int share_file_success=0x7f090056;
-        /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings.xml 
+        /**  From: file:/E:/android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings.xml 
          */
         public static final int share_folder=0x7f090057;
         public static final int share_from=0x7f090058;
         public static final int sync=0x7f090059;
         public static final int sync_message=0x7f09005a;
-        /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/file_upload_strings.xml 
+        /**  From: file:/E:/android%20workspace/CloudStorge/CloudStorge/src/main/res/values/file_upload_strings.xml 
          */
         public static final int terrible=0x7f09005b;
-        /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings.xml 
+        /**  From: file:/E:/android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings.xml 
          */
         public static final int tip=0x7f09005c;
-        /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/file_download_strings.xml 
+        /**  From: file:/E:/android%20workspace/CloudStorge/CloudStorge/src/main/res/values/file_download_strings.xml 
          */
         public static final int title_activity_download=0x7f09005d;
-        /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings.xml 
+        /**  From: file:/E:/android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings.xml 
          */
         public static final int title_activity_file_detail=0x7f09005e;
         public static final int title_activity_login=0x7f09005f;
-        /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings_activity_settings.xml 
+        /**  From: file:/E:/android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings_activity_settings.xml 
          */
         public static final int title_activity_settings=0x7f090060;
-        /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/file_upload_strings.xml 
+        /**  From: file:/E:/android%20workspace/CloudStorge/CloudStorge/src/main/res/values/file_upload_strings.xml 
          */
         public static final int title_activity_upload=0x7f090061;
-        /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings.xml 
+        /**  From: file:/E:/android%20workspace/CloudStorge/CloudStorge/src/main/res/values/strings.xml 
          */
         public static final int trash_folder=0x7f090062;
-        /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/file_upload_strings.xml 
+        /**  From: file:/E:/android%20workspace/CloudStorge/CloudStorge/src/main/res/values/file_upload_strings.xml 
          */
         public static final int upload_error=0x7f090063;
         public static final int upload_file_label=0x7f090064;
@@ -401,15 +401,15 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int upload_title=0x7f090069;
     }
     public static final class style {
-        /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/styles.xml 
+        /**  From: file:/E:/android%20workspace/CloudStorge/CloudStorge/src/main/res/values/styles.xml 
 
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
             backward-compatibility can go here.
         
- From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values-v11/styles.xml 
+ From: file:/E:/android%20workspace/CloudStorge/CloudStorge/src/main/res/values-v11/styles.xml 
  API 11 theme customizations can go here. 
- From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values-v14/styles.xml 
+ From: file:/E:/android%20workspace/CloudStorge/CloudStorge/src/main/res/values-v14/styles.xml 
  API 14 theme customizations can go here. 
          */
         public static final int AppBaseTheme=0x7f0a0000;
@@ -420,7 +420,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int ButtonBarButton=0x7f0a0003;
         public static final int FullscreenActionBarStyle=0x7f0a0006;
         public static final int FullscreenTheme=0x7f0a0004;
-        /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values-large/styles.xml 
+        /**  From: file:/E:/android%20workspace/CloudStorge/CloudStorge/src/main/res/values-large/styles.xml 
          */
         public static final int LoginFormContainer=0x7f0a0005;
     }
@@ -431,7 +431,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int pref_headers=0x7f050003;
     }
     public static final class styleable {
-        /**  From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/values/attrs.xml 
+        /**  From: file:/E:/android%20workspace/CloudStorge/CloudStorge/src/main/res/values/attrs.xml 
            <p>Includes the following attributes:</p>
            <table>
            <colgroup align="left" />

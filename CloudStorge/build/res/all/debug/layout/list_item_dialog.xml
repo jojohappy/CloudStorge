@@ -41,4 +41,4 @@
             android:id="@+id/list_dialog_parentfolderid"
             android:layout_gravity="center_horizontal|top"
             android:visibility="gone"/>
-</LinearLayout><!-- From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/layout/list_item_dialog.xml -->
+</LinearLayout><!-- From: file:/E:/android%20workspace/CloudStorge/CloudStorge/src/main/res/layout/list_item_dialog.xml -->

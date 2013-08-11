@@ -48,4 +48,4 @@
             android:showAsAction="ifRoom"
             android:icon="@drawable/ic_action_undo"
             android:title="@string/menu_action_undo"/>
-</menu><!-- From: file:/D:/Android%20workspace/CloudStorge/CloudStorge/src/main/res/menu/context_file_menu.xml -->
+</menu><!-- From: file:/E:/android%20workspace/CloudStorge/CloudStorge/src/main/res/menu/context_file_menu.xml -->

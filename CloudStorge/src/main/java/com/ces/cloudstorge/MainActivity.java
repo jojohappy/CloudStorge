@@ -7,6 +7,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ContentProviderOperation;
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -36,6 +37,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,6 +46,7 @@ import com.ces.cloudstorge.Dialog.AddNewFolderDialog;
 import com.ces.cloudstorge.Dialog.DeleteFileDialog;
 import com.ces.cloudstorge.Dialog.FolderListDialog;
 import com.ces.cloudstorge.Dialog.RenameFileDialog;
+import com.ces.cloudstorge.adapter.AccountListAdapter;
 import com.ces.cloudstorge.adapter.DrawerListAdapter;
 import com.ces.cloudstorge.adapter.FileListAdapter;
 import com.ces.cloudstorge.network.CloudStorgeRestUtilities;
@@ -53,6 +56,7 @@ import com.ces.cloudstorge.util.CommonUtil;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainActivity extends FragmentActivity implements LoaderManager.LoaderCallbacks<Cursor>,
@@ -152,6 +156,8 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
 
     public static Uri changeUri;
 
+    private List<String> listAccount;
+
     // Uri匹配类
     public static final int ROUTE_CLOUDSTORGE = 1;
     public static final int ROUTE_CLOUDSTORGE_DELETE = 3;
@@ -228,10 +234,55 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         mDrawList = (ListView) findViewById(R.id.left_drawer);
-        View drawerHeader = inflater.inflate(R.layout.navigate_drawer_header, mDrawList, false);
-        TextView drawerHeaderText = (TextView) drawerHeader.findViewById(R.id.drawer_header_title);
-        drawerHeaderText.setText(current_account.name);
-        mDrawList.addHeaderView(drawerHeader, null, false);
+        //View drawerHeader = inflater.inflate(R.layout.navigate_drawer_header, mDrawList, false);
+        //TextView drawerHeaderText = (TextView) drawerHeader.findViewById(R.id.drawer_header_title);
+        //drawerHeaderText.setText(current_account.name);
+        //mDrawList.addHeaderView(drawerHeader, null, false);
+        int selectFlag = 0;
+        Spinner spinner = new Spinner(getBaseContext());
+        Account[] accounts = am.getAccountsByType(Contract.ACCOUNT_TYPE);
+        listAccount = new ArrayList<String>();
+        for(int i = 0; i < accounts.length; i++)
+        {
+            if(accounts[i].name.equals(current_account.name))
+                selectFlag = i;
+            listAccount.add(accounts[i].name);
+        }
+        AccountListAdapter accountListAdapter = new AccountListAdapter(this, R.layout.navigate_drawer_header, listAccount, getLayoutInflater());
+        spinner.setAdapter(accountListAdapter);
+        spinner.setSelection(selectFlag);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                isRoot = true;
+                currentFolderId = Contract.FOLDER_ROOT;
+                parentFolderId = Contract.FOLDER_ROOT;
+                Account[] accounts = am.getAccountsByType(Contract.ACCOUNT_TYPE);
+                for(int index = 0; index < accounts.length; index++)
+                {
+                    if(accounts[index].name.equals(listAccount.get(i))) {
+                        current_account = accounts[index];
+                        break;
+                    }
+                }
+                ContentValues contentValues = new ContentValues();
+                contentValues.put(CloudStorgeContract.CloudStorge.COLUMN_NAME_NAME, listAccount.get(i));
+                getContentResolver().update(CloudStorgeContract.CloudStorge.CONTENT_URI, contentValues,
+                        CloudStorgeContract.CloudStorge.COLUMN_NAME_FILE_ID + "=-99999", null);
+                initFragment(false);
+                if (!ConnectionChangeReceiver.isHasConnect) {
+                    create_tipDialog(R.string.terrible, R.string.network_error);
+                } else {
+                    call_syncAdapter();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        mDrawList.addHeaderView(spinner, null, false);
         mDrawList.setAdapter(new DrawerListAdapter(this, getLayoutInflater()));
         mDrawList.setItemChecked(1, true);
 
@@ -259,14 +310,14 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
         getContentResolver().registerContentObserver(CloudStorgeContract.BASE_CONTENT_URI, true, mCloudStorgeObserver);
 
         // 初始化碎片布局
-        if (null == savedInstanceState) {
+        /*if (null == savedInstanceState) {
             initFragment(false);
             if (!ConnectionChangeReceiver.isHasConnect) {
                 create_tipDialog(R.string.terrible, R.string.network_error);
             } else {
                 call_syncAdapter();
             }
-        }
+        }*/
     }
 
     // 保存现有状态

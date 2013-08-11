@@ -22,7 +22,7 @@ import org.json.JSONObject;
  */
 public class CloudStorgeSyncAdapter extends AbstractThreadedSyncAdapter {
     private static final String selection_need_sync = "(" + CloudStorgeContract.CloudStorge.COLUMN_NAME_IS_NEED_SYNC +
-            "=" + Contract.NEED_SYNC + ")";
+            "=" + Contract.NEED_SYNC + " and " + CloudStorgeContract.CloudStorge.COLUMN_NAME_USERNAME + "='%s')";
 
     public CloudStorgeSyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
@@ -36,7 +36,8 @@ public class CloudStorgeSyncAdapter extends AbstractThreadedSyncAdapter {
         try {
             String delete_file_array = "";
             String delete_folder_array = "";
-            Cursor needSyncCursor = contentResolver.query(CloudStorgeContract.CloudStorge.CONTENT_URI, Contract.PROJECTION, selection_need_sync, null, null);
+            String selection = String.format(selection_need_sync, account.name);
+            Cursor needSyncCursor = contentResolver.query(CloudStorgeContract.CloudStorge.CONTENT_URI, Contract.PROJECTION, selection, null, null);
             while (needSyncCursor.moveToNext()) {
                 String syncAction = needSyncCursor.getString(Contract.PROJECTION_SYNC_ACTION);
                 String[] syncActionArray = syncAction.split(",");
@@ -93,7 +94,7 @@ public class CloudStorgeSyncAdapter extends AbstractThreadedSyncAdapter {
                     getContext().getContentResolver().notifyChange(CloudStorgeContract.CloudStorge.CONTENT_URI, null, false);
                     return;
                 }
-                CloudStorgeProcessor.syncContentData(jobject, needSyncCursor, authority, contentResolver, syncResult);
+                CloudStorgeProcessor.syncContentData(account, jobject, needSyncCursor, authority, contentResolver, syncResult);
             } else {
                 getContext().getContentResolver().notifyChange(CloudStorgeContract.CloudStorge.CONTENT_URI, null, false);
             }

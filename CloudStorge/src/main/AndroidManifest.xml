@@ -36,7 +36,8 @@
 
         <activity
             android:name="com.ces.cloudstorge.MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+        >
         </activity>
         <activity
             android:name="com.ces.cloudstorge.authenticator.AuthenticatorActivity"
