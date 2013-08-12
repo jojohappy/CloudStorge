@@ -161,7 +161,7 @@ public class DownloadActivity extends Activity {
                 fileUri = Uri.fromFile(outFile);
                 String fileType = cursor.getString(Contract.PROJECTION_MIME_TYPE);
                 mimeType = CommonUtil.mime_type.get(fileType);
-                if(null == mimeType)
+                if (null == mimeType)
                     mimeType = "application/octet-stream";
                 outFile.setReadable(true, false);
                 outFile.setWritable(true, false);

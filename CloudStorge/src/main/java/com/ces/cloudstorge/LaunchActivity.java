@@ -39,12 +39,11 @@ public class LaunchActivity extends Activity {
                     Account account = accounts[0];
                     // 查询已选择的用户
                     Cursor cursor = getContentResolver().query(CloudStorgeContract.CloudStorge.CONTENT_URI, PROJECTION, selection, null, null);
-                    if(null == cursor || !cursor.moveToFirst())
+                    if (null == cursor || !cursor.moveToFirst())
                         account = accounts[0];
                     else {
-                        for(int i = 0; i < accounts.length; i++) {
-                            if(accounts[i].name.equals(cursor.getString(1)))
-                            {
+                        for (int i = 0; i < accounts.length; i++) {
+                            if (accounts[i].name.equals(cursor.getString(1))) {
                                 account = accounts[i];
                                 break;
                             }

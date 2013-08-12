@@ -29,6 +29,6 @@
             android:textSize="16dp"
             android:singleLine="false"
             android:paddingLeft="7dp"
-    />
+            />
 
 </RelativeLayout>

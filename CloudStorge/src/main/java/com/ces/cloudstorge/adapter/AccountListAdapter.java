@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.ces.cloudstorge.R;
@@ -42,7 +41,7 @@ public class AccountListAdapter extends ArrayAdapter {
 
     @Override
     public View getView(int position, View view, ViewGroup viewGroup) {
-        if(null == view) {
+        if (null == view) {
             view = mInflater.inflate(R.layout.navigate_drawer_header, viewGroup, false);
             view.setTag(1);
         }
@@ -54,7 +53,7 @@ public class AccountListAdapter extends ArrayAdapter {
 
     @Override
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
-        if(null == convertView) {
+        if (null == convertView) {
             convertView = mInflater.inflate(R.layout.navigate_drawer_header, parent, false);
             convertView.setTag(1);
         }

@@ -235,7 +235,7 @@ public class ContentFragment extends Fragment {
                         MainActivity.changeListHeader();
                         MainActivity.loadmanager.restartLoader(0, null, MainActivity.callbackLoader);
                     } else {
-                        if(MainActivity.isTrash)
+                        if (MainActivity.isTrash)
                             return;
                         // 下载文件
                         Intent intent = new Intent();

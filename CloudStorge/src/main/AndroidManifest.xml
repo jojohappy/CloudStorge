@@ -1,141 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.ces.cloudstorge"
-    android:versionCode="1"
-    android:versionName="1.0" >
+          package="com.ces.cloudstorge"
+          android:versionCode="1"
+          android:versionName="1.0">
 
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET"/>
     <!-- Required to register a SyncStatusObserver to display a "syncing..." progress indicator. -->
-    <uses-permission android:name="android.permission.READ_SYNC_STATS" />
+    <uses-permission android:name="android.permission.READ_SYNC_STATS"/>
     <!-- Required to enable our SyncAdapter after it's created. -->
-    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS"/>
     <!-- Required because we're manually creating a new account. -->
-    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <uses-sdk
-        android:minSdkVersion="14"
-        android:targetSdkVersion="17" />
+            android:minSdkVersion="14"
+            android:targetSdkVersion="17"/>
 
     <application
-        android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+            android:allowBackup="true"
+            android:icon="@drawable/ic_launcher"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme">
         <receiver
-            android:name="com.ces.cloudstorge.ConnectionChangeReceiver"
-            android:label="NetworkConnection" >
+                android:name="com.ces.cloudstorge.ConnectionChangeReceiver"
+                android:label="NetworkConnection">
             <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-                <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+                <action android:name="android.net.wifi.WIFI_STATE_CHANGED"/>
             </intent-filter>
         </receiver>
 
         <activity
-            android:name="com.ces.cloudstorge.MainActivity"
-            android:label="@string/app_name"
-        >
+                android:name="com.ces.cloudstorge.MainActivity"
+                android:label="@string/app_name"
+                >
         </activity>
         <activity
-            android:name="com.ces.cloudstorge.authenticator.AuthenticatorActivity"
-            android:configChanges="orientation"
-            android:excludeFromRecents="true"
-            android:label="@string/app_name"
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen"
-            android:windowSoftInputMode="adjustPan|stateVisible" >
+                android:name="com.ces.cloudstorge.authenticator.AuthenticatorActivity"
+                android:configChanges="orientation"
+                android:excludeFromRecents="true"
+                android:label="@string/app_name"
+                android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen"
+                android:windowSoftInputMode="adjustPan|stateVisible">
         </activity>
 
         <provider
-            android:name="com.ces.cloudstorge.provider.CloudStorgeProvider"
-            android:authorities="com.ces.cloudstorge.cloudstorgeprovider"
-            android:exported="false"
-            android:syncable="true" />
+                android:name="com.ces.cloudstorge.provider.CloudStorgeProvider"
+                android:authorities="com.ces.cloudstorge.cloudstorgeprovider"
+                android:exported="false"
+                android:syncable="true"/>
 
         <service
-            android:name="com.ces.cloudstorge.syncadapter.CloudStorgeSyncService"
-            android:exported="true"
-            android:process=":sync" >
+                android:name="com.ces.cloudstorge.syncadapter.CloudStorgeSyncService"
+                android:exported="true"
+                android:process=":sync">
             <intent-filter>
-                <action android:name="android.content.SyncAdapter" />
+                <action android:name="android.content.SyncAdapter"/>
             </intent-filter>
 
             <meta-data
-                android:name="android.content.SyncAdapter"
-                android:resource="@xml/cloudstorgesyncadapter" />
+                    android:name="android.content.SyncAdapter"
+                    android:resource="@xml/cloudstorgesyncadapter"/>
         </service>
         <service
-            android:name="com.ces.cloudstorge.authenticator.AuthenticationService"
-            android:exported="true" >
+                android:name="com.ces.cloudstorge.authenticator.AuthenticationService"
+                android:exported="true">
             <intent-filter>
-                <action android:name="android.accounts.AccountAuthenticator" />
+                <action android:name="android.accounts.AccountAuthenticator"/>
             </intent-filter>
 
             <meta-data
-                android:name="android.accounts.AccountAuthenticator"
-                android:resource="@xml/authenticator" />
+                    android:name="android.accounts.AccountAuthenticator"
+                    android:resource="@xml/authenticator"/>
         </service>
 
         <activity
-            android:name="com.ces.cloudstorge.LaunchActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/app_title"
-            android:theme="@style/FullscreenTheme" >
+                android:name="com.ces.cloudstorge.LaunchActivity"
+                android:configChanges="orientation|keyboardHidden|screenSize"
+                android:label="@string/app_title"
+                android:theme="@style/FullscreenTheme">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity
-            android:name="com.ces.cloudstorge.LoginActivity"
-            android:label="@string/app_name"
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen"
-            android:windowSoftInputMode="adjustPan|stateVisible" >
+                android:name="com.ces.cloudstorge.LoginActivity"
+                android:label="@string/app_name"
+                android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen"
+                android:windowSoftInputMode="adjustPan|stateVisible">
         </activity>
         <activity
-            android:name="com.ces.cloudstorge.FileDetailActivity"
-            android:icon="@drawable/ic_actionbar"
-            android:label="@string/title_activity_file_detail"
-            android:parentActivityName="com.ces.cloudstorge.MainActivity" >
+                android:name="com.ces.cloudstorge.FileDetailActivity"
+                android:icon="@drawable/ic_actionbar"
+                android:label="@string/title_activity_file_detail"
+                android:parentActivityName="com.ces.cloudstorge.MainActivity">
         </activity>
         <activity
-            android:name="com.ces.cloudstorge.UploadActivity"
-            android:label="@string/title_activity_upload"
-            android:theme="@android:style/Theme.Holo.Light.Dialog" >
+                android:name="com.ces.cloudstorge.UploadActivity"
+                android:label="@string/title_activity_upload"
+                android:theme="@android:style/Theme.Holo.Light.Dialog">
 
             <!-- filter for sending text or images; accepts SEND action and text or image data -->
             <intent-filter>
-                <action android:name="android.intent.action.SEND" />
+                <action android:name="android.intent.action.SEND"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT"/>
 
-                <data android:mimeType="*/*" />
+                <data android:mimeType="*/*"/>
             </intent-filter>
             <intent-filter>
-                <action android:name="android.intent.action.SEND_MULTIPLE" />
+                <action android:name="android.intent.action.SEND_MULTIPLE"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT"/>
 
-                <data android:mimeType="*/*" />
+                <data android:mimeType="*/*"/>
             </intent-filter>
             <intent-filter>
-                <action android:name="com.ces.cloudstorge.UploadActivity.UPLOAD_FILE" />
+                <action android:name="com.ces.cloudstorge.UploadActivity.UPLOAD_FILE"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         <activity
-            android:name="com.ces.cloudstorge.DownloadActivity"
-            android:label="@string/title_activity_download"
-            android:theme="@android:style/Theme.Holo.Light.Dialog.NoActionBar" >
+                android:name="com.ces.cloudstorge.DownloadActivity"
+                android:label="@string/title_activity_download"
+                android:theme="@android:style/Theme.Holo.Light.Dialog.NoActionBar">
         </activity>
         <activity
-            android:name="com.ces.cloudstorge.SettingsActivity"
-            android:label="@string/title_activity_settings"
-            android:theme="@android:style/Theme.Holo">
+                android:name="com.ces.cloudstorge.SettingsActivity"
+                android:label="@string/title_activity_settings"
+                android:theme="@android:style/Theme.Holo">
         </activity>
     </application>
 

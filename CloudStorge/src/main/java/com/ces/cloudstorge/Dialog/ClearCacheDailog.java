@@ -33,11 +33,10 @@ public class ClearCacheDailog extends DialogPreference {
         try {
             File dir = context.getCacheDir();
             if (dir != null && dir.isDirectory()) {
-                if(deleteDir(dir)) {
+                if (deleteDir(dir)) {
                     Toast.makeText(getContext(), R.string.clear_cache_success, Toast.LENGTH_SHORT).show();
                     getPreferenceManager().findPreference("clearCache").setEnabled(false);
-                }
-                else
+                } else
                     Toast.makeText(getContext(), R.string.clear_cache_failure, Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {

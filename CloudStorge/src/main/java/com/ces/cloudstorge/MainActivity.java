@@ -81,7 +81,8 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
             "= (select " + CloudStorgeContract.CloudStorge.COLUMN_NAME_FOLDER_ID +
             " from " + CloudStorgeContract.CloudStorge.TABLE_NAME + " where " + CloudStorgeContract.CloudStorge.COLUMN_NAME_PARENT_FOLDER_ID +
             "=%d and " + CloudStorgeContract.CloudStorge.COLUMN_NAME_USERNAME + "='%s' limit 1)" +
-            " and " + CloudStorgeContract.CloudStorge.COLUMN_NAME_USERNAME + " = '%s')";
+            " and " + CloudStorgeContract.CloudStorge.COLUMN_NAME_USERNAME + " = '%s'and " +
+            CloudStorgeContract.CloudStorge.COLUMN_NAME_ORIGIN_FOLDER + " <> -20)";
 
     public static final String SELECTION_SHARE = "( " + CloudStorgeContract.CloudStorge.COLUMN_NAME_PARENT_FOLDER_ID +
             "= (select " + CloudStorgeContract.CloudStorge.COLUMN_NAME_FOLDER_ID +
@@ -91,7 +92,8 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
 
     // sql查询条件(root)
     public static final String SELECTION_CHILD = "( " + CloudStorgeContract.CloudStorge.COLUMN_NAME_PARENT_FOLDER_ID + "=%d " +
-            "and " + CloudStorgeContract.CloudStorge.COLUMN_NAME_USERNAME + " = '%s')";
+            "and " + CloudStorgeContract.CloudStorge.COLUMN_NAME_USERNAME + " = '%s'and " +
+            CloudStorgeContract.CloudStorge.COLUMN_NAME_ORIGIN_FOLDER + " <> -20)";
 
     public static final String selection_folder_format = "(" + CloudStorgeContract.CloudStorge.COLUMN_NAME_FOLDER_ID + "=%d and "
             + CloudStorgeContract.CloudStorge.COLUMN_NAME_USERNAME +
@@ -158,6 +160,9 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
 
     private List<String> listAccount;
 
+    private String currentAccountName;
+
+
     // Uri匹配类
     public static final int ROUTE_CLOUDSTORGE = 1;
     public static final int ROUTE_CLOUDSTORGE_DELETE = 3;
@@ -185,6 +190,7 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
         // 查询目录列表
         listFolder = new ArrayList<String>();
         if (null == savedInstanceState) {
+            currentAccountName = current_account.name;
             isTrash = false;
             isShare = false;
             isEmptyFolder = false;
@@ -213,6 +219,7 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
             currentFolderId = savedInstanceState.getInt("currentFolderId");
             parentFolderId = savedInstanceState.getInt("parentFolderId");
             listFolder = savedInstanceState.getStringArrayList("listFolder");
+            currentAccountName = savedInstanceState.getString("currentAccountName");
         }
         changeUri = null;
         LayoutInflater inflater = getLayoutInflater();
@@ -242,39 +249,49 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
         Spinner spinner = new Spinner(getBaseContext());
         Account[] accounts = am.getAccountsByType(Contract.ACCOUNT_TYPE);
         listAccount = new ArrayList<String>();
-        for(int i = 0; i < accounts.length; i++)
-        {
-            if(accounts[i].name.equals(current_account.name))
-                selectFlag = i;
-            listAccount.add(accounts[i].name);
+        for (int i = 0; i < accounts.length; i++) {
+            if (accounts[i].name.equals(currentAccountName)) {
+                listAccount.add(0, accounts[i].name);
+                current_account = accounts[i];
+            }
+            else
+                listAccount.add(accounts[i].name);
         }
         AccountListAdapter accountListAdapter = new AccountListAdapter(this, R.layout.navigate_drawer_header, listAccount, getLayoutInflater());
         spinner.setAdapter(accountListAdapter);
-        spinner.setSelection(selectFlag);
+        //spinner.setSelection(selectFlag);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                //if (isFirst) {
                 isRoot = true;
+                isTrash = false;
+                isShare = false;
+                listFolder.clear();
+                listFolder.add(getString(R.string.app_activity_title));
                 currentFolderId = Contract.FOLDER_ROOT;
                 parentFolderId = Contract.FOLDER_ROOT;
+                mDrawList.setItemChecked(1, true);
                 Account[] accounts = am.getAccountsByType(Contract.ACCOUNT_TYPE);
-                for(int index = 0; index < accounts.length; index++)
-                {
-                    if(accounts[index].name.equals(listAccount.get(i))) {
+                for (int index = 0; index < accounts.length; index++) {
+                    if (accounts[index].name.equals(listAccount.get(i))) {
                         current_account = accounts[index];
                         break;
                     }
                 }
+                if (null != mDrawerLayout && null != mDrawList)
+                    mDrawerLayout.closeDrawer(mDrawList);
                 ContentValues contentValues = new ContentValues();
                 contentValues.put(CloudStorgeContract.CloudStorge.COLUMN_NAME_NAME, listAccount.get(i));
                 getContentResolver().update(CloudStorgeContract.CloudStorge.CONTENT_URI, contentValues,
                         CloudStorgeContract.CloudStorge.COLUMN_NAME_FILE_ID + "=-99999", null);
-                initFragment(false);
+                changeListHeader();
                 if (!ConnectionChangeReceiver.isHasConnect) {
                     create_tipDialog(R.string.terrible, R.string.network_error);
                 } else {
                     call_syncAdapter();
                 }
+                //}
             }
 
             @Override
@@ -310,14 +327,14 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
         getContentResolver().registerContentObserver(CloudStorgeContract.BASE_CONTENT_URI, true, mCloudStorgeObserver);
 
         // 初始化碎片布局
-        /*if (null == savedInstanceState) {
+        if (null == savedInstanceState) {
             initFragment(false);
-            if (!ConnectionChangeReceiver.isHasConnect) {
+            /*if (!ConnectionChangeReceiver.isHasConnect) {
                 create_tipDialog(R.string.terrible, R.string.network_error);
             } else {
                 call_syncAdapter();
-            }
-        }*/
+            }*/
+        }
     }
 
     // 保存现有状态
@@ -331,6 +348,7 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
         outState.putInt("currentFolderId", currentFolderId);
         outState.putInt("parentFolderId", parentFolderId);
         outState.putStringArrayList("listFolder", listFolder);
+        outState.putString("currentAccountName", current_account.name);
         super.onSaveInstanceState(outState);
     }
 

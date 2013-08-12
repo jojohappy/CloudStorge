@@ -57,8 +57,10 @@ public class CloudStorgeProcessor {
                 int _id = allContentData.getInt(Contract.PROJECTION_ID);
                 int fileId = allContentData.getInt(Contract.PROJECTION_FILE_ID);
                 int folderId = allContentData.getInt(Contract.PROJECTION_FOLDER_ID);
+                int originFolder = allContentData.getInt(Contract.PROJECTION_ORIGIN_FOLDER);
+                int parentFolderId = allContentData.getInt(Contract.PROJECTION_PARENT_FOLDER_ID);
                 boolean isDelete = true;
-                if(fileId == -99999)
+                if (fileId == -99999)
                     continue;
                 for (int i = 0; i < listServerData.size(); i++) {
                     FileStruct fileStruct = listServerData.get(i);
@@ -85,7 +87,9 @@ public class CloudStorgeProcessor {
                             break;
                         }
                     } else {
-                        if (fileId == fileStruct.getFileId()) {
+                        if (fileId == fileStruct.getFileId() &&
+                                fileStruct.getOriginFolder() == originFolder &&
+                                fileStruct.getParentFolderId() == parentFolderId) {
                             isDelete = false;
                             batch.add(ContentProviderOperation.newUpdate(CloudStorgeContract.CloudStorge.CONTENT_URI)
                                     .withSelection(CloudStorgeContract.CloudStorge._ID + "=" + _id, null)
@@ -122,17 +126,20 @@ public class CloudStorgeProcessor {
                 if (allContentData.moveToFirst()) {
                     int fileId = fileStruct.getFileId();
                     int folderId = fileStruct.getFolderId();
-
+                    int originFolder = fileStruct.getOriginFolder();
+                    int parentFolderId = fileStruct.getParentFolderId();
                     do {
                         int fileContentId = allContentData.getInt(Contract.PROJECTION_FILE_ID);
                         int folderContentId = allContentData.getInt(Contract.PROJECTION_FOLDER_ID);
+                        int originContentFolder = allContentData.getInt(Contract.PROJECTION_ORIGIN_FOLDER);
+                        int parentFolderContentId = allContentData.getInt(Contract.PROJECTION_PARENT_FOLDER_ID);
                         if (fileId == -1) {
                             if (folderContentId == folderId) {
                                 newData = false;
                                 break;
                             }
                         } else {
-                            if (fileContentId == fileId) {
+                            if (fileContentId == fileId && originContentFolder == originFolder && parentFolderContentId == parentFolderId) {
                                 newData = false;
                                 break;
                             }

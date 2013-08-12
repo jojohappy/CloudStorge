@@ -3,19 +3,13 @@ package com.ces.cloudstorge;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.Configuration;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
-import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import android.preference.RingtonePreference;
-import android.text.TextUtils;
 
 import java.util.List;
 
@@ -34,18 +28,19 @@ public class SettingsActivity extends PreferenceActivity {
             return;
         }
         addPreferencesFromResource(R.xml.pref_general);
-        if(this.getApplicationContext().getCacheDir().exists()) {
-            if(this.getApplicationContext().getCacheDir().length() == 0)
+        if (this.getApplicationContext().getCacheDir().exists()) {
+            if (this.getApplicationContext().getCacheDir().length() == 0)
                 this.getPreferenceManager().findPreference("clearCache").setEnabled(false);
             else
                 this.getPreferenceManager().findPreference("clearCache").setEnabled(true);
-        }
-        else
+        } else
             this.getPreferenceManager().findPreference("clearCache").setEnabled(false);
         //bindPreferenceSummaryToValue(findPreference("example_list"));
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean onIsMultiPane() {
         return isXLargeTablet(this) && !isSimplePreferences(this);
@@ -53,7 +48,7 @@ public class SettingsActivity extends PreferenceActivity {
 
     private static boolean isXLargeTablet(Context context) {
         return (context.getResources().getConfiguration().screenLayout
-        & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_XLARGE;
+                & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_XLARGE;
     }
 
     private static boolean isSimplePreferences(Context context) {
@@ -103,13 +98,12 @@ public class SettingsActivity extends PreferenceActivity {
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.pref_general);
-            if(this.getActivity().getCacheDir().exists()) {
-                if(this.getActivity().getCacheDir().length() == 0)
+            if (this.getActivity().getCacheDir().exists()) {
+                if (this.getActivity().getCacheDir().length() == 0)
                     this.getPreferenceManager().findPreference("clearCache").setEnabled(false);
                 else
                     this.getPreferenceManager().findPreference("clearCache").setEnabled(true);
-            }
-            else
+            } else
                 this.getPreferenceManager().findPreference("clearCache").setEnabled(false);
             //bindPreferenceSummaryToValue(findPreference("example_list"));
         }
