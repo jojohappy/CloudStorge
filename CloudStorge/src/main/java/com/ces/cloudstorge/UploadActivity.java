@@ -144,7 +144,9 @@ public class UploadActivity extends FragmentActivity implements FolderListDialog
         Cursor cursor = getContentResolver().query(CloudStorgeContract.CloudStorge.CONTENT_URI,
                 Contract.PROJECTION, selection, null, null);
         cursor.moveToFirst();
-        return cursor.getInt(Contract.PROJECTION_FOLDER_ID);
+        int parentFolderId = cursor.getInt(Contract.PROJECTION_FOLDER_ID);
+        cursor.close();
+        return parentFolderId;
     }
 
     private String getDestFolderName(int destFolderId) {
@@ -152,7 +154,9 @@ public class UploadActivity extends FragmentActivity implements FolderListDialog
         Cursor cursor = getContentResolver().query(CloudStorgeContract.CloudStorge.CONTENT_URI,
                 Contract.PROJECTION, selection, null, null);
         cursor.moveToFirst();
-        return cursor.getString(Contract.PROJECTION_NAME);
+        String destFolderName = cursor.getString(Contract.PROJECTION_NAME);
+        cursor.close();
+        return destFolderName;
     }
 
     public String getRealPathFromURI(Uri contentUri) {
@@ -163,7 +167,9 @@ public class UploadActivity extends FragmentActivity implements FolderListDialog
             int column_index;
             column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
             cursor.moveToFirst();
-            return cursor.getString(column_index);
+            String realPath = cursor.getString(column_index);
+            cursor.close();
+            return realPath;
         } catch (IllegalArgumentException e) {
             return null;
         } catch (NullPointerException e) {

@@ -110,6 +110,12 @@
                 android:id="@+id/list_image_fileId"
                 android:visibility="gone"
                 />
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/list_image_issharefile"
+                android:visibility="gone"
+                />
     </LinearLayout>
 
     <TextView

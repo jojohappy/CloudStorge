@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,16 +42,22 @@ public class FileDetailActivity extends Activity {
     private Map<Integer, String> tenantsData;
     private Switch shareSwitch;
     private ProgressDialog progressDialog;
+    private RelativeLayout tenantShareContain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_file_detail);
         mContainerView = (ViewGroup) findViewById(R.id.detail_tenant_list);
+        tenantShareContain = (RelativeLayout) findViewById(R.id.tenant_share_contain);
         int fileId = Integer.parseInt(getIntent().getExtras().getString("file_id"));
+        int isShareFile = Integer.parseInt(getIntent().getExtras().getString("isShareFile"));
         fileStruct = get_fileStruct(fileId);
         setTitle(fileStruct.getName());
-
+        if(isShareFile == 1)
+            tenantShareContain.setVisibility(View.GONE);
+        else
+            tenantShareContain.setVisibility(View.VISIBLE);
         hasTenant = 0;
         tenantsData = new HashMap<Integer, String>();
         TextView detailSize = (TextView) findViewById(R.id.detail_size);
@@ -65,9 +72,11 @@ public class FileDetailActivity extends Activity {
             mContainerView.setVisibility(View.GONE);
             shareSwitch.setChecked(false);
         } else {
-            mContainerView.setVisibility(View.VISIBLE);
-            shareSwitch.setChecked(true);
-            new GetTenantsAsyncTask().execute(fileStruct.getShare());
+            if(isShareFile == 0) {
+                mContainerView.setVisibility(View.VISIBLE);
+                shareSwitch.setChecked(true);
+                new GetTenantsAsyncTask().execute(fileStruct.getShare());
+            }
         }
 
         shareSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -137,6 +146,7 @@ public class FileDetailActivity extends Activity {
                 cursor.getInt(Contract.PROJECTION_PARENT_FOLDER_ID), cursor.getString(Contract.PROJECTION_NAME),
                 cursor.getString(Contract.PROJECTION_MIME_TYPE), cursor.getString(Contract.PROJECTION_SHARE),
                 cursor.getInt(Contract.PROJECTION_SIZE), cursor.getString(Contract.PROJECTION_LAST_MODIFIED), null, null, null, null, -1);
+        cursor.close();
         return fileStruct;
     }
 

@@ -47,14 +47,19 @@
                 android:layout_alignLeft="@+id/imageView"
                 android:background="?android:selectableItemBackground"/>
 
+        <RelativeLayout
+                android:id="@+id/tenant_share_contain"
+                android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/detail_download_switch"
+                        android:layout_alignLeft="@+id/file_detail_download_switch">
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/detail_share_label_string"
                 android:id="@+id/textView3"
-                android:layout_below="@+id/detail_download_switch"
-                android:layout_alignLeft="@+id/file_detail_download_switch"
+
                 android:layout_marginTop="11dp"
                 android:textColor="#363636"
                 android:paddingBottom="5dp"
@@ -87,7 +92,7 @@
                 android:layout_below="@+id/detail_share_switch"
                 android:layout_marginTop="7dp">
         </LinearLayout>
-
+</RelativeLayout>
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -98,7 +103,7 @@
                 android:textColor="#363636"
                 android:paddingBottom="5dp"
                 android:textSize="14dp"
-                android:layout_below="@+id/detail_tenant_list"/>
+                android:layout_below="@+id/tenant_share_contain"/>
 
         <ImageView
                 android:layout_width="fill_parent"

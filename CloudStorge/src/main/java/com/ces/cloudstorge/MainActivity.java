@@ -253,8 +253,7 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
             if (accounts[i].name.equals(currentAccountName)) {
                 listAccount.add(0, accounts[i].name);
                 current_account = accounts[i];
-            }
-            else
+            } else
                 listAccount.add(accounts[i].name);
         }
         AccountListAdapter accountListAdapter = new AccountListAdapter(this, R.layout.navigate_drawer_header, listAccount, getLayoutInflater());
@@ -263,7 +262,10 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                //if (isFirst) {
+                if (currentAccountName.equals(listAccount.get(i))) {
+                    return;
+                }
+                currentAccountName = listAccount.get(i);
                 isRoot = true;
                 isTrash = false;
                 isShare = false;
@@ -274,7 +276,7 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
                 mDrawList.setItemChecked(1, true);
                 Account[] accounts = am.getAccountsByType(Contract.ACCOUNT_TYPE);
                 for (int index = 0; index < accounts.length; index++) {
-                    if (accounts[index].name.equals(listAccount.get(i))) {
+                    if (accounts[index].name.equals(currentAccountName)) {
                         current_account = accounts[index];
                         break;
                     }
@@ -285,13 +287,11 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
                 contentValues.put(CloudStorgeContract.CloudStorge.COLUMN_NAME_NAME, listAccount.get(i));
                 getContentResolver().update(CloudStorgeContract.CloudStorge.CONTENT_URI, contentValues,
                         CloudStorgeContract.CloudStorge.COLUMN_NAME_FILE_ID + "=-99999", null);
+                getActionBar().setTitle(R.string.app_activity_title);
                 changeListHeader();
-                if (!ConnectionChangeReceiver.isHasConnect) {
-                    create_tipDialog(R.string.terrible, R.string.network_error);
-                } else {
+                getSupportLoaderManager().restartLoader(0, null, MainActivity.this);
+                if (ConnectionChangeReceiver.isHasConnect)
                     call_syncAdapter();
-                }
-                //}
             }
 
             @Override
@@ -329,11 +329,11 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
         // 初始化碎片布局
         if (null == savedInstanceState) {
             initFragment(false);
-            /*if (!ConnectionChangeReceiver.isHasConnect) {
+            if (!ConnectionChangeReceiver.isHasConnect) {
                 create_tipDialog(R.string.terrible, R.string.network_error);
             } else {
                 call_syncAdapter();
-            }*/
+            }
         }
     }
 
@@ -431,7 +431,9 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
         String selection = String.format(SELECTION_CHILD, folderId, current_account.name);
         Cursor cursor = getContentResolver().query(CloudStorgeContract.CloudStorge.CONTENT_URI, Contract.PROJECTION, selection, null, null);
         cursor.moveToFirst();
-        return cursor.getInt(Contract.PROJECTION_FOLDER_ID);
+        int folderIdSp = cursor.getInt(Contract.PROJECTION_FOLDER_ID);
+        cursor.close();
+        return folderIdSp;
     }
 
     // 指定文件夹获取
@@ -455,7 +457,9 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
         String selection = String.format(selection_folder_format, folderId, current_account.name);
         Cursor cursor = getContentResolver().query(CloudStorgeContract.CloudStorge.CONTENT_URI, Contract.PROJECTION, selection, null, null);
         cursor.moveToFirst();
-        return cursor.getInt(Contract.PROJECTION_PARENT_FOLDER_ID);
+        int parentFolderId = cursor.getInt(Contract.PROJECTION_PARENT_FOLDER_ID);
+        cursor.close();
+        return parentFolderId;
     }
 
     // 创建普通提示对话框
@@ -504,6 +508,7 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
                 break;
             }
         }
+
         if (!flag) {
             create_tipDialog(R.string.tip, R.string.error_add_folder_exists_tip);
             return;
@@ -512,6 +517,7 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
             create_tipDialog(R.string.tip, R.string.error_add_folder_no_network_tip);
             return;
         }
+        cursor.close();
         new AddFolderAsyncTask().execute(inputText);
     }
 
@@ -539,6 +545,7 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
                         .withValue(CloudStorgeContract.CloudStorge.COLUMN_NAME_IS_NEED_SYNC, Contract.NEED_SYNC)
                         .withValue(CloudStorgeContract.CloudStorge.COLUMN_NAME_SYNC_ACTION, null == syncAction ? Contract.SYNC_ACTION_DELETE + "" : syncAction + "," + Contract.SYNC_ACTION_DELETE + "")
                         .build());
+                cursor.close();
             }
             for (int i = 0; i < array_file.length; i++) {
                 if (null == array_file[i] || "".equals(array_file[i]))
@@ -554,6 +561,7 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
                         .withValue(CloudStorgeContract.CloudStorge.COLUMN_NAME_SHARE, "")
                         .withValue(CloudStorgeContract.CloudStorge.COLUMN_NAME_SYNC_ACTION, null == syncAction ? Contract.SYNC_ACTION_DELETE + "" : syncAction + "," + Contract.SYNC_ACTION_DELETE + "")
                         .build());
+                cursor.close();
             }
             try {
                 getContentResolver().applyBatch(Contract.CONTENT_AUTHORITY, batch);
@@ -609,6 +617,7 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
                 }
             }
         }
+        cursor.close();
         if (!flag) {
             create_tipDialog(R.string.tip, R.string.rename_error);
         } else {
@@ -647,8 +656,8 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
             } catch (OperationApplicationException e) {
                 e.printStackTrace();
             }
+            cursor1.close();
         }
-
     }
 
     // 选择移动目标文件夹回调接口
@@ -678,6 +687,7 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
                     .withValue(CloudStorgeContract.CloudStorge.COLUMN_NAME_IS_NEED_SYNC, Contract.NEED_SYNC)
                     .withValue(CloudStorgeContract.CloudStorge.COLUMN_NAME_SYNC_ACTION, null == syncAction ? Contract.SYNC_ACTION_MOVE + "" : syncAction + "," + Contract.SYNC_ACTION_MOVE + "")
                     .build());
+            cursorFolder.close();
         }
         for (int i = 0; i < array_file.length; i++) {
             if (null == array_file[i] || "".equals(array_file[i]))
@@ -694,6 +704,7 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
                     .withValue(CloudStorgeContract.CloudStorge.COLUMN_NAME_IS_NEED_SYNC, Contract.NEED_SYNC)
                     .withValue(CloudStorgeContract.CloudStorge.COLUMN_NAME_SYNC_ACTION, null == syncAction ? Contract.SYNC_ACTION_MOVE + "" : syncAction + "," + Contract.SYNC_ACTION_MOVE + "")
                     .build());
+            cursorFile.close();
         }
         try {
             getContentResolver().applyBatch(Contract.CONTENT_AUTHORITY, batch);
@@ -748,6 +759,7 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
             }
             cursor.moveToFirst();
         } while (runflag);
+        cursor.close();
         return newName;
     }
 
@@ -768,8 +780,6 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
                 TextView drawerText = (TextView) view.findViewById(R.id.drawer_title);
                 mDrawList.setItemChecked(position, true);
                 getActionBar().setTitle(drawerText.getText());
-                mDrawerLayout.closeDrawer(mDrawList);
-
                 switch (position) {
                     case Contract.DRAWER_ROOT:
                         isRoot = true;
@@ -795,6 +805,7 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
                 }
                 changeListHeader();
                 getSupportLoaderManager().restartLoader(0, null, MainActivity.this);
+                mDrawerLayout.closeDrawer(mDrawList);
             }
         }
     }
@@ -819,7 +830,8 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
             create_tipDialog(R.string.terrible, R.string.network_error);
             return;
         }
-        create_progressDialog(getString(R.string.sync_message));
+        //create_progressDialog(getString(R.string.sync_message));
+        changeSyncProgressBarVisibilty(View.VISIBLE);
         request_syncAdapter(true);
     }
 
@@ -842,6 +854,7 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
         // Handle action buttons
         switch (item.getItemId()) {
             case R.id.action_refresh:
+                Toast.makeText(this, R.string.sync_message, Toast.LENGTH_SHORT).show();
                 call_syncAdapter();
                 return true;
             case R.id.action_new:
@@ -886,6 +899,12 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
             folder_trace += "/" + listFolder.get(i);
         }
         listFragment.set_folderTrace(folder_trace);
+    }
+
+    public static void changeSyncProgressBarVisibilty(int v) {
+        ListHeaderFragment listFragment = (ListHeaderFragment) fragmentManager.findFragmentByTag("listHeader");
+        if (null != listFragment)
+            listFragment.set_syncProgressBarVisibilty(v);
     }
 
     // 创建关于对话框
@@ -998,6 +1017,7 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
         public void onChange(boolean selfChange, Uri uri) {
             if (null != progressDialog && progressDialog.isShowing())
                 progressDialog.dismiss();
+            changeSyncProgressBarVisibilty(View.GONE);
             if (null != uri) {
                 int match = sUriMatcher.match(uri);
                 switch (match) {

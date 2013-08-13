@@ -49,6 +49,7 @@ public class LaunchActivity extends Activity {
                             }
                         }
                     }
+                    cursor.close();
                     // 存在则调用MainActivity
                     intent.putExtra("current_account", account);
                     intent.putExtra("isRoot", true);

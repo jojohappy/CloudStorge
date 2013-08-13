@@ -98,11 +98,10 @@ public class ContentFragment extends Fragment {
                 @Override
                 public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
                     FragmentManager fm = MainActivity.fragmentManager;
-                    //FragmentManager fm = getFragmentManager();
                     String filelist = "";
                     String folderlist = "";
                     String oldname = "";
-                    Cursor cursor;
+                    Cursor cursor = null;
                     Iterator it = mapSelected.entrySet().iterator();
                     while (it.hasNext()) {
                         Map.Entry ma = (Map.Entry) it.next();

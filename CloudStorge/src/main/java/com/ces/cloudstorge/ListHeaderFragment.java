@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 /**
@@ -12,6 +13,7 @@ import android.widget.TextView;
  */
 public class ListHeaderFragment extends Fragment {
     private TextView folderTrace;
+    private ProgressBar syncProgressBar;
 
     public ListHeaderFragment() {
     }
@@ -21,6 +23,9 @@ public class ListHeaderFragment extends Fragment {
                              Bundle savedInstanceState) {
         View currentView = inflater.inflate(R.layout.list_header, container, false);
         folderTrace = (TextView) currentView.findViewById(R.id.folder_trace);
+        syncProgressBar = (ProgressBar) currentView.findViewById(R.id.sync_data_progress);
+        syncProgressBar.setIndeterminate(true);
+        //set_syncProgressBarVisibilty(View.GONE);
         set_folderTrace(changeHeader());
         return currentView;
     }
@@ -35,6 +40,14 @@ public class ListHeaderFragment extends Fragment {
 
     public void set_folderTrace(String trace) {
         folderTrace.setText(trace);
+    }
+
+    public void set_syncProgressBarVisibilty(int v) {
+        if (null != syncProgressBar)
+            syncProgressBar.setVisibility(v);
+        else {
+
+        }
     }
 
 }

@@ -98,7 +98,7 @@ public class CloudStorgeSyncAdapter extends AbstractThreadedSyncAdapter {
             } else {
                 getContext().getContentResolver().notifyChange(CloudStorgeContract.CloudStorge.CONTENT_URI, null, false);
             }
-
+            needSyncCursor.close();
         } catch (Exception e) {
             getContext().getContentResolver().notifyChange(CloudStorgeContract.CloudStorge.CONTENT_URI, null, false);
         }
