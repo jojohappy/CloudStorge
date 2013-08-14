@@ -223,11 +223,11 @@ public class ContentFragment extends Fragment {
                         TextView viewParentFolderId = (TextView) view.findViewById(R.id.list_parentFolderId);
                         TextView viewFileName = (TextView) view.findViewById(R.id.list_file_name);
                         MainActivity.currentFolderId = Integer.parseInt(viewFolderId.getText().toString());
+                        MainActivity.isRoot = false;
                         if (MainActivity.isRoot)
                             MainActivity.parentFolderId = Contract.FOLDER_ROOT;
                         else
                             MainActivity.parentFolderId = Integer.parseInt(viewParentFolderId.getText().toString());
-                        MainActivity.isRoot = false;
                         if (!MainActivity.isTrash)
                             MainActivity.listFolder.add(viewFileName.getText().toString());
                         //changeHeader();

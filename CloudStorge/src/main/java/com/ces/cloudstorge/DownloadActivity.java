@@ -33,7 +33,7 @@ import java.util.List;
 public class DownloadActivity extends Activity {
     private int fileId;
     private Cursor cursor;
-
+    private DownloadAsyncTask downloadAsyncTask;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +50,8 @@ public class DownloadActivity extends Activity {
 
         fileId = getIntent().getExtras().getInt("fileId");
         cursor = get_fileInDatabase(fileId);
-        new DownloadAsyncTask().execute(fileId);
+        downloadAsyncTask = new DownloadAsyncTask();
+        downloadAsyncTask.execute(fileId);
         setContentView(R.layout.activity_download);
     }
 
@@ -70,10 +71,8 @@ public class DownloadActivity extends Activity {
     }
 
     public class DownloadAsyncTask extends AsyncTask<Integer, String, Integer> {
-        //private String DOWNLOAD_URL = "http://rd.114.chinaetek.com:18080/file/download";
         private ProgressDialog progressDialog;
         private Uri fileUri;
-        //private Cursor cursor;
         private int DOWNLOAD_BUFFER_SIZE = 1024 * 1024;
         private String mimeType;
 
@@ -82,8 +81,15 @@ public class DownloadActivity extends Activity {
             progressDialog = new ProgressDialog(DownloadActivity.this);
             progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
             progressDialog.setMessage(getString(R.string.download_file_tip) + cursor.getString(Contract.PROJECTION_NAME));
-            progressDialog.setCancelable(false);
+            progressDialog.setCancelable(true);
             progressDialog.setIndeterminate(false);
+            progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialogInterface) {
+                    downloadAsyncTask.cancel(true);
+                    finish();
+                }
+            });
             progressDialog.show();
         }
 
@@ -94,13 +100,14 @@ public class DownloadActivity extends Activity {
 
         @Override
         protected void onPostExecute(final Integer result) {
+            if(downloadAsyncTask.isCancelled())
+                return;
             if (progressDialog.isShowing())
                 progressDialog.dismiss();
             if (result == 0) {
                 Intent downloadIntent = new Intent();
                 downloadIntent.setAction(Intent.ACTION_VIEW);
                 downloadIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                //shareIntent.setType(mimeType);
                 downloadIntent.setDataAndType(fileUri, mimeType);
                 PackageManager packageManager = getPackageManager();
                 List<ResolveInfo> activities = packageManager.queryIntentActivities(downloadIntent, 0);
@@ -125,7 +132,6 @@ public class DownloadActivity extends Activity {
         private int downloadfile(int fileId) {
             HttpClient httpClient = new DefaultHttpClient();
             HttpURLConnection conn = null;
-            DataOutputStream dos = null;
             Integer fileSize;
             BufferedInputStream inStream;
             BufferedOutputStream outStream;
@@ -150,6 +156,10 @@ public class DownloadActivity extends Activity {
                 byte[] data = new byte[DOWNLOAD_BUFFER_SIZE];
                 int bytesRead = 0, totalRead = 0;
                 while ((bytesRead = inStream.read(data, 0, data.length)) >= 0) {
+                    if (Thread.interrupted()) {
+                        outFile.delete();
+                        return 0;
+                    }
                     outStream.write(data, 0, bytesRead);
                     totalRead += bytesRead;
                     publishProgress((int) ((totalRead / fileSize.doubleValue()) * 100) + "");

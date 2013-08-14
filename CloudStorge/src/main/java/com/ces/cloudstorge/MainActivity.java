@@ -454,6 +454,8 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
 
     // 指定文件夹父文件夹获取
     public int get_assignParentFolder(int folderId) {
+        if(Contract.FOLDER_ROOT == folderId)
+            return folderId;
         String selection = String.format(selection_folder_format, folderId, current_account.name);
         Cursor cursor = getContentResolver().query(CloudStorgeContract.CloudStorge.CONTENT_URI, Contract.PROJECTION, selection, null, null);
         cursor.moveToFirst();
