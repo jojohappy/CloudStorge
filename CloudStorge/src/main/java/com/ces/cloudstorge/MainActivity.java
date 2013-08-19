@@ -356,13 +356,21 @@ public class MainActivity extends FragmentActivity implements LoaderManager.Load
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        mDrawerLayout.isDrawerOpen(mDrawList);
         getMenuInflater().inflate(R.menu.main, menu);
         MenuItem actionNew = menu.findItem(R.id.action_new);
-        if (isRoot)
-            actionNew.setVisible(true);
-        if (isTrash || isShare)
-            actionNew.setVisible(false);
+        if(mDrawerLayout.isDrawerOpen(mDrawList)) {
+            menu.findItem(R.id.action_refresh).setVisible(false);
+            menu.findItem(R.id.action_new).setVisible(false);
+            menu.findItem(R.id.action_sort).setVisible(false);
+        }
+        else {
+            menu.findItem(R.id.action_refresh).setVisible(true);
+            menu.findItem(R.id.action_sort).setVisible(true);
+            if (isRoot)
+                actionNew.setVisible(true);
+            if (isTrash || isShare)
+                actionNew.setVisible(false);
+        }
         return true;
     }
 
